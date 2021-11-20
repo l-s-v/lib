@@ -22,20 +22,6 @@
     </properties>
 
     <dependencies>
-<!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
-<!--  estruturais -->
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
 
 <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
 <!--  template -->
@@ -43,15 +29,15 @@
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity-engine-core</artifactId>
-            <optional>true</optional>
             <version>${velocity.version}</version>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>io.pebbletemplates</groupId>
             <artifactId>pebble</artifactId>
-            <optional>true</optional>
             <version>${pebble.version}</version>
+            <optional>true</optional>
         </dependency>
 
 <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
