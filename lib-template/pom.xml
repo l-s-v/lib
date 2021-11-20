@@ -50,7 +50,8 @@
         <dependency>
             <groupId>io.pebbletemplates</groupId>
             <artifactId>pebble</artifactId>
-            <version>3.1.5</version>
+            <optional>true</optional>
+            <version>${pebble.version}</version>
         </dependency>
 
 <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
