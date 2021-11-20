@@ -1,11 +1,21 @@
 package com.lsv.lib.template;
 
+import java.util.Map;
+
 /**
  * Define o padrão exigido para executores de template.
+ *
+ * @author Leandro da Silva Vieira
  */
 public interface Template {
 
-    String ENCODING = "UTF-8";
+    String aplicarDadosTemplate(String template, Map<String, Object> dados);
 
-    String aplicarDadosTemplate(String template, java.util.Map<String, Object> dados);
+    Template adicionarDadoAoContexto(String chave, Object valor);
+
+    Template adicionarDadosAoContexto(Map<String, Object> dados);
+
+    default String aplicarDadosTemplate(String template) {
+        return this.aplicarDadosTemplate(template, null);
+    }
 }

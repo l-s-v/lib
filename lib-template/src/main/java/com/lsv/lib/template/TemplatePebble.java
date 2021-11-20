@@ -1,11 +1,7 @@
 package com.lsv.lib.template;
 
 import com.mitchellbosecke.pebble.PebbleEngine;
-import com.mitchellbosecke.pebble.template.PebbleTemplate;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.SneakyThrows;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.io.StringWriter;
@@ -22,7 +18,7 @@ import java.util.Map;
  */
 @Setter(AccessLevel.PRIVATE)
 @Accessors(fluent = true)
-public class TemplatePebble implements Template {
+class TemplatePebble extends TemplateAbstract {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     @Getter(value=AccessLevel.PRIVATE, lazy = true)
@@ -39,7 +35,7 @@ public class TemplatePebble implements Template {
         // Processa a expressão
         this.pebbleEngine()
                 .getTemplate(this.criarArquivoDeTemplateTemporario(template))
-                .evaluate(writer, TemplateUtil.montarContexto(dados));
+                .evaluate(writer, this.montarContexto(dados));
 
         return writer.toString();
     }
@@ -57,7 +53,6 @@ public class TemplatePebble implements Template {
         arquivoTemplate.toFile().deleteOnExit();
 
         Files.deleteIfExists(arquivoTemplate);
-
         Files.writeString(arquivoTemplate, conteudo);
 
         return arquivoTemplate.toFile().getPath();

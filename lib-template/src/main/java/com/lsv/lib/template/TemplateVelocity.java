@@ -20,7 +20,7 @@ import java.util.Properties;
  */
 @Setter(AccessLevel.PRIVATE)
 @Accessors(fluent = true)
-public class TemplateVelocity implements Template {
+class TemplateVelocity extends TemplateAbstract {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     @Getter(value=AccessLevel.PRIVATE, lazy = true)
@@ -34,7 +34,7 @@ public class TemplateVelocity implements Template {
         }
         StringWriter writer = new StringWriter();
         // Processa a expressão
-        this.velocityEngine().evaluate(new VelocityContext(TemplateUtil.montarContexto(dados)), writer, "erro", template);
+        this.velocityEngine().evaluate(new VelocityContext(this.montarContexto(dados)), writer, "erro", template);
 
         return writer.toString();
     }
