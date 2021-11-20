@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Para execução de templates feitos em Pebble.
@@ -49,10 +50,10 @@ class TemplatePebble extends TemplateAbstract {
 
     @SneakyThrows
     private String criarArquivoDeTemplateTemporario(String conteudo){
-        Path arquivoTemplate = Paths.get(System.getProperty("java.io.tmpdir"), "template.txt");
-        arquivoTemplate.toFile().deleteOnExit();
-
+        Path arquivoTemplate = Paths.get(System.getProperty("java.io.tmpdir"), UUID.randomUUID().toString());
         Files.deleteIfExists(arquivoTemplate);
+
+        arquivoTemplate.toFile().deleteOnExit();
         Files.writeString(arquivoTemplate, conteudo);
 
         return arquivoTemplate.toFile().getPath();

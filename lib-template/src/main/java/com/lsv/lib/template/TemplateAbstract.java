@@ -54,7 +54,7 @@ abstract class TemplateAbstract implements Template {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     private TemplateAbstract adicionarDados(Map<String, Object> dadosFonte, Map<String, Object> dadosNovos) {
-        if(dadosNovos != null && !dadosNovos.isEmpty()) {
+        if(dadosNovos != null) {
             dadosFonte.putAll(dadosNovos);
         }
 

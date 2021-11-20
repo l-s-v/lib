@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -20,7 +21,7 @@ class TemplateTest {
                 Assertions.assertEquals("Hello Leandro!",
                         template
                         .adicionarDadoAoContexto("nome", "Leandro")
-                        .aplicarDadosTemplate(this.carregarArquivo("/templates/" + template.name()))
+                        .aplicarDadosTemplate(this.carregarArquivo("/templates/" + template.nome()))
                 )
         );
     }
@@ -31,13 +32,31 @@ class TemplateTest {
                 Assertions.assertEquals("Hello João!",
                         template
                         .adicionarDadoAoContexto("nome", "Leandro")
+                        .adicionarDadosAoContexto(Map.of("nome", "Maria"))
                         .aplicarDadosTemplate(
-                                this.carregarArquivo("/templates/" + template.name()),
+                                this.carregarArquivo("/templates/" + template.nome()),
                                 Map.of("nome", "João"))
                 )
         );
     }
 
+    @Test
+    void aplicarDadosTemplateNulo() {
+        Arrays.stream(TemplateTipo.values()).forEach(template ->
+                Assertions.assertNull(template.aplicarDadosTemplate(null))
+        );
+    }
+
+    @Test
+    void aplicarDadosTemplateDadoNuloVazio() {
+        Arrays.stream(TemplateTipo.values()).forEach(template ->
+                Assertions.assertEquals("teste",
+                        template
+                        .adicionarDadosAoContexto(Map.of())
+                        .aplicarDadosTemplate("teste", null)
+                )
+        );
+    }
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     @SneakyThrows
