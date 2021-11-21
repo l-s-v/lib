@@ -1,83 +1,82 @@
 package com.lsv.lib.template;
 
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
 class TemplateTest {
 
     @Test
-    void aplicarDadosTemplate() {
-        Arrays.stream(TemplateTipo.values()).forEach(template ->
-                Assertions.assertEquals("Hello Leandro!",
-                        template
+    void adicionarDadoContexto() {
+        Assertions.assertEquals("Hello Leandro!",
+                new TemplateSimulaImplementacaoTest()
                         .adicionarDadoAoContexto("nome", "Leandro")
-                        .aplicarDadosTemplate(this.carregarArquivo("/templates/" + template.nome()))
-                )
+                        .aplicarDadosTemplate("Hello nome!")
         );
     }
 
     @Test
-    void aplicarDadosTemplateSobrepondo() {
-        Arrays.stream(TemplateTipo.values()).forEach(template ->
-                Assertions.assertEquals("Hello João!",
-                        template
-                        .adicionarDadoAoContexto("nome", "Leandro")
-                        .adicionarDadosAoContexto(Map.of("nome", "Maria"))
-                        .aplicarDadosTemplate(
-                                this.carregarArquivo("/templates/" + template.nome()),
-                                Map.of("nome", "João"))
+    void adicionarDadosContexto() {
+        Assertions.assertEquals("Hello Maria Silva!",
+            new TemplateSimulaImplementacaoTest()
+                .adicionarDadosAoContexto(Map.of(
+                                                "nome", "João",
+                                                "final", "Silva"
+                        )
                 )
+                .adicionarDadosAoContexto(Map.of("nome", "Maria"))
+                .aplicarDadosTemplate("Hello nome final!")
         );
     }
 
     @Test
-    void aplicarDadosTemplateNulo() {
-        Arrays.stream(TemplateTipo.values()).forEach(template ->
-                Assertions.assertNull(template.aplicarDadosTemplate(null))
+    void adicionarNullContexto() {
+        Assertions.assertEquals("Teste",
+            new TemplateSimulaImplementacaoTest()
+                .adicionarDadosAoContexto(null)
+                .aplicarDadosTemplate("Teste")
         );
     }
 
     @Test
-    void aplicarDadosTemplateDadoNuloVazio() {
-        Arrays.stream(TemplateTipo.values()).forEach(template ->
-                Assertions.assertEquals("teste",
-                        template
-                        .adicionarDadosAoContexto(Map.of())
-                        .aplicarDadosTemplate("teste", null)
-                )
-        );
+    void nomeTemplateCorreto() {
+        Assertions.assertEquals("simulaimplementacaotest", new TemplateSimulaImplementacaoTest().nome());
     }
 
     @Test
-    void aplicarDadosTemplateSobrepondoMultiplosDados() {
-        Arrays.stream(TemplateTipo.values()).forEach(template ->
-                Assertions.assertEquals("Hello Maria!",
-                        template
-                                .adicionarDadosAoContexto(Map.of("nome", "Maria"))
-                                .aplicarDadosTemplate(
-                                        this.carregarArquivo("/templates/" + template.nome()))
-                )
-        );
+    void registroDeTemplate() {
+        TemplateRegister.registrarTemplate(new TemplateSimulaImplementacaoTest());
+        Assertions.assertEquals(1, TemplateRegister.templatesRegistrados().size());
     }
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    @SneakyThrows
-    private String carregarArquivo(String nomeArquivo) {
-        return StringUtils.join(
-                Files.readAllLines(
-                        Paths.get(this.getClass().getResource(nomeArquivo).toURI())
-                ),
-                "\r\n"
-        );
+    @Test
+    void registroDeTemplateNull() {
+        Assertions.assertThrowsExactly(NullPointerException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                TemplateRegister.registrarTemplate(null);
+            }
+        });
+    }
+}
+
+/**
+ * Simula uma instância de TemplateAbstract para que a cobertura de código possa analisar as classes criadas.
+ */
+class TemplateSimulaImplementacaoTest extends TemplateAbstract {
+
+    @Override
+    public String aplicarDadosTemplate(String template) {
+        Map<String, Object> dados = this.montarContexto();
+
+        for (String chave : dados.keySet()) {
+            template = template.replaceAll(chave, dados.get(chave).toString());
+        }
+
+        return template;
     }
 }

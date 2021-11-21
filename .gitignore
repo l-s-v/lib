@@ -4,3 +4,6 @@
 /lib-template-velocity/.idea
 /lib-expressionLanguage/.idea
 /lib-expressionLanguage/target
+/lib-template-pebble/target
+/lib-template-pebble/.idea
+/lib-template-velocity/target

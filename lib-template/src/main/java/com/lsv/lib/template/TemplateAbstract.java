@@ -6,7 +6,9 @@ import lombok.experimental.Accessors;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Fornece uma execução básica para o funcionamento do template.
@@ -23,7 +25,17 @@ abstract class TemplateAbstract implements Template {
     );
 
     private final Map<String, Object> dadosContexto = new LinkedHashMap<>();
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    public TemplateAbstract() {
+        TemplateRegister.registrarTemplate(this);
+    }
+
+    @Override
+    public String nome() {
+        return this.getClass().getSimpleName().replaceAll(Template.class.getSimpleName(), "").toLowerCase(Locale.ROOT);
+    }
 
     @Override
     public Template adicionarDadoAoContexto(String chave, Object valor) {
@@ -33,29 +45,21 @@ abstract class TemplateAbstract implements Template {
 
     @Override
     public Template adicionarDadosAoContexto(Map<String, Object> dados) {
-        this.dadosContexto.putAll(dados);
+        this.adicionarDados(dadosContexto, dados);
         return this;
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    Map<String, Object> montarContexto(Map<String, Object> dadosParaContexto) {
+    Map<String, Object> montarContexto() {
         Map<String, Object> dadosCompletos = new LinkedHashMap<>(DADOS_PADRAO_PARA_CONTEXTO);
-
-        this
-            .adicionarDados(dadosCompletos, this.dadosContexto())
-            .adicionarDados(dadosCompletos, dadosParaContexto);
-
-        return dadosCompletos;
+        return this.adicionarDados(dadosCompletos, this.dadosContexto());
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    private TemplateAbstract adicionarDados(Map<String, Object> dadosFonte, Map<String, Object> dadosNovos) {
-        if(dadosNovos != null) {
-            dadosFonte.putAll(dadosNovos);
-        }
-
-        return this;
+    private Map<String, Object> adicionarDados(Map<String, Object> dadosFonte, Map<String, Object> dadosNovos) {
+        Optional.ofNullable(dadosNovos).ifPresent(dadosFonte::putAll);
+        return dadosFonte;
     }
 }

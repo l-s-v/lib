@@ -8,7 +8,6 @@ import lombok.SneakyThrows;
 import lombok.experimental.Accessors;
 
 import java.io.StringWriter;
-import java.util.Map;
 
 /**
  * Para execução de templates feitos em Pebble.
@@ -21,7 +20,7 @@ import java.util.Map;
 @Accessors(fluent = true)
 class TemplatePebble extends TemplateAbstract {
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     private final PebbleEngine pebbleEngine;
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -35,7 +34,7 @@ class TemplatePebble extends TemplateAbstract {
     // nunca lançará IOException visto que não está utilizando arquivo.
     @SneakyThrows
     @Override
-    public String aplicarDadosTemplate(String template, Map<String, Object> dados) {
+    public String aplicarDadosTemplate(String template) {
         if(template == null) {
             return null;
         }
@@ -44,7 +43,7 @@ class TemplatePebble extends TemplateAbstract {
         // Processa a expressão
         this.pebbleEngine()
                 .getLiteralTemplate(template)
-                .evaluate(writer, this.montarContexto(dados));
+                .evaluate(writer, this.montarContexto());
 
         return writer.toString();
     }

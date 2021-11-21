@@ -21,12 +21,28 @@
         <!-- Versões das dependências
              Configuradas aqui para evitar conflito de versões entre projetos que utilizem -->
         <lombok.version>1.18.22</lombok.version>
+        <slf4j.version>1.7.32</slf4j.version>
         <junit.version>5.8.1</junit.version>
         <jacoco.version>0.8.7</jacoco.version>
         <surefire.version>2.22.0</surefire.version>
         <pitest-junit5.version>0.15</pitest-junit5.version>
         <pitest.version>1.7.3</pitest.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+<!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
+<!--  Framework -->
+
+            <dependency>
+                <groupId>com.lsv</groupId>
+                <artifactId>lib-template</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+<!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
 <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
@@ -37,6 +53,12 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
 
         <dependency>
@@ -57,6 +79,7 @@
             <groupId>org.pitest</groupId>
             <artifactId>pitest-junit5-plugin</artifactId>
             <version>${pitest-junit5.version}</version>
+            <scope>test</scope>
         </dependency>
 
 <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->

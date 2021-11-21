@@ -9,13 +9,11 @@ import java.util.Map;
  */
 public interface Template {
 
-    String aplicarDadosTemplate(String template, Map<String, Object> dados);
+    String aplicarDadosTemplate(String template);
 
     Template adicionarDadoAoContexto(String chave, Object valor);
 
     Template adicionarDadosAoContexto(Map<String, Object> dados);
 
-    default String aplicarDadosTemplate(String template) {
-        return this.aplicarDadosTemplate(template, null);
-    }
+    String nome();
 }

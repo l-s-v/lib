@@ -7,7 +7,6 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
 import java.io.StringWriter;
-import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -19,7 +18,7 @@ import java.util.Properties;
  */
 @Getter(AccessLevel.PRIVATE)
 @Accessors(fluent = true)
-class TemplateVelocity extends TemplateAbstract {
+public class TemplateVelocity extends TemplateAbstract {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     private final VelocityEngine velocityEngine;
@@ -36,13 +35,13 @@ class TemplateVelocity extends TemplateAbstract {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     @Override
-    public String aplicarDadosTemplate(String template, Map<String, Object> dados) {
+    public String aplicarDadosTemplate(String template) {
         if(template == null) {
             return null;
         }
         StringWriter writer = new StringWriter();
         // Processa a expressão
-        this.velocityEngine().evaluate(new VelocityContext(this.montarContexto(dados)), writer, "erro", template);
+        this.velocityEngine().evaluate(new VelocityContext(this.montarContexto()), writer, "erro", template);
 
         return writer.toString();
     }

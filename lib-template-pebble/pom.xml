@@ -10,25 +10,28 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>lib-template</artifactId>
+    <artifactId>lib-template-pebble</artifactId>
     <packaging>jar</packaging>
-    <description>Biblioteca que define o padrão para trabalhar com templates.</description>
+    <description>Biblioteca para trabalhar com templates utilizando Pebble.</description>
 
     <properties>
-        <commons-lang.version>3.12.0</commons-lang.version>
+        <pebble.version>3.1.5</pebble.version>
     </properties>
 
     <dependencies>
-
 <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
-<!--  template -->
-
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang.version}</version>
+            <groupId>com.lsv</groupId>
+            <artifactId>lib-template</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.pebbletemplates</groupId>
+            <artifactId>pebble</artifactId>
+            <version>${pebble.version}</version>
+            <optional>true</optional>
+        </dependency>
 <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
     </dependencies>
 
