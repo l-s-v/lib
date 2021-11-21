@@ -17,8 +17,6 @@ import java.util.Map;
 @Getter(AccessLevel.PRIVATE)
 abstract class TemplateAbstract implements Template {
 
-    static final String ENCODING = "UTF-8";
-
     @SuppressWarnings("all")
     private static final Map<String, Object> DADOS_PADRAO_PARA_CONTEXTO = Map.of(
                                                 "StringUtils", new StringUtils()

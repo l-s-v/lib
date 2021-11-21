@@ -57,6 +57,18 @@ class TemplateTest {
                 )
         );
     }
+
+    @Test
+    void aplicarDadosTemplateSobrepondoMultiplosDados() {
+        Arrays.stream(TemplateTipo.values()).forEach(template ->
+                Assertions.assertEquals("Hello Maria!",
+                        template
+                                .adicionarDadosAoContexto(Map.of("nome", "Maria"))
+                                .aplicarDadosTemplate(
+                                        this.carregarArquivo("/templates/" + template.nome()))
+                )
+        );
+    }
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     @SneakyThrows

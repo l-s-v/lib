@@ -2,7 +2,6 @@ package com.lsv.lib.template;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -18,13 +17,22 @@ import java.util.Properties;
  * @see <a href="https://velocity.apache.org/engine/2.3/vtl-reference.html">Velocity Language Reference</a>
  * @author Leandro da Silva Vieira
  */
-@Setter(AccessLevel.PRIVATE)
+@Getter(AccessLevel.PRIVATE)
 @Accessors(fluent = true)
 class TemplateVelocity extends TemplateAbstract {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    @Getter(value=AccessLevel.PRIVATE, lazy = true)
-    private final VelocityEngine velocityEngine = this.montarVelocityEngine();
+    private final VelocityEngine velocityEngine;
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    public TemplateVelocity() {
+        Properties propriedades = new Properties();
+        propriedades.put(VelocityEngine.FILE_RESOURCE_LOADER_PATH, "");
+        propriedades.put(VelocityEngine.FILE_RESOURCE_LOADER_CACHE, "true");
+
+        this.velocityEngine = new VelocityEngine(propriedades);
+    }
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     @Override
@@ -37,17 +45,5 @@ class TemplateVelocity extends TemplateAbstract {
         this.velocityEngine().evaluate(new VelocityContext(this.montarContexto(dados)), writer, "erro", template);
 
         return writer.toString();
-    }
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    private VelocityEngine montarVelocityEngine() {
-        // Configura uma instância do velocity para gerar os arquivos
-        Properties propriedades = new Properties();
-        propriedades.put(VelocityEngine.FILE_RESOURCE_LOADER_PATH, "");
-        propriedades.put(VelocityEngine.FILE_RESOURCE_LOADER_CACHE, "true");
-        propriedades.put(VelocityEngine.INPUT_ENCODING, ENCODING);
-
-        return new VelocityEngine(propriedades);
     }
 }
