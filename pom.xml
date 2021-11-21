@@ -24,6 +24,8 @@
         <junit.version>5.8.1</junit.version>
         <jacoco.version>0.8.7</jacoco.version>
         <surefire.version>2.22.0</surefire.version>
+        <pitest-junit5.version>0.15</pitest-junit5.version>
+        <pitest.version>1.7.3</pitest.version>
     </properties>
 
     <dependencies>
@@ -49,6 +51,12 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-junit5-plugin</artifactId>
+            <version>${pitest-junit5.version}</version>
         </dependency>
 
 <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
@@ -83,6 +91,16 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.version}</version>
             </plugin>
+<!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>${pitest.version}</version>
+                <configuration>
+                    <timestampedReports>false</timestampedReports>
+                </configuration>
+            </plugin>
+<!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
         </plugins>
     </build>
 
