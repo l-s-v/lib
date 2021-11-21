@@ -31,6 +31,8 @@ class TemplatePebble extends TemplateAbstract {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+    // Anotação não coberta em cobertura de testes, mas o método evaluate
+    // nunca lançará IOException visto que não está utilizando arquivo.
     @SneakyThrows
     @Override
     public String aplicarDadosTemplate(String template, Map<String, Object> dados) {
