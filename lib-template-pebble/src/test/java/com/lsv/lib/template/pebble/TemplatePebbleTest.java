@@ -1,4 +1,4 @@
-package com.lsv.lib.template;
+package com.lsv.lib.template.pebble;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -6,17 +6,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 
 @Slf4j
-class TemplateVelocityTest {
+public class TemplatePebbleTest {
 
-    private final TemplateVelocity template = new TemplateVelocity();
+    private final TemplatePebble template = new TemplatePebble();
 
     @Test
-    void aplicarDadosTemplate() {
+    public void aplicarDadosTemplate() {
         Assertions.assertEquals("Hello Leandro!",
             template
             .adicionarDadoAoContexto("nome", "Leandro")
@@ -25,7 +26,7 @@ class TemplateVelocityTest {
     }
 
     @Test
-    void aplicarDadosTemplateSobrepondo() {
+    public void aplicarDadosTemplateSobrepondo() {
         Assertions.assertEquals("Hello Maria!",
             template
             .adicionarDadoAoContexto("nome", "Leandro")
@@ -35,12 +36,12 @@ class TemplateVelocityTest {
     }
 
     @Test
-    void aplicarDadosTemplateNulo() {
+    public void aplicarDadosTemplateNulo() {
         Assertions.assertNull(template.aplicarDadosTemplate(null));
     }
 
     @Test
-    void aplicarDadosTemplateDadoNuloVazio() {
+    public void aplicarDadosTemplateDadoNuloVazio() {
         Assertions.assertEquals("teste",
             template
             .adicionarDadosAoContexto(Map.of())
@@ -49,7 +50,7 @@ class TemplateVelocityTest {
     }
 
     @Test
-    void aplicarDadosTemplateSobrepondoMultiplosDados() {
+    public void aplicarDadosTemplateSobrepondoMultiplosDados() {
         Assertions.assertEquals("Hello Maria!",
             template
                 .adicionarDadosAoContexto(Map.of("nome", "Maria"))
@@ -59,7 +60,7 @@ class TemplateVelocityTest {
     }
 
     @Test
-    void testandoRegistroTemplate() {
+    public void testandoRegistroTemplate() {
         Assertions.assertEquals("Hello Maria!",
             template
                 .adicionarDadosAoContexto(Map.of("nome", "Maria"))
@@ -71,11 +72,10 @@ class TemplateVelocityTest {
 
     @SneakyThrows
     private String carregarArquivo(String nomeArquivo) {
-        return StringUtils.join(
-                Files.readAllLines(
-                        Paths.get(this.getClass().getResource(nomeArquivo).toURI())
-                ),
-                "\r\n"
-        );
+        URL url = this.getClass().getResource(nomeArquivo);
+        if (url != null) {
+            return StringUtils.join(Files.readAllLines(Paths.get(url.toURI())), "\r\n");
+        }
+        return null;
     }
 }

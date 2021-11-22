@@ -1,17 +1,14 @@
 package com.lsv.lib.template;
 
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
 import java.util.Map;
 
-@Slf4j
-class TemplateTest {
+public class TemplateTest {
 
     @Test
-    void adicionarDadoContexto() {
+    public void adicionarDadoContexto() {
         Assertions.assertEquals("Hello Leandro!",
                 new TemplateSimulaImplementacaoTest()
                         .adicionarDadoAoContexto("nome", "Leandro")
@@ -20,7 +17,7 @@ class TemplateTest {
     }
 
     @Test
-    void adicionarDadosContexto() {
+    public void adicionarDadosContexto() {
         Assertions.assertEquals("Hello Maria Silva!",
             new TemplateSimulaImplementacaoTest()
                 .adicionarDadosAoContexto(Map.of(
@@ -34,7 +31,7 @@ class TemplateTest {
     }
 
     @Test
-    void adicionarNullContexto() {
+    public void adicionarNullContexto() {
         Assertions.assertEquals("Teste",
             new TemplateSimulaImplementacaoTest()
                 .adicionarDadosAoContexto(null)
@@ -43,24 +40,19 @@ class TemplateTest {
     }
 
     @Test
-    void nomeTemplateCorreto() {
+    public void nomeTemplateCorreto() {
         Assertions.assertEquals("simulaimplementacaotest", new TemplateSimulaImplementacaoTest().nome());
     }
 
     @Test
-    void registroDeTemplate() {
+    public void registroDeTemplate() {
         TemplateRegister.registrarTemplate(new TemplateSimulaImplementacaoTest());
         Assertions.assertEquals(1, TemplateRegister.templatesRegistrados().size());
     }
 
     @Test
-    void registroDeTemplateNull() {
-        Assertions.assertThrowsExactly(NullPointerException.class, new Executable() {
-            @Override
-            public void execute() throws Throwable {
-                TemplateRegister.registrarTemplate(null);
-            }
-        });
+    public void registroDeTemplateNull() {
+        Assertions.assertThrowsExactly(NullPointerException.class, () -> TemplateRegister.registrarTemplate(null));
     }
 }
 

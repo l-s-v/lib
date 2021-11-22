@@ -1,5 +1,6 @@
-package com.lsv.lib.template;
+package com.lsv.lib.template.pebble;
 
+import com.lsv.lib.template.TemplateAbstract;
 import com.mitchellbosecke.pebble.PebbleEngine;
 import lombok.AccessLevel;
 import lombok.Getter;

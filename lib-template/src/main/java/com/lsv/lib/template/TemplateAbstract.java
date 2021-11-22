@@ -17,7 +17,7 @@ import java.util.Optional;
  */
 @Accessors(fluent = true)
 @Getter(AccessLevel.PRIVATE)
-abstract class TemplateAbstract implements Template {
+public abstract class TemplateAbstract implements Template {
 
     @SuppressWarnings("all")
     private static final Map<String, Object> DADOS_PADRAO_PARA_CONTEXTO = Map.of(
@@ -51,7 +51,7 @@ abstract class TemplateAbstract implements Template {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    Map<String, Object> montarContexto() {
+    protected Map<String, Object> montarContexto() {
         Map<String, Object> dadosCompletos = new LinkedHashMap<>(DADOS_PADRAO_PARA_CONTEXTO);
         return this.adicionarDados(dadosCompletos, this.dadosContexto());
     }

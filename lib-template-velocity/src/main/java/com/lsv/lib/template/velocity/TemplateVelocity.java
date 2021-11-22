@@ -1,5 +1,6 @@
-package com.lsv.lib.template;
+package com.lsv.lib.template.velocity;
 
+import com.lsv.lib.template.TemplateAbstract;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.Accessors;
