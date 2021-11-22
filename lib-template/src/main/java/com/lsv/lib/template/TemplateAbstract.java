@@ -28,10 +28,6 @@ public abstract class TemplateAbstract implements Template {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    public TemplateAbstract() {
-        TemplateRegister.registrarTemplate(this);
-    }
-
     @Override
     public String nome() {
         return this.getClass().getSimpleName().replaceAll(Template.class.getSimpleName(), "").toLowerCase(Locale.ROOT);

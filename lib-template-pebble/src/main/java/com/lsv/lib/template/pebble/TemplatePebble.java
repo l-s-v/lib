@@ -19,7 +19,7 @@ import java.io.StringWriter;
 @Setter(AccessLevel.PRIVATE)
 @Getter(value=AccessLevel.PRIVATE)
 @Accessors(fluent = true)
-class TemplatePebble extends TemplateAbstract {
+public class TemplatePebble extends TemplateAbstract {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     private final PebbleEngine pebbleEngine;

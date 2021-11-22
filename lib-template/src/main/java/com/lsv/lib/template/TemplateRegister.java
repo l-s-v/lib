@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.ServiceLoader;
 
 /**
  * Aplicação do pattern Registry.
@@ -18,6 +19,15 @@ import java.util.Map;
 public final class TemplateRegister {
 
     private static final Map<String, Template> templatesRegistrados = new LinkedHashMap<>();
+
+    /**
+     * Registra todas as implementações da interface Template disponíveis no ClassPath. Só funciona para módulos.
+     */
+    static {
+        ServiceLoader.load(Template.class).stream().forEach(templateProvider -> TemplateRegister.registrarTemplate(templateProvider.get()));
+    }
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     public static void registrarTemplate(Template template) {
         templatesRegistrados.put(template.nome(), template);
