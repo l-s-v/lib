@@ -21,7 +21,12 @@
     <dependencies>
 
 <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
-<!--  template -->
+
+        <dependency>
+            <groupId>com.lsv</groupId>
+            <artifactId>lib-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>

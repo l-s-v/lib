@@ -13,11 +13,4 @@
     <artifactId>lib-core</artifactId>
     <packaging>jar</packaging>
     <description>Biblioteca principal. Não contém implementações específicas.</description>
-
-    <dependencies>
-<!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
-<!--  Framework -->
-<!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
-    </dependencies>
-
 </project>

@@ -30,24 +30,9 @@
         <pitest.version>1.7.3</pitest.version>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-<!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
-<!--  Framework -->
-
-            <dependency>
-                <groupId>com.lsv</groupId>
-                <artifactId>lib-template</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-<!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
-        </dependencies>
-    </dependencyManagement>
-
     <dependencies>
 <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
-<!--  Estruturais -->
+<!--  Lombok -->
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -61,6 +46,9 @@
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
+
+<!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
+<!--  Testes   -->
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>

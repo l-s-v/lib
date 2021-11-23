@@ -1,7 +1,7 @@
 package com.lsv.lib.template.velocity;
 
+import com.lsv.lib.core.RegisterInterface;
 import com.lsv.lib.template.Template;
-import com.lsv.lib.template.TemplateRegister;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
@@ -80,12 +80,6 @@ public class TemplateVelocityTest {
         );
     }
 
-    @Test
-    public void registroDeTemplate() {
-        TemplateRegister.registrarTemplate(new TemplateVelocity());
-        Assertions.assertEquals(2, TemplateRegister.templatesRegistrados().size());
-    }
-
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     @SneakyThrows
@@ -98,6 +92,9 @@ public class TemplateVelocityTest {
     }
     
     private Stream<Template> templatesParaTestar() {
-        return TemplateRegister.templatesRegistrados().stream().filter(template -> template instanceof TemplateVelocity);
+        return RegisterInterface.create(Template.class)
+                .registrar(new TemplateVelocity())
+                .implementacoes()
+                .stream();
     }
 }
