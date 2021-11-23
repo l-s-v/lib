@@ -10,3 +10,13 @@
 /lib-core/target
 /lib-el-jexl/target
 /lib-el-jexl/.idea
+/template/.idea
+/core/.idea
+/el-jexl/.idea
+/template-pebble/.idea
+/template-velocity/.idea
+/core/target
+/el-jexl/target
+/template-pebble/target
+/template-velocity/target
+/template/target
