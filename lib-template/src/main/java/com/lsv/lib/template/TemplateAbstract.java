@@ -17,7 +17,7 @@ import java.util.Optional;
  */
 @Accessors(fluent = true)
 @Getter(AccessLevel.PRIVATE)
-public abstract class TemplateAbstract implements Template {
+public abstract class TemplateAbstract<T> implements Template<T> {
 
     @SuppressWarnings("all")
     private static final Map<String, Object> DADOS_PADRAO_PARA_CONTEXTO = Map.of(
@@ -34,13 +34,13 @@ public abstract class TemplateAbstract implements Template {
     }
 
     @Override
-    public Template adicionarDadoAoContexto(String chave, Object valor) {
+    public Template<T> adicionarDadoAoContexto(String chave, Object valor) {
         this.dadosContexto().put(chave, valor);
         return this;
     }
 
     @Override
-    public Template adicionarDadosAoContexto(Map<String, Object> dados) {
+    public Template<T> adicionarDadosAoContexto(Map<String, Object> dados) {
         this.adicionarDados(dadosContexto, dados);
         return this;
     }

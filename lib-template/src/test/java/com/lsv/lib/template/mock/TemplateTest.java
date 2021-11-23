@@ -1,7 +1,5 @@
 package com.lsv.lib.template.mock;
 
-import com.lsv.lib.core.RegisterInterface;
-import com.lsv.lib.template.Template;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -55,10 +53,7 @@ public class TemplateTest {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    private Stream<Template> templatesParaTestar() {
-        return RegisterInterface.create(Template.class)
-                .registrar(new TemplateSimulaMock())
-                .implementacoes()
-                .stream();
+    private Stream<TemplateSimulaMock> templatesParaTestar() {
+        return Stream.of(new TemplateSimulaMock());
     }
 }

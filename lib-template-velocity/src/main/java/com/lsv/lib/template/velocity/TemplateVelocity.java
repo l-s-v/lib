@@ -19,7 +19,7 @@ import java.util.Properties;
  */
 @Getter(AccessLevel.PRIVATE)
 @Accessors(fluent = true)
-public class TemplateVelocity extends TemplateAbstract {
+public class TemplateVelocity extends TemplateAbstract<String> {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     private final VelocityEngine velocityEngine;

@@ -8,3 +8,5 @@
 /lib-template-pebble/.idea
 /lib-template-velocity/target
 /lib-core/target
+/lib-el-jexl/target
+/lib-el-jexl/.idea

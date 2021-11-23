@@ -91,10 +91,7 @@ public class TemplateVelocityTest {
         return null;
     }
     
-    private Stream<Template> templatesParaTestar() {
-        return RegisterInterface.create(Template.class)
-                .registrar(new TemplateVelocity())
-                .implementacoes()
-                .stream();
+    private Stream<TemplateVelocity> templatesParaTestar() {
+        return Stream.of(new TemplateVelocity());
     }
 }

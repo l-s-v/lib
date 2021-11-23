@@ -7,13 +7,13 @@ import java.util.Map;
  *
  * @author Leandro da Silva Vieira
  */
-public interface Template {
+public interface Template<T> {
 
-    String aplicarDadosTemplate(String template);
+    T aplicarDadosTemplate(String template);
 
-    Template adicionarDadoAoContexto(String chave, Object valor);
+    Template<T> adicionarDadoAoContexto(String chave, Object valor);
 
-    Template adicionarDadosAoContexto(Map<String, Object> dados);
+    Template<T> adicionarDadosAoContexto(Map<String, Object> dados);
 
     String nome();
 }

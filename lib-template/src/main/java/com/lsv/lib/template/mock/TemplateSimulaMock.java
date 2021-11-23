@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Simula uma instância de TemplateAbstract para que a cobertura de código possa analisar as classes criadas.
  */
-public class TemplateSimulaMock extends TemplateAbstract {
+public class TemplateSimulaMock extends TemplateAbstract<String> {
 
     @Override
     public String aplicarDadosTemplate(String template) {

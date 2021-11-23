@@ -1,7 +1,5 @@
 package com.lsv.lib.template.pebble;
 
-import com.lsv.lib.core.RegisterInterface;
-import com.lsv.lib.template.Template;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
@@ -91,10 +89,7 @@ public class TemplatePebbleTest {
         return null;
     }
 
-    private Stream<Template> templatesParaTestar() {
-        return RegisterInterface.create(Template.class)
-                .registrar(new TemplatePebble())
-                .implementacoes()
-                .stream();
+    private Stream<TemplatePebble> templatesParaTestar() {
+        return Stream.of(new TemplatePebble());
     }
 }
