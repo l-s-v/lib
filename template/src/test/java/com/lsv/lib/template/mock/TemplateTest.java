@@ -39,9 +39,7 @@ public class TemplateTest {
     public void adicionarNullContexto() {
         templatesParaTestar().forEach(template ->
             Assertions.assertEquals("Teste",
-                template
-                    .adicionarDadosAoContexto(null)
-                    .aplicarDadosTemplate("Teste")
+                template.aplicarDadosTemplate("Teste")
             )
         );
     }

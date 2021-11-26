@@ -1,4 +1,4 @@
-package com.lsv.lib.core.mock;
+package com.lsv.lib.core.pattern.register.mock;
 
 public class Implementation implements InterfaceTest {
 }

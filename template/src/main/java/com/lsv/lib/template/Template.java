@@ -1,5 +1,7 @@
 package com.lsv.lib.template;
 
+import lombok.NonNull;
+
 import java.util.Map;
 
 /**
@@ -9,11 +11,11 @@ import java.util.Map;
  */
 public interface Template<T> {
 
-    T aplicarDadosTemplate(String template);
+    T aplicarDadosTemplate(@NonNull String template);
 
-    Template<T> adicionarDadoAoContexto(String chave, Object valor);
+    Template<T> adicionarDadoAoContexto(@NonNull String chave, @NonNull Object valor);
 
-    Template<T> adicionarDadosAoContexto(Map<String, Object> dados);
+    Template<T> adicionarDadosAoContexto(@NonNull Map<String, Object> dados);
 
     String nome();
 }

@@ -2,20 +2,18 @@ package com.lsv.lib.template;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.experimental.Accessors;
+import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Fornece uma execução básica para o funcionamento do template.
  *
  * @author Leandro da Silva Vieira
  */
-@Accessors(fluent = true)
 @Getter(AccessLevel.PRIVATE)
 public abstract class TemplateAbstract<T> implements Template<T> {
 
@@ -34,13 +32,13 @@ public abstract class TemplateAbstract<T> implements Template<T> {
     }
 
     @Override
-    public Template<T> adicionarDadoAoContexto(String chave, Object valor) {
+    public Template<T> adicionarDadoAoContexto(@NonNull String chave, @NonNull Object valor) {
         this.dadosContexto().put(chave, valor);
         return this;
     }
 
     @Override
-    public Template<T> adicionarDadosAoContexto(Map<String, Object> dados) {
+    public Template<T> adicionarDadosAoContexto(@NonNull Map<String, Object> dados) {
         this.adicionarDados(dadosContexto, dados);
         return this;
     }
@@ -55,7 +53,7 @@ public abstract class TemplateAbstract<T> implements Template<T> {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     private Map<String, Object> adicionarDados(Map<String, Object> dadosFonte, Map<String, Object> dadosNovos) {
-        Optional.ofNullable(dadosNovos).ifPresent(dadosFonte::putAll);
+        dadosFonte.putAll(dadosNovos);
         return dadosFonte;
     }
 }

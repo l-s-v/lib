@@ -24,7 +24,7 @@ public class TemplateJexlTest {
 
     @Test
     public void aplicarDadosTemplateNulo() {
-        Assertions.assertNull(new TemplateJexl().aplicarDadosTemplate(null));
+        Assertions.assertThrows(NullPointerException.class, () -> new TemplateJexl().aplicarDadosTemplate(null));
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -1,7 +1,6 @@
 package com.lsv.lib.template.velocity;
 
-import com.lsv.lib.core.RegisterInterface;
-import com.lsv.lib.template.Template;
+import com.lsv.lib.core.pattern.register.RegisterInterface;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
@@ -41,7 +40,7 @@ public class TemplateVelocityTest {
     @Test
     public void aplicarDadosTemplateNulo() {
         templatesParaTestar().forEach(template ->
-            Assertions.assertNull(template.aplicarDadosTemplate(null))
+            Assertions.assertThrows(NullPointerException.class, () -> template.aplicarDadosTemplate(null))
         );
     }
 
@@ -92,6 +91,6 @@ public class TemplateVelocityTest {
     }
     
     private Stream<TemplateVelocity> templatesParaTestar() {
-        return Stream.of(new TemplateVelocity());
+        return RegisterInterface.of(TemplateVelocity.class).findSubtypes().subTypes().stream();
     }
 }

@@ -3,7 +3,7 @@ package com.lsv.lib.template.velocity;
 import com.lsv.lib.template.TemplateAbstract;
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.experimental.Accessors;
+import lombok.NonNull;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
@@ -18,7 +18,6 @@ import java.util.Properties;
  * @author Leandro da Silva Vieira
  */
 @Getter(AccessLevel.PRIVATE)
-@Accessors(fluent = true)
 public class TemplateVelocity extends TemplateAbstract<String> {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -36,10 +35,7 @@ public class TemplateVelocity extends TemplateAbstract<String> {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     @Override
-    public String aplicarDadosTemplate(String template) {
-        if(template == null) {
-            return null;
-        }
+    public String aplicarDadosTemplate(@NonNull String template) {
         StringWriter writer = new StringWriter();
         // Processa a expressão
         this.velocityEngine().evaluate(new VelocityContext(this.montarContexto()), writer, "erro", template);

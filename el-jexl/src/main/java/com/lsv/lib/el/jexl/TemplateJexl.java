@@ -3,8 +3,8 @@ package com.lsv.lib.el.jexl;
 import com.lsv.lib.template.TemplateAbstract;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 import org.apache.commons.jexl3.JexlBuilder;
 import org.apache.commons.jexl3.JexlEngine;
 import org.apache.commons.jexl3.MapContext;
@@ -17,7 +17,6 @@ import org.apache.commons.jexl3.MapContext;
  */
 @Getter(AccessLevel.PRIVATE)
 @Setter(AccessLevel.PRIVATE)
-@Accessors(fluent = true)
 public class TemplateJexl extends TemplateAbstract<Object> {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -31,11 +30,7 @@ public class TemplateJexl extends TemplateAbstract<Object> {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     @Override
-    public Object aplicarDadosTemplate(String template) {
-        if(template == null) {
-            return null;
-        }
-
+    public Object aplicarDadosTemplate(@NonNull String template) {
         // Processa a expressão
         return this.engine()
                 .createExpression(template)

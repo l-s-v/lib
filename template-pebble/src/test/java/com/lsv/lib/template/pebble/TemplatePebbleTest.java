@@ -39,7 +39,7 @@ public class TemplatePebbleTest {
     @Test
     public void aplicarDadosTemplateNulo() {
         templatesParaTestar().forEach(template ->
-                Assertions.assertNull(template.aplicarDadosTemplate(null))
+                Assertions.assertThrows(NullPointerException.class, () -> template.aplicarDadosTemplate(null))
         );
     }
 

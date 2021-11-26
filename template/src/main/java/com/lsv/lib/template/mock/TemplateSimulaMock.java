@@ -1,6 +1,7 @@
 package com.lsv.lib.template.mock;
 
 import com.lsv.lib.template.TemplateAbstract;
+import lombok.NonNull;
 
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import java.util.Map;
 public class TemplateSimulaMock extends TemplateAbstract<String> {
 
     @Override
-    public String aplicarDadosTemplate(String template) {
+    public String aplicarDadosTemplate(@NonNull String template) {
         Map<String, Object> dados = this.montarContexto();
 
         for (String chave : dados.keySet()) {
