@@ -4,5 +4,5 @@ import lombok.NonNull;
 
 public interface Creatable<T extends Identifiable<?>> {
 
-    T insert(@NonNull T registro);
+    T create(@NonNull T registro);
 }

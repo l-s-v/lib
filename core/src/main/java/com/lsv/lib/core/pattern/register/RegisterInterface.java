@@ -2,11 +2,9 @@ package com.lsv.lib.core.pattern.register;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NonNull;
 
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.ServiceLoader;
+import java.util.*;
 
 /**
  * Aplicação do pattern Registry para qualquer Interface.
@@ -28,7 +26,7 @@ public final class RegisterInterface<T> {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     public RegisterInterface<T> findSubtypes() {
-        // Informa ao módulo atual para utilizar a interface
+        // Informa que o módulo atual utiliza a interface
         this.getClass().getModule().addUses(this.classeInterface());
         ServiceLoader.load(this.classeInterface()).stream().forEach(provider -> this.register(provider.get()));
         return this;
@@ -39,16 +37,31 @@ public final class RegisterInterface<T> {
         return this;
     }
 
-    public Collection<T> subTypes() {
-        return implementacoes.values();
+    public List<T> implementations() {
+        return List.copyOf(implementacoes.values());
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    public static <T> RegisterInterface<T> of(Class<T> classeInterface) {
-        if(!classeInterface.isInterface()) {
+    public static <T> RegisterInterface<T> of(@NonNull Class<T> classeInterface) {
+        if (!classeInterface.isInterface()) {
             throw new IllegalArgumentException("Invalid argument. Accepts only interface.");
         }
         return new RegisterInterface<>(classeInterface);
+    }
+
+    public static <T> T findImplementation(@NonNull Class<T> classeInterface) {
+        List<T> subTypes = RegisterInterface.of(classeInterface)
+            .findSubtypes()
+            .implementations();
+
+        if(subTypes.isEmpty()) {
+            throw new NoSuchElementException("No implementation found to interface " + classeInterface.getName());
+        }
+        if(subTypes.size() > 1) {
+            throw new IllegalArgumentException("Found more than one implementation to interface " + classeInterface.getName());
+        }
+
+        return subTypes.get(0);
     }
 }

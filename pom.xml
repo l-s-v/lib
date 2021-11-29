@@ -22,5 +22,6 @@
         <module>template-velocity</module>
         <module>template-pebble</module>
         <module>el-jexl</module>
+        <module>bytecode-asm</module>
     </modules>
 </project>

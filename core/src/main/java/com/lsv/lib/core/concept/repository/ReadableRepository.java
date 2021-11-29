@@ -8,5 +8,5 @@ import com.lsv.lib.core.concept.dto.ListDto;
 public interface ReadableRepository<T extends Identifiable<?>> extends Repository<T>, Readable<T> {
 
     T findById(T registro);
-    ListDto<T> findByFilters(Filter<T> filter);
+    ListDto<T> findByFilter(Filter<T> filter);
 }

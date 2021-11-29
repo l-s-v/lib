@@ -6,15 +6,18 @@ import com.lsv.lib.core.pattern.register.mock.InterfaceTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+
 public class RegisterInterfaceTest {
 
     @Test
     public void automaticRegistry() {
-        Assertions.assertInstanceOf(Implementation.class,
+        Assertions.assertEquals(0,
                 RegisterInterface.of(InterfaceTest.class)
                         .findSubtypes()
-                        .subTypes()
-                        .toArray()[0]);
+                        .implementations()
+                        .size());
     }
 
     @Test
@@ -22,7 +25,7 @@ public class RegisterInterfaceTest {
         Assertions.assertInstanceOf(Implementation.class,
                 RegisterInterface.of(InterfaceTest.class)
                         .register(new Implementation())
-                        .subTypes()
+                        .implementations()
                         .toArray()[0]);
     }
 
@@ -30,7 +33,12 @@ public class RegisterInterfaceTest {
     public void invalidArgument() {
         Assertions.assertThrows(IllegalArgumentException.class, () ->
                 RegisterInterface.of(Implementation.class)
-                        .register(new Implementation())
-                        .subTypes());
+                        .implementations());
+    }
+
+    @Test
+    public void findImplementationNoSuchElement() {
+        Assertions.assertThrows(NoSuchElementException.class, () ->
+                RegisterInterface.findImplementation(List.class));
     }
 }

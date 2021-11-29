@@ -7,5 +7,5 @@ import lombok.NonNull;
 public interface Readable<T extends Identifiable<?>> {
 
     T findById(@NonNull T registro);
-    ListDto<T> findByFilters(@NonNull Filter<T> filter);
+    ListDto<T> findByFilter(@NonNull Filter<T> filter);
 }

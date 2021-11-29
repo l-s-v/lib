@@ -7,7 +7,7 @@ import java.io.Serializable;
  *
  * @author Leandro da Silva Vieira
  */
-public interface Identifiable<ID extends Serializable> {
+public interface Identifiable<ID extends Serializable> extends Serializable {
 
     /**
      * Deve retorno o objeto que identifica a classe.
