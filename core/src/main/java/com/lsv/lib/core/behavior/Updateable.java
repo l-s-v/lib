@@ -4,5 +4,5 @@ import lombok.NonNull;
 
 public interface Updateable<T extends Identifiable<?>> {
 
-    T update(@NonNull T registro);
+    T update(@NonNull T objIdentifiable);
 }

@@ -23,5 +23,7 @@
         <module>template-pebble</module>
         <module>el-jexl</module>
         <module>bytecode-asm</module>
+        <module>spring-jpa</module>
+        <module>mapping-modelmapper</module>
     </modules>
 </project>

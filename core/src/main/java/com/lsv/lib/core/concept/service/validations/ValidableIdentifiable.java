@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import java.util.List;
-
 @Getter
 @Setter
 @SuperBuilder(builderMethodName = "of", buildMethodName = "get")
@@ -24,14 +22,14 @@ public class ValidableIdentifiable<T extends Identifiable<?>> implements Validab
     @AssertFalse(message = MSG_CREATE_ID_NOT_PERMIT)
     private boolean isCreateIdNotPermit() {
         return
-            TypeOperation.CREATE.equals(typeOperation()) &&
+            this.operationIs(TypeOperation.CREATE) &&
             objValidable().id() != null;
     }
 
     @AssertFalse(message = MSG_UPDATE_DELETE_FIND_BY_ID_REQUIRED_ID)
     private boolean isUpdateDeleteFindByIdRequiredId() {
         return
-            List.of(TypeOperation.UPDATE, TypeOperation.DELETE, TypeOperation.READ).contains(typeOperation()) &&
+            this.operationIs(TypeOperation.UPDATE, TypeOperation.DELETE, TypeOperation.READ) &&
             objValidable().id() == null;
     }
 }

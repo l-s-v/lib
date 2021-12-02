@@ -4,5 +4,5 @@ import lombok.NonNull;
 
 public interface Deleteable<T extends Identifiable<?>> {
 
-    void delete(@NonNull T registro);
+    void delete(@NonNull T objIdentifiable);
 }

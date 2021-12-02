@@ -4,8 +4,10 @@ import com.lsv.lib.core.concept.dto.Filter;
 import com.lsv.lib.core.concept.dto.ListDto;
 import lombok.NonNull;
 
+import java.util.Optional;
+
 public interface Readable<T extends Identifiable<?>> {
 
-    T findById(@NonNull T registro);
+    Optional<T> findById(@NonNull T objIdentifiable);
     ListDto<T> findByFilter(@NonNull Filter<T> filter);
 }

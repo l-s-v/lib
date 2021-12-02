@@ -11,21 +11,29 @@ import java.util.Map;
 @Builder(builderMethodName = "of", buildMethodName = "get")
 public class Filter<T extends Identifiable<?>> implements Dto {
 
-    @NonNull
     private T obj;
-    @Builder.Default
-    private Long positionFirstRecord = 0L;
-    @Builder.Default
-    private Long maximumNumberOfRecords = 0L;
     private boolean loadQuantityRecords;
     private boolean onlyQuantityRecords;
     private boolean noCache;
+    private Page page;
     @Singular
-    private List<OrderBy> orderBys;
+    private List<OrderBy> orderBies;
     @Singular
     private Map<String, Object> extraParameters;
 
-    public record OrderBy(@NonNull String atributo, boolean ascendente) {
+    @Builder
+    @Getter
+    public static class Page {
+        int numPage;
+        int size;
+        OrderBy orderBy;
+    }
+
+    @Builder
+    @Getter
+    public static class OrderBy {
+        @NonNull String property;
+        boolean asc;
     }
 
     // Substituindo a criação do Builder para a tipagem ser automática

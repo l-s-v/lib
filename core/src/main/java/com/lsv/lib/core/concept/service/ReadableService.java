@@ -7,10 +7,12 @@ import com.lsv.lib.core.concept.dto.ListDto;
 import com.lsv.lib.core.concept.service.validations.TypeOperation;
 import com.lsv.lib.core.helper.HelperBeanValidation;
 
+import java.util.Optional;
+
 public interface ReadableService<T extends Identifiable<?>, R extends Readable<T>>
         extends ServiceWithRepository<T, R>, Readable<T> {
 
-    default T findById(T objIdentifiable) {
+    default Optional<T> findById(T objIdentifiable) {
         this.validateFindById(objIdentifiable);
         return this.repository().findById(objIdentifiable);
     }
