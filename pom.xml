@@ -25,5 +25,6 @@
         <module>bytecode-asm</module>
         <module>spring-jpa</module>
         <module>mapping-modelmapper</module>
+        <module>core-test</module>
     </modules>
 </project>

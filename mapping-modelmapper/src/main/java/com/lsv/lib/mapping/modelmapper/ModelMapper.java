@@ -15,19 +15,19 @@ public class ModelMapper<S, D> implements Mapper<S, D> {
 
     @Override
     public Mapper<S, D> setup(Class<S> sourceClass, Class<D> destinationClass) {
-        this.setSourceClass(sourceClass);
-        this.setDestinationClass(destinationClass);
-        this.setModelMapperComponent(new org.modelmapper.ModelMapper());
+        this.sourceClass(sourceClass);
+        this.destinationClass(destinationClass);
+        this.modelMapperComponent(new org.modelmapper.ModelMapper());
         return this;
     }
 
     @Override
     public D to(S source) {
-        return this.getModelMapperComponent().map(source, this.getDestinationClass());
+        return this.modelMapperComponent().map(source, this.destinationClass());
     }
 
     @Override
     public S of(D destination) {
-        return this.getModelMapperComponent().map(destination, this.getSourceClass());
+        return this.modelMapperComponent().map(destination, this.sourceClass());
     }
 }

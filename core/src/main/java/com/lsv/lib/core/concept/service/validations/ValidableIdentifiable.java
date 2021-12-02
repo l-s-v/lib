@@ -5,13 +5,11 @@ import jakarta.validation.constraints.AssertFalse;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @SuperBuilder(builderMethodName = "of", buildMethodName = "get")
-@Accessors(fluent = true)
 public class ValidableIdentifiable<T extends Identifiable<?>> implements Validable<T> {
 
     public static final String MSG_CREATE_ID_NOT_PERMIT = "Id deve ser nulo";
@@ -25,13 +23,13 @@ public class ValidableIdentifiable<T extends Identifiable<?>> implements Validab
     private boolean isCreateIdNotPermit() {
         return
             this.operationIs(TypeOperation.CREATE) &&
-            objValidable().id() != null;
+            objValidable().getId() != null;
     }
 
     @AssertFalse(message = MSG_UPDATE_DELETE_FIND_BY_ID_REQUIRED_ID)
     private boolean isUpdateDeleteFindByIdRequiredId() {
         return
             this.operationIs(TypeOperation.UPDATE, TypeOperation.DELETE, TypeOperation.READ) &&
-            objValidable().id() == null;
+            objValidable().getId() == null;
     }
 }

@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 import org.apache.commons.jexl3.JexlBuilder;
 import org.apache.commons.jexl3.JexlEngine;
 import org.apache.commons.jexl3.MapContext;
@@ -18,7 +17,6 @@ import org.apache.commons.jexl3.MapContext;
  */
 @Getter(AccessLevel.PRIVATE)
 @Setter(AccessLevel.PRIVATE)
-@Accessors(fluent = true)
 public class TemplateJexl extends TemplateAbstract<Object> {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

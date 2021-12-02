@@ -1,14 +1,14 @@
 package com.lsv.lib.core.concept.service;
 
 import com.lsv.lib.core.behavior.Identifiable;
+import com.lsv.lib.core.concept.repository.Repository;
 import com.lsv.lib.core.concept.service.validations.Validable;
 import com.lsv.lib.core.concept.service.validations.ValidableIdentifiable;
 
 import java.util.List;
 
-public interface ServiceWithRepository<T extends Identifiable<?>, R> extends Service<T> {
-
-    R repository();
+public interface ServiceWithRepository<T extends Identifiable<?>, R extends Repository<T>>
+    extends Service<T>, ProviderService<T, R> {
 
     @SuppressWarnings({"unchecked"})
     default List<Validable<T>> validables() {

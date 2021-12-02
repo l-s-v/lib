@@ -12,5 +12,5 @@ public interface Identifiable<ID extends Serializable> extends Serializable {
     /**
      * Deve retorno o objeto que identifica a classe.
      */
-    ID id();
+    ID getId();
 }

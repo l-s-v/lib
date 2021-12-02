@@ -2,7 +2,6 @@ package com.lsv.lib.core.concept.dto;
 
 import com.lsv.lib.core.behavior.Identifiable;
 import lombok.*;
-import lombok.experimental.Accessors;
 
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,6 @@ import java.util.Map;
 @Getter
 @Setter
 @Builder(builderMethodName = "of", buildMethodName = "get")
-@Accessors(fluent = true)
 public class Filter<T extends Identifiable<?>> implements Dto {
 
     private T obj;

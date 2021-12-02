@@ -3,7 +3,6 @@ package com.lsv.lib.core.pattern.register;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.experimental.Accessors;
 
 import java.util.*;
 
@@ -12,7 +11,6 @@ import java.util.*;
  *
  * @author Leandro da Silva Vieira
  */
-@Accessors(fluent = true)
 public final class RegisterInterface<T> {
 
     private final Map<String, T> implementacoes = new LinkedHashMap<>();

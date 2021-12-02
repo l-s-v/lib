@@ -3,7 +3,6 @@ package com.lsv.lib.template;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.experimental.Accessors;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedHashMap;
@@ -16,7 +15,6 @@ import java.util.Map;
  * @author Leandro da Silva Vieira
  */
 @Getter(AccessLevel.PRIVATE)
-@Accessors(fluent = true)
 public abstract class TemplateAbstract<T> implements Template<T> {
 
     @SuppressWarnings("all")

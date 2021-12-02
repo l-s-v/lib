@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public final class HelperConverterSpringJpa {
+public final class ConverterSpringJpa {
 
     public static Pageable to(@NonNull Filter<?> filter) {
         return Optional.ofNullable(filter.page())
@@ -21,7 +21,7 @@ public final class HelperConverterSpringJpa {
     public static Sort to(List<Filter.OrderBy> orderBies) {
         return Optional.ofNullable(orderBies)
             .map(orderBIES -> Sort.by(orderBIES.stream()
-                .map(HelperConverterSpringJpa::to).collect(Collectors.toList())))
+                .map(ConverterSpringJpa::to).collect(Collectors.toList())))
             .orElse(Sort.unsorted());
     }
 

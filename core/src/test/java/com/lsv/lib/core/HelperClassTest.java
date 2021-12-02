@@ -4,7 +4,6 @@ import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.helper.HelperClass;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +28,7 @@ public class HelperClassTest {
     public void identifyGenericsClassSpecifiedTyped() {
         Assertions.assertEquals(Long.class, HelperClass.identifyGenericsClass(new Identifiable<Long>() {
             @Override
-            public Long id() {
+            public Long getId() {
                 return null;
             }
         }, Number.class));
@@ -39,7 +38,7 @@ public class HelperClassTest {
     public void identifyGenericsClass() {
         Assertions.assertEquals(String.class, HelperClass.identifyGenericsClass(new Identifiable<String>() {
             @Override
-            public String id() {
+            public String getId() {
                 return null;
             }
         }));
@@ -74,7 +73,6 @@ public class HelperClassTest {
 
     @Getter
     @Setter
-    @Accessors(fluent = true)
     private static class Source implements Serializable {
         private UUID id;
         private String nome;

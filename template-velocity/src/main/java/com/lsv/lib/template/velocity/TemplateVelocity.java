@@ -4,7 +4,6 @@ import com.lsv.lib.template.TemplateAbstract;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.experimental.Accessors;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
@@ -19,7 +18,6 @@ import java.util.Properties;
  * @author Leandro da Silva Vieira
  */
 @Getter(AccessLevel.PRIVATE)
-@Accessors(fluent = true)
 public class TemplateVelocity extends TemplateAbstract<String> {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
