@@ -1,6 +1,7 @@
 package com.lsv.lib.core.concept.dto;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder(builderMethodName = "of", buildMethodName = "get")
+@Accessors(fluent = true)
 public final class Email implements Dto {
 
     @NonNull

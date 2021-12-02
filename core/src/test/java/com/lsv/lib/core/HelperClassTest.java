@@ -4,6 +4,7 @@ import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.helper.HelperClass;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -73,6 +74,7 @@ public class HelperClassTest {
 
     @Getter
     @Setter
+    @Accessors(fluent = true)
     private static class Source implements Serializable {
         private UUID id;
         private String nome;

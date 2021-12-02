@@ -5,8 +5,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter(AccessLevel.PRIVATE)
-@Setter(AccessLevel.PRIVATE)
+@Getter(AccessLevel.PROTECTED)
+@Setter(AccessLevel.PROTECTED)
 public class ModelMapper<S, D> implements Mapper<S, D> {
 
     private org.modelmapper.ModelMapper modelMapperComponent;
@@ -23,11 +23,11 @@ public class ModelMapper<S, D> implements Mapper<S, D> {
 
     @Override
     public D to(S source) {
-        return this.modelMapperComponent.map(source, this.getDestinationClass());
+        return this.getModelMapperComponent().map(source, this.getDestinationClass());
     }
 
     @Override
     public S of(D destination) {
-        return this.modelMapperComponent.map(destination, this.getSourceClass());
+        return this.getModelMapperComponent().map(destination, this.getSourceClass());
     }
 }

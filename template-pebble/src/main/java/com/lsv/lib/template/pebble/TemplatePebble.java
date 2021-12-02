@@ -3,6 +3,7 @@ package com.lsv.lib.template.pebble;
 import com.lsv.lib.template.TemplateAbstract;
 import com.mitchellbosecke.pebble.PebbleEngine;
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.io.StringWriter;
 
@@ -13,7 +14,8 @@ import java.io.StringWriter;
  * @author Leandro da Silva Vieira
  */
 @Setter(AccessLevel.PRIVATE)
-@Getter(value=AccessLevel.PRIVATE)
+@Getter(AccessLevel.PRIVATE)
+@Accessors(fluent = true)
 public class TemplatePebble extends TemplateAbstract<String> {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

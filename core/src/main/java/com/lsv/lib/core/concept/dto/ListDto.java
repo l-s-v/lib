@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import lombok.experimental.Delegate;
 
 import java.util.Collections;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 @Getter
 @Builder(builderMethodName = "of", buildMethodName = "get")
+@Accessors(fluent = true)
 public class ListDto<T> implements List<T>, Dto {
 
     @NonNull @Delegate

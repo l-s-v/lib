@@ -5,11 +5,13 @@ import jakarta.validation.constraints.AssertFalse;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @SuperBuilder(builderMethodName = "of", buildMethodName = "get")
+@Accessors(fluent = true)
 public class ValidableIdentifiable<T extends Identifiable<?>> implements Validable<T> {
 
     public static final String MSG_CREATE_ID_NOT_PERMIT = "Id deve ser nulo";
