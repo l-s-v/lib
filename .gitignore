@@ -20,3 +20,5 @@
 /template-pebble/target
 /template-velocity/target
 /template/target
+/mapping-modelmapper/target
+/spring-jpa/target
