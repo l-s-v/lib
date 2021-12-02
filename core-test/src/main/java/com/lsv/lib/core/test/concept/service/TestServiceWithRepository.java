@@ -1,19 +1,25 @@
 package com.lsv.lib.core.test.concept.service;
 
-import com.lsv.lib.core.behavior.Crud;
 import com.lsv.lib.core.behavior.Identifiable;
+import com.lsv.lib.core.concept.repository.Repository;
 import com.lsv.lib.core.concept.service.Service;
 import com.lsv.lib.core.concept.service.ServiceWithRepository;
 import com.lsv.lib.core.helper.HelperClass;
 import com.lsv.lib.core.pattern.register.RegisterInterface;
-import com.lsv.lib.core.concept.repository.Repository;
+import com.lsv.lib.core.test.TestWithMockito;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.NoSuchElementException;
 
-public interface TestIdentifiableServiceWithRepository<D extends Identifiable<?>, S extends Service<D> & Crud<D>, R extends Repository<D> & Crud<D>> extends TestAbstract {
+public interface TestServiceWithRepository
+    <
+        D extends Identifiable<?>,
+        S extends Service<D>,
+        R extends Repository<D>>
+    extends
+    TestWithMockito {
 
     @Test
     default public void forceInformRepository() {
@@ -43,5 +49,7 @@ public interface TestIdentifiableServiceWithRepository<D extends Identifiable<?>
         return (S) serviceImpl().repository(repository);
     }
 
-    void acessRepositoryDefault();
+    default void acessRepositoryDefault() {
+        serviceImpl().repository();
+    }
 }

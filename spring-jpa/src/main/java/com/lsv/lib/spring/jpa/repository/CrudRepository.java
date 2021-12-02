@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public interface CrudRepository<I extends Identifiable<ID>, ID extends Serializable, P extends Persistable<?>> extends
         CreatableRepository<I, ID, P>,
-        UpdateableRepository<I, ID, P>,
-        DeleteableRepository<I, ID, P>,
+    UpdatableRepository<I, ID, P>,
+    DeletableRepository<I, ID, P>,
         ReadableRepository<I, ID, P> {
 }
