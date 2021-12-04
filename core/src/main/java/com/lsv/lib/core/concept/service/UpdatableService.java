@@ -9,13 +9,13 @@ import com.lsv.lib.core.helper.HelperBeanValidation;
 public interface UpdatableService<T extends Identifiable<?>, R extends Updatable<T> & Repository<T>>
         extends ServiceWithRepository<T, R>, Updatable<T> {
 
-    default T update(T objIdentifiable) {
-        this.validateUpdate(objIdentifiable);
-        return this.repository().update(objIdentifiable);
+    default T update(T identifiable) {
+        this.validateUpdate(identifiable);
+        return this.repository().update(identifiable);
     }
 
-    default void validateUpdate(T objIdentifiable) {
-        HelperBeanValidation.validate(objIdentifiable);
-        HelperBeanValidation.validate(this.validables(), objIdentifiable, TypeOperation.UPDATE);
+    default void validateUpdate(T identifiable) {
+        HelperBeanValidation.validate(identifiable);
+        HelperBeanValidation.validate(this.validables(), identifiable, TypeOperation.UPDATE);
     }
 }

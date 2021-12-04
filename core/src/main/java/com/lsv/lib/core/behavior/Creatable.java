@@ -4,5 +4,5 @@ import lombok.NonNull;
 
 public interface Creatable<T extends Identifiable<?>> {
 
-    T create(@NonNull T objIdentifiable);
+    T create(@NonNull T identifiable);
 }

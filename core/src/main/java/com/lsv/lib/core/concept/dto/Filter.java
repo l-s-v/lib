@@ -11,6 +11,7 @@ import java.util.Map;
 @Builder(builderMethodName = "of", buildMethodName = "get")
 public class Filter<T extends Identifiable<?>> implements Dto {
 
+    @With
     private T obj;
     private boolean loadQuantityRecords;
     private boolean onlyQuantityRecords;

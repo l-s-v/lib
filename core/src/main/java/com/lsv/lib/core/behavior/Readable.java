@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface Readable<T extends Identifiable<?>> {
 
-    Optional<T> findById(@NonNull T objIdentifiable);
+    Optional<T> findById(@NonNull T identifiable);
     ListDto<T> findByFilter(@NonNull Filter<T> filter);
 }

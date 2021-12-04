@@ -13,16 +13,16 @@ import java.util.Optional;
 public interface ReadableService<T extends Identifiable<?>, R extends Readable<T> & Repository<T>>
         extends ServiceWithRepository<T, R>, Readable<T> {
 
-    default Optional<T> findById(T objIdentifiable) {
-        this.validateFindById(objIdentifiable);
-        return this.repository().findById(objIdentifiable);
+    default Optional<T> findById(T identifiable) {
+        this.validateFindById(identifiable);
+        return this.repository().findById(identifiable);
     }
 
     default ListDto<T> findByFilter(Filter<T> filter) {
         return this.repository().findByFilter(filter);
     }
 
-    default void validateFindById(T objIdentifiable) {
-        HelperBeanValidation.validate(this.validables(), objIdentifiable, TypeOperation.READ);
+    default void validateFindById(T identifiable) {
+        HelperBeanValidation.validate(this.validables(), identifiable, TypeOperation.READ);
     }
 }

@@ -21,7 +21,7 @@ public interface TestServiceUpdateable
     ProviderTestService<D> {
 
     @Test
-    default public void update() {
+    default void update() {
         R repositoryMock = repositoryMock();
 
         lenient().when(repositoryMock.update(any()))

@@ -5,9 +5,11 @@ module com.lsv.lib.spring.jpa {
     requires spring.data.commons;
     requires spring.context;
     requires spring.beans;
+    requires java.persistence;
 
     requires transitive com.lsv.lib.core;
 
     exports com.lsv.lib.spring.jpa.repository;
     exports com.lsv.lib.spring.jpa.helper;
+    opens com.lsv.lib.spring.jpa.helper;
 }

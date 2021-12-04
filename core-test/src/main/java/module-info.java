@@ -7,4 +7,5 @@ module com.lsv.lib.core.test {
 
     exports com.lsv.lib.core.test;
     exports com.lsv.lib.core.test.concept.service;
+    exports com.lsv.lib.core.test.concept.repository;
 }

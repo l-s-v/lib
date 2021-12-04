@@ -17,7 +17,7 @@ public interface TestServiceDeletable
     ProviderTestService<D> {
 
     @Test
-    default public void delete() {
+    default void delete() {
         Assertions.assertDoesNotThrow(() -> service(repositoryMock()).delete(newObjectWithId()));
     }
 }

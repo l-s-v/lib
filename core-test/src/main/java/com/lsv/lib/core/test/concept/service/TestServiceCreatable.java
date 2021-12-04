@@ -20,7 +20,7 @@ public interface TestServiceCreatable
     ProviderTestService<D> {
 
     @Test
-    default public void insert() {
+    default void create() {
         R repositoryMock = repositoryMock();
 
         lenient().when(repositoryMock.create(any()))

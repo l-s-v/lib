@@ -25,7 +25,7 @@ public interface TestServiceReadable
     ProviderTestService<D> {
 
     @Test
-    default public void findById() {
+    default void findById() {
         R repositoryMock = repositoryMock();
         D obj = newObjectWithId();
 
@@ -36,7 +36,7 @@ public interface TestServiceReadable
     }
 
     @Test
-    default public void findByFilters() {
+    default void findByFilters() {
         R repositoryMock = repositoryMock();
         D obj = newObjectComplete();
         Filter<D> filter = Filter.of(obj).get();

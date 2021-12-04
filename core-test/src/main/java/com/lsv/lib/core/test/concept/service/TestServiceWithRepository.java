@@ -22,12 +22,12 @@ public interface TestServiceWithRepository
     TestWithMockito {
 
     @Test
-    default public void forceInformRepository() {
+    default void forceInformRepository() {
         Assertions.assertThrows(NullPointerException.class, () -> service(null));
     }
 
     @Test
-    default public void serviceNoSuchElementException() {
+    default void serviceNoSuchElementException() {
         Assertions.assertThrows(NoSuchElementException.class, this::acessRepositoryDefault);
     }
 

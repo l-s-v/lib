@@ -26,5 +26,6 @@
         <module>spring-jpa</module>
         <module>mapping-modelmapper</module>
         <module>core-test</module>
+        <module>spring-jpa-test</module>
     </modules>
 </project>

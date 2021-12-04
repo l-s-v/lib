@@ -8,13 +8,13 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 public final class ProviderServiceImpl {
 
     private static final int DATA_LIMIT = 100;
-    private static final Map<Object, Stock<Repository<?>>> data = new HashMap<>();
+    private static final Map<Object, Stock<Repository<?>>> data = new WeakHashMap<>();
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -34,29 +34,18 @@ public final class ProviderServiceImpl {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     private static Stock<Repository<?>> stock(ProviderService<?, ?> provider) {
-        Object key = key(provider);
-        Stock<Repository<?>> stock = data.get(key);
+        Stock<Repository<?>> stock = data.get(provider);
 
         if(stock == null) {
-            clearDataIfExceedsLimit();
-
             stock = new Stock<Repository<?>>();
-            data.put(key, stock);
+            data.put(provider, stock);
         }
         return stock;
-    }
-
-    private static Object key(ProviderService<?, ?> provider) {
-        return System.identityHashCode(provider);
     }
 
     @SuppressWarnings({"unchecked"})
     private static <R> R createRepository(ProviderService<?, ?> provider) {
         return (R) RegisterInterface.findImplementation(HelperClass.identifyGenericsClass(provider, Repository.class));
-    }
-
-    private static void clearDataIfExceedsLimit() {
-        if(data.size() > DATA_LIMIT) data.clear();
     }
 
     @Getter
