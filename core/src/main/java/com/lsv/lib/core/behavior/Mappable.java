@@ -5,14 +5,9 @@ import lombok.NonNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Define o comportamento de mapeadores de objetos.
- *
- * @author Leandro da Silva Vieira
- */
-public interface Mapper<S, D> {
+public interface Mappable<S, D> {
 
-    Mapper<S, D> setup(Class<S> sourceClass, Class<D> destinationClass);
+    Mappable<S, D> setup(Class<S> sourceClass, Class<D> destinationClass);
     D to(S source);
     S of(D destination);
 

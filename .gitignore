@@ -24,3 +24,4 @@
 /spring-jpa/target
 /core-test/target
 /spring-jpa-test/target
+/bytecode-asm/target

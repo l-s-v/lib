@@ -1,6 +1,6 @@
 package com.lsv.lib.mapping.modelmapper;
 
-import com.lsv.lib.core.behavior.Mapper;
+import com.lsv.lib.core.behavior.Mappable;
 import com.lsv.lib.core.pattern.register.RegisterInterface;
 import com.lsv.lib.mapping.modelmapper.test.Destination;
 import com.lsv.lib.mapping.modelmapper.test.Source;
@@ -38,7 +38,7 @@ public class ModelMapperTest {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     @SuppressWarnings({"unchecked"})
-    private Mapper<Source, Destination> mapper() {
-        return (Mapper<Source, Destination>) RegisterInterface.findImplementation(Mapper.class).setup(Source.class, Destination.class);
+    private Mappable<Source, Destination> mapper() {
+        return (Mappable<Source, Destination>) RegisterInterface.findImplementation(Mappable.class).setup(Source.class, Destination.class);
     }
 }

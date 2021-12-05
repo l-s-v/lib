@@ -1,4 +1,5 @@
-import com.lsv.lib.core.behavior.Identifiable;
+import com.lsv.lib.core.concept.repository.RepositoryProvider;
+import com.lsv.lib.core.helper.RepositoryProviderImpl;
 
 module com.lsv.lib.core {
     requires static lombok;
@@ -15,5 +16,5 @@ module com.lsv.lib.core {
 
     opens com.lsv.lib.core.concept.service.validations;
 
-    uses Identifiable;
+    provides RepositoryProvider with RepositoryProviderImpl;
 }
