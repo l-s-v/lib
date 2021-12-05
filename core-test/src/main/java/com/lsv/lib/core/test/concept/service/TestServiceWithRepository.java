@@ -8,10 +8,11 @@ import com.lsv.lib.core.helper.HelperClass;
 import com.lsv.lib.core.pattern.register.RegisterInterface;
 import com.lsv.lib.core.test.TestWithMockito;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DynamicTest;
 import org.mockito.Mockito;
 
 import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
 public interface TestServiceWithRepository
     <
@@ -21,17 +22,12 @@ public interface TestServiceWithRepository
     extends
     TestWithMockito {
 
-    @Test
-    default void forceInformRepository() {
-        Assertions.assertThrows(NullPointerException.class, () -> service(null));
+    default Stream<DynamicTest> of() {
+        return Stream.of(
+            this.forceInformRepository(),
+            this.serviceNoSuchElementException()
+        );
     }
-
-    @Test
-    default void serviceNoSuchElementException() {
-        Assertions.assertThrows(NoSuchElementException.class, this::acessRepositoryDefault);
-    }
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     @SuppressWarnings("unchecked")
     default R repositoryMock() {
@@ -51,5 +47,19 @@ public interface TestServiceWithRepository
 
     default void acessRepositoryDefault() {
         serviceImpl().repository();
+    }
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    private DynamicTest forceInformRepository() {
+        return DynamicTest.dynamicTest("forceInformRepository", () -> {
+            Assertions.assertThrows(NullPointerException.class, () -> service(null));
+        });
+    }
+
+    private DynamicTest serviceNoSuchElementException() {
+        return DynamicTest.dynamicTest("serviceNoSuchElementException", () -> {
+            Assertions.assertThrows(NoSuchElementException.class, this::acessRepositoryDefault);
+        });
     }
 }

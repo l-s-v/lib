@@ -7,10 +7,11 @@ import com.lsv.lib.core.concept.dto.ListDto;
 import com.lsv.lib.core.concept.repository.Repository;
 import com.lsv.lib.core.concept.service.Service;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DynamicTest;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
@@ -22,28 +23,41 @@ public interface TestServiceReadable
         R extends Repository<D> & Readable<D>>
     extends
     TestServiceWithRepository<D, S, R>,
-    ProviderTestService<D> {
+    TestServiceProvider<D> {
 
-    @Test
-    default void findById() {
-        R repositoryMock = repositoryMock();
-        D obj = newObjectWithId();
+    @Override
+    default Stream<DynamicTest> of() {
+        return Stream.of(
+                Stream.of(
+                    this.findById(),
+                    this.findByFilters()),
+                TestServiceWithRepository.super.of())
+            .flatMap(o -> o);
+    }
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-        lenient().when(repositoryMock.findById(any()))
-            .thenAnswer(invocation -> Optional.of(obj));
+    private DynamicTest findById() {
+        return DynamicTest.dynamicTest("findById", () -> {
+            R repositoryMock = repositoryMock();
+            D obj = newObjectWithId();
 
-        Assertions.assertEquals(obj, service(repositoryMock).findById(obj).get());
+            lenient().when(repositoryMock.findById(any()))
+                .thenAnswer(invocation -> Optional.of(obj));
+
+            Assertions.assertEquals(obj, service(repositoryMock).findById(obj).get());
+        });
     }
 
-    @Test
-    default void findByFilters() {
-        R repositoryMock = repositoryMock();
-        D obj = newObjectComplete();
-        Filter<D> filter = Filter.of(obj).get();
+    private DynamicTest findByFilters() {
+        return DynamicTest.dynamicTest("findByFilters", () -> {
+            R repositoryMock = repositoryMock();
+            D obj = newObjectComplete();
+            Filter<D> filter = Filter.of(obj).get();
 
-        lenient().when(repositoryMock.findByFilter(filter))
-            .thenAnswer(args -> ListDto.of(List.of(obj)).get());
+            lenient().when(repositoryMock.findByFilter(filter))
+                .thenAnswer(args -> ListDto.of(List.of(obj)).get());
 
-        Assertions.assertEquals(1, service(repositoryMock).findByFilter(filter).size());
+            Assertions.assertEquals(1, service(repositoryMock).findByFilter(filter).size());
+        });
     }
 }

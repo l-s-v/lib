@@ -1,28 +1,28 @@
-package com.lsv.lib.core.test.concept.service;
+package com.lsv.lib.core.test.concept.repository;
 
+import com.lsv.lib.core.behavior.Creatable;
 import com.lsv.lib.core.behavior.Deletable;
 import com.lsv.lib.core.behavior.Identifiable;
+import com.lsv.lib.core.behavior.Readable;
 import com.lsv.lib.core.concept.repository.Repository;
-import com.lsv.lib.core.concept.service.Service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DynamicTest;
 
 import java.util.stream.Stream;
 
-public interface TestServiceDeletable
+public interface TestRepositoryDeletable
     <
         D extends Identifiable<?>,
-        S extends Service<D> & Deletable<D>,
-        R extends Repository<D> & Deletable<D>>
+        R extends Repository<?> & Creatable<D> & Deletable<D> & Readable<D>>
     extends
-    TestServiceWithRepository<D, S, R>,
-    TestServiceProvider<D> {
+    TestRepository<R>,
+    TestRepositoryProvider<D> {
 
     @Override
     default Stream<DynamicTest> of() {
         return Stream.of(
                 Stream.of(this.delete()),
-                TestServiceWithRepository.super.of())
+                TestRepository.super.of())
             .flatMap(o -> o);
     }
 
@@ -30,7 +30,10 @@ public interface TestServiceDeletable
 
     private DynamicTest delete() {
         return DynamicTest.dynamicTest("delete", () -> {
-            Assertions.assertDoesNotThrow(() -> service(repositoryMock()).delete(newObjectWithId()));
+            R repository = repository();
+            D obj = repository.create(newObjectCompleteWithoutId());
+            repository.delete(obj);
+            Assertions.assertFalse(repository.findById(obj).isPresent());
         });
     }
 }
