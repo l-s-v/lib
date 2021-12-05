@@ -5,9 +5,11 @@ import com.lsv.lib.core.concept.repository.Repository;
 import com.lsv.lib.core.concept.service.Service;
 import com.lsv.lib.core.concept.service.ServiceWithRepository;
 import com.lsv.lib.core.helper.HelperClass;
-import com.lsv.lib.core.pattern.register.RegisterInterface;
+import com.lsv.lib.core.pattern.register.RegisterByInterface;
 import com.lsv.lib.core.test.TestWithMockito;
+import com.lsv.lib.core.test.helper.HelperDynamicTest;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.DynamicTest;
 import org.mockito.Mockito;
 
@@ -22,11 +24,14 @@ public interface TestServiceWithRepository
     extends
     TestWithMockito {
 
-    default Stream<DynamicTest> of() {
-        return Stream.of(
-            this.forceInformRepository(),
-            this.serviceNoSuchElementException()
-        );
+    @Override
+    default Stream<DynamicNode> of() {
+        return HelperDynamicTest.joinAndRemoveDuplicatedByName(
+            Stream.of(
+                this.forceInformRepository(),
+                this.serviceNoSuchElementException()
+            ),
+            TestWithMockito.super.of());
     }
 
     @SuppressWarnings("unchecked")
@@ -36,7 +41,7 @@ public interface TestServiceWithRepository
 
     @SuppressWarnings("unchecked")
     default ServiceWithRepository<D, R> serviceImpl() {
-        return (ServiceWithRepository<D, R>) RegisterInterface.findImplementation(
+        return (ServiceWithRepository<D, R>) RegisterByInterface.findImplementation(
             HelperClass.identifyGenericsClass(this, Service.class));
     }
 
@@ -51,13 +56,13 @@ public interface TestServiceWithRepository
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    private DynamicTest forceInformRepository() {
+    private DynamicNode forceInformRepository() {
         return DynamicTest.dynamicTest("forceInformRepository", () -> {
             Assertions.assertThrows(NullPointerException.class, () -> service(null));
         });
     }
 
-    private DynamicTest serviceNoSuchElementException() {
+    private DynamicNode serviceNoSuchElementException() {
         return DynamicTest.dynamicTest("serviceNoSuchElementException", () -> {
             Assertions.assertThrows(NoSuchElementException.class, this::acessRepositoryDefault);
         });

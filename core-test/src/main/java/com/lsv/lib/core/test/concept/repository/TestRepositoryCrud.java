@@ -3,9 +3,9 @@ package com.lsv.lib.core.test.concept.repository;
 import com.lsv.lib.core.behavior.Crud;
 import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.concept.repository.Repository;
-import org.junit.jupiter.api.DynamicTest;
+import com.lsv.lib.core.test.helper.HelperDynamicTest;
+import org.junit.jupiter.api.DynamicNode;
 
-import java.util.HashSet;
 import java.util.stream.Stream;
 
 public interface TestRepositoryCrud
@@ -19,15 +19,11 @@ public interface TestRepositoryCrud
     TestRepositoryDeletable<D, R> {
 
     @Override
-    default Stream<DynamicTest> of() {
-        HashSet<String> uniqueNames = new HashSet<>();
-
-        return Stream.of(
-                TestRepositoryCreatable.super.of(),
-                TestRepositoryReadable.super.of(),
-                TestRepositoryUpdatable.super.of(),
-                TestRepositoryDeletable.super.of())
-            .flatMap(o -> o)
-            .filter(dynamicTest -> uniqueNames.add(dynamicTest.getDisplayName()));
+    default Stream<DynamicNode> of() {
+        return HelperDynamicTest.joinAndRemoveDuplicatedByName(
+            TestRepositoryCreatable.super.of(),
+            TestRepositoryReadable.super.of(),
+            TestRepositoryUpdatable.super.of(),
+            TestRepositoryDeletable.super.of());
     }
 }

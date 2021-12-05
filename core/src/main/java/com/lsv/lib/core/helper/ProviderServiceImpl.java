@@ -3,7 +3,7 @@ package com.lsv.lib.core.helper;
 import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.concept.repository.Repository;
 import com.lsv.lib.core.concept.service.ProviderService;
-import com.lsv.lib.core.pattern.register.RegisterInterface;
+import com.lsv.lib.core.pattern.register.RegisterByInterface;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -45,7 +45,7 @@ public final class ProviderServiceImpl {
 
     @SuppressWarnings({"unchecked"})
     private static <R> R createRepository(ProviderService<?, ?> provider) {
-        return (R) RegisterInterface.findImplementation(HelperClass.identifyGenericsClass(provider, Repository.class));
+        return (R) RegisterByInterface.findImplementation(HelperClass.identifyGenericsClass(provider, Repository.class));
     }
 
     @Getter

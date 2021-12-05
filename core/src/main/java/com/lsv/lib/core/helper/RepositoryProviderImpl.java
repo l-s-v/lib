@@ -5,7 +5,7 @@ import com.lsv.lib.core.behavior.Mappable;
 import com.lsv.lib.core.behavior.Persistable;
 import com.lsv.lib.core.behavior.Storable;
 import com.lsv.lib.core.concept.repository.RepositoryProvider;
-import com.lsv.lib.core.pattern.register.RegisterInterface;
+import com.lsv.lib.core.pattern.register.RegisterByInterface;
 import lombok.AccessLevel;
 import lombok.Getter;
 
@@ -71,6 +71,6 @@ public class RepositoryProviderImpl<
 
     @SuppressWarnings("unchecked")
     protected S findStorable() {
-        return (S) RegisterInterface.findImplementation(Storable.class);
+        return (S) RegisterByInterface.findImplementation(Storable.class);
     }
 }

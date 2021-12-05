@@ -6,7 +6,9 @@ import com.lsv.lib.core.concept.dto.Filter;
 import com.lsv.lib.core.concept.dto.ListDto;
 import com.lsv.lib.core.concept.repository.Repository;
 import com.lsv.lib.core.concept.service.Service;
+import com.lsv.lib.core.test.helper.HelperDynamicTest;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.DynamicTest;
 
 import java.util.List;
@@ -26,17 +28,16 @@ public interface TestServiceReadable
     TestServiceProvider<D> {
 
     @Override
-    default Stream<DynamicTest> of() {
-        return Stream.of(
-                Stream.of(
-                    this.findById(),
-                    this.findByFilters()),
-                TestServiceWithRepository.super.of())
-            .flatMap(o -> o);
+    default Stream<DynamicNode> of() {
+        return HelperDynamicTest.joinAndRemoveDuplicatedByName(
+            Stream.of(
+                this.findById(),
+                this.findByFilters()),
+            TestServiceWithRepository.super.of());
     }
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    private DynamicTest findById() {
+    private DynamicNode findById() {
         return DynamicTest.dynamicTest("findById", () -> {
             R repositoryMock = repositoryMock();
             D obj = newObjectWithId();
@@ -48,7 +49,7 @@ public interface TestServiceReadable
         });
     }
 
-    private DynamicTest findByFilters() {
+    private DynamicNode findByFilters() {
         return DynamicTest.dynamicTest("findByFilters", () -> {
             R repositoryMock = repositoryMock();
             D obj = newObjectComplete();

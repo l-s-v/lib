@@ -5,7 +5,9 @@ import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.behavior.Readable;
 import com.lsv.lib.core.concept.dto.Filter;
 import com.lsv.lib.core.concept.repository.Repository;
+import com.lsv.lib.core.test.helper.HelperDynamicTest;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.DynamicTest;
 
 import java.util.stream.Stream;
@@ -19,11 +21,10 @@ public interface TestRepositoryReadable
     TestRepositoryProvider<D> {
 
     @Override
-    default Stream<DynamicTest> of() {
-        return Stream.of(
-                Stream.of(this.findById(), this.findByFilter()),
-                TestRepository.super.of())
-            .flatMap(o -> o);
+    default Stream<DynamicNode> of() {
+        return HelperDynamicTest.joinAndRemoveDuplicatedByName(
+            Stream.of(this.findById(), this.findByFilter()),
+            TestRepository.super.of());
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

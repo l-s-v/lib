@@ -4,7 +4,9 @@ import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.behavior.Updatable;
 import com.lsv.lib.core.concept.repository.Repository;
 import com.lsv.lib.core.concept.service.Service;
+import com.lsv.lib.core.test.helper.HelperDynamicTest;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.DynamicTest;
 import org.mockito.AdditionalAnswers;
 
@@ -23,16 +25,15 @@ public interface TestServiceUpdatable
     TestServiceProvider<D> {
 
     @Override
-    default Stream<DynamicTest> of() {
-        return Stream.of(
-                Stream.of(this.update()),
-                TestServiceWithRepository.super.of())
-            .flatMap(o -> o);
+    default Stream<DynamicNode> of() {
+        return HelperDynamicTest.joinAndRemoveDuplicatedByName(
+            Stream.of(this.update()),
+            TestServiceWithRepository.super.of());
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    private DynamicTest update() {
+    private DynamicNode update() {
         return DynamicTest.dynamicTest("update", () -> {
             R repositoryMock = repositoryMock();
 

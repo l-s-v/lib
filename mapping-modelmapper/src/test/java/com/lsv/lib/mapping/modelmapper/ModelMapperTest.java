@@ -1,7 +1,7 @@
 package com.lsv.lib.mapping.modelmapper;
 
 import com.lsv.lib.core.behavior.Mappable;
-import com.lsv.lib.core.pattern.register.RegisterInterface;
+import com.lsv.lib.core.pattern.register.RegisterByInterface;
 import com.lsv.lib.mapping.modelmapper.test.Destination;
 import com.lsv.lib.mapping.modelmapper.test.Source;
 import org.junit.jupiter.api.Assertions;
@@ -39,6 +39,6 @@ public class ModelMapperTest {
 
     @SuppressWarnings({"unchecked"})
     private Mappable<Source, Destination> mapper() {
-        return (Mappable<Source, Destination>) RegisterInterface.findImplementation(Mappable.class).setup(Source.class, Destination.class);
+        return (Mappable<Source, Destination>) RegisterByInterface.findImplementation(Mappable.class).setup(Source.class, Destination.class);
     }
 }

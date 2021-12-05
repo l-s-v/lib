@@ -4,7 +4,9 @@ import com.lsv.lib.core.behavior.Deletable;
 import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.concept.repository.Repository;
 import com.lsv.lib.core.concept.service.Service;
+import com.lsv.lib.core.test.helper.HelperDynamicTest;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.DynamicTest;
 
 import java.util.stream.Stream;
@@ -19,16 +21,15 @@ public interface TestServiceDeletable
     TestServiceProvider<D> {
 
     @Override
-    default Stream<DynamicTest> of() {
-        return Stream.of(
-                Stream.of(this.delete()),
-                TestServiceWithRepository.super.of())
-            .flatMap(o -> o);
+    default Stream<DynamicNode> of() {
+        return HelperDynamicTest.joinAndRemoveDuplicatedByName(
+            Stream.of(this.delete()),
+            TestServiceWithRepository.super.of());
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    private DynamicTest delete() {
+    private DynamicNode delete() {
         return DynamicTest.dynamicTest("delete", () -> {
             Assertions.assertDoesNotThrow(() -> service(repositoryMock()).delete(newObjectWithId()));
         });
