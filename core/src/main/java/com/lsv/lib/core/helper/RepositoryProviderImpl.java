@@ -64,8 +64,8 @@ public class RepositoryProviderImpl<
 
     protected Mappable<?, ?> findMapper() {
         return FactoryImplementation.createMapper(
-            HelperClass.identifyGenericsClass(sourceToFindGenerics, Identifiable.class),
-            HelperClass.identifyGenericsClass(sourceToFindGenerics, Persistable.class)
+            HelperClass.identifyGenericsClass(sourceToFindGenerics(), Identifiable.class),
+            HelperClass.identifyGenericsClass(sourceToFindGenerics(), Persistable.class)
         );
     }
 

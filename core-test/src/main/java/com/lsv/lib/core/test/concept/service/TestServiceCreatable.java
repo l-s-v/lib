@@ -26,7 +26,7 @@ public interface TestServiceCreatable
     @Override
     default Stream<DynamicNode> of() {
         return HelperDynamicTest.joinAndRemoveDuplicatedByName(
-            Stream.of(this.create()),
+            Stream.of(create()),
             TestServiceWithRepository.super.of());
     }
 

@@ -16,7 +16,7 @@ public interface RepositoryImplementeable<
     Repository<I> {
 
     @SuppressWarnings("unchecked")
-    default RepositoryProvider<I, ID, P, S> providerRepository() {
-        return (RepositoryProvider<I, ID, P, S>) FactoryImplementation.createProviderRepository(this);
+    default RepositoryProvider<I, ID, P, S> repositoryProvider() {
+        return (RepositoryProvider<I, ID, P, S>) FactoryImplementation.createRepositoryProvider(this);
     }
 }

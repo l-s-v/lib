@@ -7,22 +7,27 @@ import com.lsv.lib.core.concept.dto.ListDto;
 import com.lsv.lib.core.concept.repository.Repository;
 import com.lsv.lib.core.concept.service.validations.TypeOperation;
 import com.lsv.lib.core.helper.HelperBeanValidation;
+import lombok.NonNull;
 
 import java.util.Optional;
 
-public interface ReadableService<T extends Identifiable<?>, R extends Readable<T> & Repository<T>>
-        extends ServiceWithRepository<T, R>, Readable<T> {
+public interface ReadableService<
+    T extends Identifiable<?>,
+    R extends Readable<T> & Repository<T>>
+    extends
+    ServiceWithRepository<T, R>,
+    Readable<T> {
 
-    default Optional<T> findById(T identifiable) {
-        this.validateFindById(identifiable);
-        return this.repository().findById(identifiable);
+    default Optional<T> findById(@NonNull T identifiable) {
+        validateFindById(identifiable);
+        return repository().findById(identifiable);
     }
 
-    default ListDto<T> findByFilter(Filter<T> filter) {
-        return this.repository().findByFilter(filter);
+    default ListDto<T> findByFilter(@NonNull Filter<T> filter) {
+        return repository().findByFilter(filter);
     }
 
-    default void validateFindById(T identifiable) {
-        HelperBeanValidation.validate(this.validables(), identifiable, TypeOperation.READ);
+    default void validateFindById(@NonNull T identifiable) {
+        HelperBeanValidation.validate(validables(), identifiable, TypeOperation.READ);
     }
 }

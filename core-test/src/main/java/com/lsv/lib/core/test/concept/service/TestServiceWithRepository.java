@@ -28,8 +28,8 @@ public interface TestServiceWithRepository
     default Stream<DynamicNode> of() {
         return HelperDynamicTest.joinAndRemoveDuplicatedByName(
             Stream.of(
-                this.forceInformRepository(),
-                this.serviceNoSuchElementException()
+                forceInformRepository(),
+                serviceNoSuchElementException()
             ),
             TestWithMockito.super.of());
     }

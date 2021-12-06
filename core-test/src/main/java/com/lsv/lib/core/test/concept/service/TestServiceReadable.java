@@ -31,8 +31,8 @@ public interface TestServiceReadable
     default Stream<DynamicNode> of() {
         return HelperDynamicTest.joinAndRemoveDuplicatedByName(
             Stream.of(
-                this.findById(),
-                this.findByFilters()),
+                findById(),
+                findByFilters()),
             TestServiceWithRepository.super.of());
     }
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -45,7 +45,7 @@ public interface TestServiceReadable
             lenient().when(repositoryMock.findById(any()))
                 .thenAnswer(invocation -> Optional.of(obj));
 
-            Assertions.assertEquals(obj, service(repositoryMock).findById(obj).get());
+            Assertions.assertEquals(obj, service(repositoryMock).findById(obj).orElse(null));
         });
     }
 

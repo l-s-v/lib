@@ -32,7 +32,7 @@ public interface ReadableRepositorySpringJpa<
         Example<P> example = null;
 
         if (specification == null && filter.obj() != null) {
-            example = Example.of(providerRepository().mappable().to(filter.obj()));
+            example = Example.of(repositoryProvider().mappable().to(filter.obj()));
         }
 
         if (pageable != null) {
@@ -55,16 +55,16 @@ public interface ReadableRepositorySpringJpa<
         Page<P> page;
 
         if (specification != null) {
-            page = providerRepository().storable().findAll(specification, pageable);
+            page = repositoryProvider().storable().findAll(specification, pageable);
         } else if (example != null) {
-            page = providerRepository().storable().findAll(example, pageable);
+            page = repositoryProvider().storable().findAll(example, pageable);
         } else {
-            page = providerRepository().storable().findAll(pageable);
+            page = repositoryProvider().storable().findAll(pageable);
         }
 
         return Optional.of(page)
             .map(ps -> ListDto
-                .of(providerRepository().mappable().of(ps.getContent()))
+                .of(repositoryProvider().mappable().of(ps.getContent()))
                 .totalRecords(ps.getTotalElements())
                 .get())
             .orElse(ListDto.empty());
@@ -77,16 +77,16 @@ public interface ReadableRepositorySpringJpa<
         List<P> results;
 
         if (specification != null) {
-            results = providerRepository().storable().findAll(specification, sort);
+            results = repositoryProvider().storable().findAll(specification, sort);
         } else if (example != null) {
-            results = providerRepository().storable().findAll(example, sort);
+            results = repositoryProvider().storable().findAll(example, sort);
         } else {
-            results = providerRepository().storable().findAll(sort);
+            results = repositoryProvider().storable().findAll(sort);
         }
 
         return Optional.of(results)
             .map(ps -> ListDto
-                .of(providerRepository().mappable().of(ps))
+                .of(repositoryProvider().mappable().of(ps))
                 .get())
             .orElse(ListDto.empty());
     }

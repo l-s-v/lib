@@ -20,7 +20,8 @@ public interface ReadableRepository<
 
     @Override
     default Optional<I> findById(@NonNull I identifiable) {
-        return providerRepository().storable().findById(identifiable.getId())
-            .map(p -> providerRepository().mappable().of(p));
+        RepositoryProvider<I, ID, P, S> repositoryProvider = repositoryProvider();
+        return repositoryProvider.storable().findById(identifiable.getId())
+            .map(p -> repositoryProvider.mappable().of(p));
     }
 }

@@ -19,6 +19,6 @@ public interface DeletableRepository<
 
     @Override
     default void delete(@NonNull I identifiable) {
-        providerRepository().storable().deleteById(identifiable.getId());
+        repositoryProvider().storable().deleteById(identifiable.getId());
     }
 }

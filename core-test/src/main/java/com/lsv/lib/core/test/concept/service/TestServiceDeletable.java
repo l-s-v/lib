@@ -23,7 +23,7 @@ public interface TestServiceDeletable
     @Override
     default Stream<DynamicNode> of() {
         return HelperDynamicTest.joinAndRemoveDuplicatedByName(
-            Stream.of(this.delete()),
+            Stream.of(delete()),
             TestServiceWithRepository.super.of());
     }
 

@@ -12,7 +12,7 @@ public final class FactoryImplementation {
             .setup(sourceClass, destinationClass);
     }
 
-    public static RepositoryProvider<?, ?, ?, ?> createProviderRepository(Object source) {
+    public static RepositoryProvider<?, ?, ?, ?> createRepositoryProvider(Object source) {
         return RegisterByInterface.findImplementation(RepositoryProvider.class)
             .setup(source);
     }

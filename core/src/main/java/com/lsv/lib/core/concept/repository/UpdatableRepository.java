@@ -19,8 +19,9 @@ public interface UpdatableRepository<
 
     @Override
     default I update(@NonNull I identifiable) {
-        return providerRepository().mappable().of(
-            this.providerRepository().storable().save(
-                providerRepository().mappable().to(identifiable)));
+        RepositoryProvider<I, ID, P, S> repositoryProvider = repositoryProvider();
+        return repositoryProvider.mappable().of(
+            repositoryProvider.storable().save(
+                repositoryProvider.mappable().to(identifiable)));
     }
 }

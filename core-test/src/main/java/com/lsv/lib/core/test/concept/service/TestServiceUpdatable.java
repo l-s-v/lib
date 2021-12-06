@@ -27,7 +27,7 @@ public interface TestServiceUpdatable
     @Override
     default Stream<DynamicNode> of() {
         return HelperDynamicTest.joinAndRemoveDuplicatedByName(
-            Stream.of(this.update()),
+            Stream.of(update()),
             TestServiceWithRepository.super.of());
     }
 

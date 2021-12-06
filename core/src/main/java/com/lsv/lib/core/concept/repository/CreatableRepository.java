@@ -19,8 +19,9 @@ public interface CreatableRepository<
 
     @Override
     default I create(@NonNull I identifiable) {
-        return providerRepository().mappable().of(
-            providerRepository().storable().save(
-                providerRepository().mappable().to(identifiable)));
+        RepositoryProvider<I, ID, P, S> repositoryProvider = repositoryProvider();
+        return repositoryProvider.mappable().of(
+            repositoryProvider.storable().save(
+                repositoryProvider.mappable().to(identifiable)));
     }
 }
