@@ -19,8 +19,12 @@ public interface TestRepository<
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     default R repository() {
-        // Simulates Mappable.findInstance so that it is not necessary to
-        // define the dependency of some implementation inside the module.
+        /*
+         * Simulates Mappable.findInstance so that it is not necessary to
+         * define the dependency of some implementation inside the module.
+         * It was the possible way to test the automatic functioning (by service module)
+         * because the instances are created with default constructors.
+         * */
         try (MockedStatic<Mappable> mappableMockedStatic = Mockito.mockStatic(Mappable.class)) {
             mappableMockedStatic
                 .when(() -> Mappable.findInstance(Mockito.any()))

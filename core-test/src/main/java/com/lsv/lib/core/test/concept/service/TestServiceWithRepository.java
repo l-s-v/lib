@@ -3,34 +3,34 @@ package com.lsv.lib.core.test.concept.service;
 import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.concept.repository.Repository;
 import com.lsv.lib.core.concept.service.Service;
-import com.lsv.lib.core.concept.service.ServiceWithRepository;
+import com.lsv.lib.core.concept.service.ServiceProvider;
+import com.lsv.lib.core.concept.service.ServiceProviderImpl;
+import com.lsv.lib.core.concept.service.validations.Validable;
 import com.lsv.lib.core.helper.HelperClass;
-import com.lsv.lib.core.pattern.register.RegisterByInterface;
 import com.lsv.lib.core.test.TestWithMockito;
 import com.lsv.lib.core.test.helper.HelperDynamicTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.DynamicTest;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Stream;
 
-public interface TestServiceWithRepository
-    <
-        D extends Identifiable<?>,
-        S extends Service<D>,
-        R extends Repository<D>>
+public interface TestServiceWithRepository<
+    I extends Identifiable<?>,
+    S extends Service<I>,
+    R extends Repository<I>>
     extends
     TestWithMockito {
 
     @Override
     default Stream<DynamicNode> of() {
         return HelperDynamicTest.joinAndRemoveDuplicatedByName(
-            Stream.of(
-                forceInformRepository(),
-                serviceNoSuchElementException()
-            ),
+            Stream.of(serviceNoSuchElementException()),
             TestWithMockito.super.of());
     }
 
@@ -39,32 +39,43 @@ public interface TestServiceWithRepository
         return (R) Mockito.mock(HelperClass.identifyGenericsClass(this, Repository.class));
     }
 
-    @SuppressWarnings("unchecked")
-    default ServiceWithRepository<D, R> serviceImpl() {
-        return (ServiceWithRepository<D, R>) RegisterByInterface.findImplementation(
-            HelperClass.identifyGenericsClass(this, Service.class));
+    @SuppressWarnings({"rawtypes"})
+    default S serviceImpl(R repository) {
+        /*
+         * Simulates Repository.findInstance so that it is not necessary to
+         * define the dependency of some implementation inside the module.
+         * It was the possible way to test the automatic functioning (by service module)
+         * because the instances are created with default constructors.
+         * */
+        try (MockedStatic<Repository> repositoryMockedStatic = Mockito.mockStatic(Repository.class)) {
+            repositoryMockedStatic
+                .when(() -> Repository.findInstance(Mockito.any()))
+                .thenReturn(repository);
+
+            return Service.findInstance(this);
+        }
     }
 
-    @SuppressWarnings("unchecked")
     default S service(R repository) {
-        return (S) serviceImpl().repository(repository);
+        return serviceImpl(repository);
     }
 
-    default void acessRepositoryDefault() {
-        serviceImpl().repository();
+    default void acessDefault() {
+        Repository.findInstance(this);
+    }
+
+    @SuppressWarnings("unchecked")
+    default ServiceProvider<I, R> createProvider(R repository, List<Validable<I>> validables) {
+        return new ServiceProviderImpl<>(
+            Optional.ofNullable(validables).orElse((List<Validable<I>>) (Object) ServiceProvider.VALIDABLES),
+            Optional.ofNullable(repository).orElse(repositoryMock()));
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    private DynamicNode forceInformRepository() {
-        return DynamicTest.dynamicTest("forceInformRepository", () -> {
-            Assertions.assertThrows(NullPointerException.class, () -> service(null));
-        });
-    }
-
     private DynamicNode serviceNoSuchElementException() {
         return DynamicTest.dynamicTest("serviceNoSuchElementException", () -> {
-            Assertions.assertThrows(NoSuchElementException.class, this::acessRepositoryDefault);
+            Assertions.assertThrows(NoSuchElementException.class, this::acessDefault);
         });
     }
 }

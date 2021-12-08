@@ -8,16 +8,16 @@ import com.lsv.lib.core.pattern.register.RegisterByInterface;
 import java.io.Serializable;
 
 public interface RepositoryProvider<
-    I extends Identifiable<ID>,
+    I extends Identifiable<?>,
     ID extends Serializable,
-    P extends Persistable<ID>,
+    P extends Persistable<?>,
     S> {
 
     Mappable<I, P> mappable();
 
     S storable();
 
-    RepositoryProvider<?, ?, ?, ?> setupRequiredWhenByService(Object sourceBased);
+    RepositoryProvider<I, ID, P, S> configureRequiredWhenByService(Object sourceBase);
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -27,8 +27,8 @@ public interface RepositoryProvider<
         ID extends Serializable,
         P extends Persistable<ID>,
         S>
-    RepositoryProvider<I, ID, P, S> findInstance(Object sourceBased) {
+    RepositoryProvider<I, ID, P, S> findInstance(Object sourceBase) {
         return RegisterByInterface.findImplementation(RepositoryProvider.class)
-            .setupRequiredWhenByService(sourceBased);
+            .configureRequiredWhenByService(sourceBase);
     }
 }

@@ -4,16 +4,14 @@ import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.behavior.Mappable;
 import com.lsv.lib.core.behavior.Persistable;
 import com.lsv.lib.core.behavior.Storable;
-import com.lsv.lib.core.pattern.register.RegisterByInterface;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @NoArgsConstructor
+@Getter(AccessLevel.PUBLIC)
 @Setter(AccessLevel.PRIVATE)
-@Getter
 public class RepositoryProviderImpl<
     I extends Identifiable<ID>,
     ID extends Serializable,
@@ -26,50 +24,36 @@ public class RepositoryProviderImpl<
     private Mappable<I, P> mappable;
     @NonNull
     private S storable;
-    @Setter
-    @Getter(AccessLevel.PROTECTED)
-    private Object setupRequiredWhenByService;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     @SuppressWarnings("unchecked")
     @Override
-    public Mappable<I, P> mappable() {
-        return Optional.of(mappable).orElseGet(() ->
-            mappable((Mappable<I, P>) findMapper())
-                .mappable());
-    }
-
-    @Override
-    public S storable() {
-        return Optional.of(storable).orElseGet(() ->
-            storable(findStorable())
-                .storable());
+    public RepositoryProvider<I, ID, P, S> configureRequiredWhenByService(Object sourceBase) {
+        mappable((Mappable<I, P>) findMapper(sourceBase));
+        storable(findStorable(sourceBase));
+        return this;
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    @SuppressWarnings("unchecked")
     public static <
         I extends Identifiable<ID>,
         ID extends Serializable,
         P extends Persistable<ID>,
         S>
-    RepositoryProviderImpl<I, ID, P, S> of(Object sourceBased) {
-        return new RepositoryProviderImpl<>(
-            (Mappable<I, P>) Mappable.findInstance(sourceBased),
-            (S) Storable.<P, ID>findInstance()
-        );
+    RepositoryProvider<I, ID, P, S> of(Object sourceBase) {
+        return new RepositoryProviderImpl<I, ID, P, S>().configureRequiredWhenByService(sourceBase);
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    protected Mappable<?, ?> findMapper() {
-        return Mappable.findInstance(setupRequiredWhenByService());
+    protected Mappable<?, ?> findMapper(Object sourceBase) {
+        return Mappable.findInstance(sourceBase);
     }
 
     @SuppressWarnings("unchecked")
-    protected S findStorable() {
-        return (S) RegisterByInterface.findImplementation(Storable.class);
+    protected S findStorable(Object sourceBase) {
+        return (S) Storable.<P, ID>findInstance();
     }
 }

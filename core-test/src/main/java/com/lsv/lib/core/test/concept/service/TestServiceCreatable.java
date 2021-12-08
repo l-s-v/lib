@@ -14,14 +14,13 @@ import java.util.stream.Stream;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 
-public interface TestServiceCreatable
-    <
-        D extends Identifiable<?>,
-        S extends Service<D> & Creatable<D>,
-        R extends Repository<D> & Creatable<D>>
+public interface TestServiceCreatable<
+    I extends Identifiable<?>,
+    S extends Service<I> & Creatable<I>,
+    R extends Repository<I> & Creatable<I>>
     extends
-    TestServiceWithRepository<D, S, R>,
-    TestServiceProvider<D> {
+    TestServiceWithRepository<I, S, R>,
+    TestServiceProvider<I> {
 
     @Override
     default Stream<DynamicNode> of() {
@@ -39,7 +38,7 @@ public interface TestServiceCreatable
             lenient().when(repositoryMock.create(any()))
                 .thenAnswer(args -> newObjectWithId());
 
-            D obj = newObjectCompleteWithoutId();
+            I obj = newObjectCompleteWithoutId();
             Assertions.assertNotNull(service(repositoryMock).create(obj).getId());
         });
     }

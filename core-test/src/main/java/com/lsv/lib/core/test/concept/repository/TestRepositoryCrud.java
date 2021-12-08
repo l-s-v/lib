@@ -1,7 +1,7 @@
 package com.lsv.lib.core.test.concept.repository;
 
-import com.lsv.lib.core.behavior.Crud;
-import com.lsv.lib.core.behavior.Identifiable;
+import com.lsv.lib.core.behavior.Readable;
+import com.lsv.lib.core.behavior.*;
 import com.lsv.lib.core.concept.repository.Repository;
 import com.lsv.lib.core.test.helper.HelperDynamicTest;
 import org.junit.jupiter.api.DynamicNode;
@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 public interface TestRepositoryCrud
     <
         D extends Identifiable<?>,
-        R extends Repository<D> & Crud<D>>
+        R extends Repository<D> & Creatable<D> & Readable<D> & Updatable<D> & Deletable<D>>
     extends
     TestRepositoryCreatable<D, R>,
     TestRepositoryReadable<D, R>,

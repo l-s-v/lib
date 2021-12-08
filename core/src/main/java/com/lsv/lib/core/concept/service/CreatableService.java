@@ -17,11 +17,11 @@ public interface CreatableService<
     @Override
     default T create(@NonNull T identifiable) {
         validateCreate(identifiable);
-        return repository().create(identifiable);
+        return serviceProvider().repository().create(identifiable);
     }
 
     default void validateCreate(@NonNull T identifiable) {
         HelperBeanValidation.validate(identifiable);
-        HelperBeanValidation.validate(validables(), identifiable, TypeOperation.CREATE);
+        HelperBeanValidation.validate(serviceProvider().validables(), identifiable, TypeOperation.CREATE);
     }
 }

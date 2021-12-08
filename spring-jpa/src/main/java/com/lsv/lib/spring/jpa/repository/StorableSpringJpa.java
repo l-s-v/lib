@@ -22,12 +22,12 @@ public interface StorableSpringJpa
     JpaSpecificationExecutor<P> {
 
     @SuppressWarnings("unchecked")
-    static <S> S findInstance(Object sourceBased) {
+    static <S> S findInstance(Object sourceBase) {
         try {
-            Class<?> classType = HelperClass.identifyGenericsClass(sourceBased, StorableSpringJpa.class);
-            return (S) SpringFactory.repository(HelperClass.identifyGenericsClass(sourceBased, classType));
+            Class<?> classType = HelperClass.identifyGenericsClass(sourceBase, StorableSpringJpa.class);
+            return (S) SpringFactory.repository(HelperClass.identifyGenericsClass(sourceBase, classType));
         } catch (NoSuchElementException e) {
-            return (S) SpringFactory.simpleRepository(HelperClass.identifyGenericsClass(sourceBased, Persistable.class));
+            return (S) SpringFactory.simpleRepository(HelperClass.identifyGenericsClass(sourceBase, Persistable.class));
         }
     }
 }

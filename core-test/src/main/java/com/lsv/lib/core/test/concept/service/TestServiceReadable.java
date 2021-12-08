@@ -18,14 +18,13 @@ import java.util.stream.Stream;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 
-public interface TestServiceReadable
-    <
-        D extends Identifiable<?>,
-        S extends Service<D> & Readable<D>,
-        R extends Repository<D> & Readable<D>>
+public interface TestServiceReadable<
+    I extends Identifiable<?>,
+    S extends Service<I> & Readable<I>,
+    R extends Repository<I> & Readable<I>>
     extends
-    TestServiceWithRepository<D, S, R>,
-    TestServiceProvider<D> {
+    TestServiceWithRepository<I, S, R>,
+    TestServiceProvider<I> {
 
     @Override
     default Stream<DynamicNode> of() {
@@ -40,7 +39,7 @@ public interface TestServiceReadable
     private DynamicNode findById() {
         return DynamicTest.dynamicTest("findById", () -> {
             R repositoryMock = repositoryMock();
-            D obj = newObjectWithId();
+            I obj = newObjectWithId();
 
             lenient().when(repositoryMock.findById(any()))
                 .thenAnswer(invocation -> Optional.of(obj));
@@ -52,8 +51,8 @@ public interface TestServiceReadable
     private DynamicNode findByFilters() {
         return DynamicTest.dynamicTest("findByFilters", () -> {
             R repositoryMock = repositoryMock();
-            D obj = newObjectComplete();
-            Filter<D> filter = Filter.of(obj).get();
+            I obj = newObjectComplete();
+            Filter<I> filter = Filter.of(obj).get();
 
             lenient().when(repositoryMock.findByFilter(filter))
                 .thenAnswer(args -> ListDto.of(List.of(obj)).get());

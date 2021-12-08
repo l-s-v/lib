@@ -1,15 +1,29 @@
 package com.lsv.lib.core.concept.service;
 
-import com.lsv.lib.core.behavior.Crud;
-import com.lsv.lib.core.behavior.Identifiable;
+import com.lsv.lib.core.behavior.Readable;
+import com.lsv.lib.core.behavior.*;
 import com.lsv.lib.core.concept.repository.Repository;
 
 public interface CrudService<
-    T extends Identifiable<?>,
-    R extends Crud<T> & Repository<T>>
+    I extends Identifiable<?>,
+    R extends Repository<I> & Creatable<I> & Readable<I> & Updatable<I> & Deletable<I>>
     extends
-    CreatableService<T, R>,
-    UpdatableService<T, R>,
-    DeletableService<T, R>,
-    ReadableService<T, R> {
+    CreatableService<I, R>,
+    UpdatableService<I, R>,
+    DeletableService<I, R>,
+    ReadableService<I, R> {
+
+    static <
+        I extends Identifiable<?>,
+        R extends Repository<I> & Creatable<I> & Readable<I> & Updatable<I> & Deletable<I>>
+    CrudService<I, R> of(Object sourceBase) {
+        return ofProvider(ServiceProvider.findInstance(sourceBase));
+    }
+
+    static <
+        I extends Identifiable<?>,
+        R extends Repository<I> & Creatable<I> & Readable<I> & Updatable<I> & Deletable<I>>
+    CrudService<I, R> ofProvider(ServiceProvider<I, R> serviceProvider) {
+        return () -> serviceProvider;
+    }
 }

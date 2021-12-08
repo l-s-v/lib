@@ -25,10 +25,10 @@ public interface Mappable<S, D> {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    static Mappable<?, ?> findInstance(Object sourceBased) {
+    static Mappable<?, ?> findInstance(Object sourceBase) {
         return findInstance(
-            HelperClass.identifyGenericsClass(sourceBased, Identifiable.class),
-            HelperClass.identifyGenericsClass(sourceBased, Persistable.class)
+            HelperClass.identifyGenericsClass(sourceBase, Identifiable.class),
+            HelperClass.identifyGenericsClass(sourceBase, Persistable.class)
         );
     }
 

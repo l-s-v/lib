@@ -17,10 +17,10 @@ public interface DeletableService<
     @Override
     default void delete(@NonNull T identifiable) {
         validateDelete(identifiable);
-        repository().delete(identifiable);
+        serviceProvider().repository().delete(identifiable);
     }
 
     default void validateDelete(@NonNull T identifiable) {
-        HelperBeanValidation.validate(validables(), identifiable, TypeOperation.DELETE);
+        HelperBeanValidation.validate(serviceProvider().validables(), identifiable, TypeOperation.DELETE);
     }
 }

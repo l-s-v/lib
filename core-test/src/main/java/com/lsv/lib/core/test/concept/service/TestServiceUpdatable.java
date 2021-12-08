@@ -15,14 +15,13 @@ import java.util.stream.Stream;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 
-public interface TestServiceUpdatable
-    <
-        D extends Identifiable<?>,
-        S extends Service<D> & Updatable<D>,
-        R extends Repository<D> & Updatable<D>>
+public interface TestServiceUpdatable<
+    I extends Identifiable<?>,
+    S extends Service<I> & Updatable<I>,
+    R extends Repository<I> & Updatable<I>>
     extends
-    TestServiceWithRepository<D, S, R>,
-    TestServiceProvider<D> {
+    TestServiceWithRepository<I, S, R>,
+    TestServiceProvider<I> {
 
     @Override
     default Stream<DynamicNode> of() {
@@ -40,7 +39,7 @@ public interface TestServiceUpdatable
             lenient().when(repositoryMock.update(any()))
                 .thenAnswer(AdditionalAnswers.returnsFirstArg());
 
-            D obj = newObjectComplete();
+            I obj = newObjectComplete();
             Assertions.assertEquals(obj, service(repositoryMock).update(obj));
         });
     }

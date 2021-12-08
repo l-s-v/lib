@@ -27,10 +27,16 @@ public interface CrudRepository<
         ID extends Serializable,
         P extends Persistable<ID>,
         S extends Storable<P, ID>>
-    CrudRepository<I, ID, P, S> of(Object sourceBased) {
-        // Inside lambda type inference does not work.
-        RepositoryProvider<I, ID, P, S> repositoryProvider = RepositoryProviderImpl.of(sourceBased);
+    CrudRepository<I, ID, P, S> of(Object sourceBase) {
+        return ofProvider(RepositoryProvider.findInstance(sourceBase));
+    }
 
+    static <
+        I extends Identifiable<ID>,
+        ID extends Serializable,
+        P extends Persistable<ID>,
+        S extends Storable<P, ID>>
+    CrudRepository<I, ID, P, S> ofProvider(RepositoryProvider<I, ID, P, S> repositoryProvider) {
         return () -> repositoryProvider;
     }
 }

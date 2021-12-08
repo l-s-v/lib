@@ -1,5 +1,7 @@
 import com.lsv.lib.core.concept.repository.RepositoryProvider;
 import com.lsv.lib.core.concept.repository.RepositoryProviderImpl;
+import com.lsv.lib.core.concept.service.ServiceProvider;
+import com.lsv.lib.core.concept.service.ServiceProviderImpl;
 
 module com.lsv.lib.core {
     requires static lombok;
@@ -20,4 +22,5 @@ module com.lsv.lib.core {
     opens com.lsv.lib.core.concept.repository;
 
     provides RepositoryProvider with RepositoryProviderImpl;
+    provides ServiceProvider with ServiceProviderImpl;
 }

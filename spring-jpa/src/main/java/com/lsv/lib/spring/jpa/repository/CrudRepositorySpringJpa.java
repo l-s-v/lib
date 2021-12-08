@@ -22,10 +22,16 @@ public interface CrudRepositorySpringJpa<
         ID extends Serializable,
         P extends Persistable<ID>,
         S extends StorableSpringJpa<P, ID>>
-    CrudRepositorySpringJpa<I, ID, P, S> of(Object sourceBased) {
-        // Inside lambda type inference does not work.
-        RepositoryProvider<I, ID, P, S> repositoryProvider = RepositoryProviderSpringJpaImpl.of(sourceBased);
+    CrudRepositorySpringJpa<I, ID, P, S> of(Object sourceBase) {
+        return of(RepositoryProviderSpringJpaImpl.of(sourceBase));
+    }
 
+    static <
+        I extends Identifiable<ID>,
+        ID extends Serializable,
+        P extends Persistable<ID>,
+        S extends StorableSpringJpa<P, ID>>
+    CrudRepositorySpringJpa<I, ID, P, S> of(RepositoryProvider<I, ID, P, S> repositoryProvider) {
         return () -> repositoryProvider;
     }
 }
