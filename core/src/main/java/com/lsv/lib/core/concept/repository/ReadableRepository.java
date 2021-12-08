@@ -4,6 +4,8 @@ import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.behavior.Persistable;
 import com.lsv.lib.core.behavior.Readable;
 import com.lsv.lib.core.behavior.Storable;
+import com.lsv.lib.core.concept.dto.Filter;
+import com.lsv.lib.core.concept.dto.ListDto;
 import lombok.NonNull;
 
 import java.io.Serializable;
@@ -20,8 +22,13 @@ public interface ReadableRepository<
 
     @Override
     default Optional<I> findById(@NonNull I identifiable) {
-        RepositoryProvider<I, ID, P, S> repositoryProvider = repositoryProvider();
-        return repositoryProvider.storable().findById(identifiable.getId())
-            .map(p -> repositoryProvider.mappable().of(p));
+        return repositoryProvider().storable().findById(identifiable.getId())
+            .map(p -> repositoryProvider().mappable().of(p));
+    }
+
+    @Override
+    default ListDto<I> findByFilter(@NonNull Filter<I> filter) {
+        throw new IllegalCallerException("Basic implementation does not contain this method. " +
+            "A new implementation of ReadableRepository must be provided.");
     }
 }

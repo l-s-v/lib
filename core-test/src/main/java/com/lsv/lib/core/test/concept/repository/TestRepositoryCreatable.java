@@ -12,9 +12,9 @@ import java.util.stream.Stream;
 
 public interface TestRepositoryCreatable<
     D extends Identifiable<?>,
-    R extends Repository<?> & Creatable<D>>
+    R extends Repository<D> & Creatable<D>>
     extends
-    TestRepository<R>,
+    TestRepository<D, R>,
     TestRepositoryProvider<D> {
 
     @Override

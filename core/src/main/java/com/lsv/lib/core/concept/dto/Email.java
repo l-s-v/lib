@@ -18,12 +18,13 @@ public final class Email implements Dto {
     private String sender;
     private String subject;
     private String content;
-    @NonNull @Builder.Default
+    @NonNull
+    @Builder.Default
     private EmailType emailType = EmailType.HTML;
     @NonNull
     private List<String> addressees;
     private List<String> addresseesCc;
-    private List<String>addresseesCco;
+    private List<String> addresseesCco;
 
     private byte[] attachmentFile;
     private String attachmentName;

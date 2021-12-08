@@ -6,6 +6,7 @@ import lombok.NonNull;
 import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.*;
 
 /**
@@ -15,37 +16,41 @@ import java.util.*;
  */
 public final class RegisterByInterface<T> {
 
-    private final Map<String, T> implementacoes = new LinkedHashMap<>();
+    private final Map<String, T> implementacoes = new WeakHashMap<>();
+    @NonNull
     @Getter(AccessLevel.PRIVATE)
-    private final Class<T> classeInterface;
+    private final Class<T> classType;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    private RegisterByInterface(Class<T> classeInterface) {
-        this.classeInterface = classeInterface;
+    private RegisterByInterface(@NonNull Class<T> classType) {
+        if (classNotIsValid(classType)) {
+            throw new IllegalArgumentException("Invalid argument. Accepts only interface.");
+        }
+        this.classType = classType;
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     public RegisterByInterface<T> findImplementationsByService() {
         // Informa que o módulo atual utiliza a interface
-        this.getClass().getModule().addUses(this.classeInterface());
-        ServiceLoader.load(this.classeInterface()).stream().forEach(provider -> this.register(provider.get()));
+        this.getClass().getModule().addUses(classType());
+        ServiceLoader.load(classType()).stream().forEach(provider -> register(provider.get()));
         return this;
     }
 
-    @SuppressWarnings("unchecked")
-    public RegisterByInterface<T> findImplementationsByReflection(String packageName) {
-        new Reflections(packageName).getSubTypesOf(this.classeInterface())
-            .stream().filter(aClass -> !aClass.isInterface())
+    public RegisterByInterface<T> findImplementationsByReflection(@NonNull String packageName) {
+        new Reflections(packageName).getSubTypesOf(classType())
+            .stream().filter(aClass -> classNotIsValid(aClass) && !aClass.isAnonymousClass())
             .forEach(aClass -> {
                 try {
-                    this.register((T) aClass.getConstructors()[0].newInstance());
+                    register(aClass.getConstructor().newInstance());
                 } catch (InstantiationException |
                     IllegalAccessException |
                     InvocationTargetException |
                     IllegalArgumentException |
-                    ArrayIndexOutOfBoundsException e) {
+                    ArrayIndexOutOfBoundsException |
+                    NoSuchMethodException e) {
                     throw new UnsupportedOperationException("Could not instantiate class " + aClass, e);
                 }
             });
@@ -63,25 +68,28 @@ public final class RegisterByInterface<T> {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    public static <T> RegisterByInterface<T> of(@NonNull Class<T> classeInterface) {
-        if (!classeInterface.isInterface()) {
-            throw new IllegalArgumentException("Invalid argument. Accepts only interface.");
-        }
-        return new RegisterByInterface<>(classeInterface);
+    public static <T> RegisterByInterface<T> of(@NonNull Class<T> classType) {
+        return new RegisterByInterface<>(classType);
     }
 
-    public static <T> T findImplementation(@NonNull Class<T> classeInterface) {
-        List<T> subTypes = RegisterByInterface.of(classeInterface)
+    public static <T> T findImplementation(@NonNull Class<T> classType) {
+        List<T> subTypes = RegisterByInterface.of(classType)
             .findImplementationsByService()
             .implementations();
 
         if (subTypes.isEmpty()) {
-            throw new NoSuchElementException("No implementation found to interface " + classeInterface.getName());
+            throw new NoSuchElementException("No implementation found to interface " + classType.getName());
         }
         if (subTypes.size() > 1) {
-            throw new IllegalArgumentException("Found more than one implementation to interface " + classeInterface.getName());
+            throw new IllegalArgumentException("Found more than one implementation to interface " + classType.getName());
         }
 
         return subTypes.get(0);
+    }
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    private boolean classNotIsValid(@NonNull Class<?> classType) {
+        return !(classType.isInterface() || Modifier.isAbstract(classType.getModifiers()));
     }
 }

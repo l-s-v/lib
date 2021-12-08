@@ -1,7 +1,6 @@
-package com.lsv.lib.core;
+package com.lsv.lib.core.helper;
 
 import com.lsv.lib.core.behavior.Identifiable;
-import com.lsv.lib.core.helper.HelperClass;
 import lombok.Getter;
 import lombok.Setter;
 import org.junit.jupiter.api.Assertions;

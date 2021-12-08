@@ -44,8 +44,8 @@ public final class HelperClass {
 
     @SneakyThrows
     public static <T extends Serializable> byte[] serialize(@NonNull T obj) {
-        try(ByteArrayOutputStream bout = new ByteArrayOutputStream();
-            ObjectOutputStream out = new ObjectOutputStream(bout)) {
+        try (ByteArrayOutputStream bout = new ByteArrayOutputStream();
+             ObjectOutputStream out = new ObjectOutputStream(bout)) {
 
             out.writeObject(obj);
 
@@ -56,8 +56,8 @@ public final class HelperClass {
     @SneakyThrows
     @SuppressWarnings("unchecked")
     public static <T extends Serializable> T deserealize(@NonNull byte[] objAsBytes) {
-        try(ByteArrayInputStream bin = new ByteArrayInputStream(objAsBytes);
-            ObjectInputStream in = new ObjectInputStream(bin)) {
+        try (ByteArrayInputStream bin = new ByteArrayInputStream(objAsBytes);
+             ObjectInputStream in = new ObjectInputStream(bin)) {
 
             return (T) in.readObject();
         }

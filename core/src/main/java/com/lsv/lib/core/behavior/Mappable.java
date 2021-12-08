@@ -1,5 +1,7 @@
 package com.lsv.lib.core.behavior;
 
+import com.lsv.lib.core.helper.HelperClass;
+import com.lsv.lib.core.pattern.register.RegisterByInterface;
 import lombok.NonNull;
 
 import java.util.List;
@@ -8,7 +10,9 @@ import java.util.stream.Collectors;
 public interface Mappable<S, D> {
 
     Mappable<S, D> setup(Class<S> sourceClass, Class<D> destinationClass);
+
     D to(S source);
+
     S of(D destination);
 
     default List<D> to(@NonNull List<S> sources) {
@@ -17,5 +21,20 @@ public interface Mappable<S, D> {
 
     default List<S> of(@NonNull List<D> destinations) {
         return destinations.stream().map(this::of).collect(Collectors.toList());
+    }
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    static Mappable<?, ?> findInstance(Object sourceBased) {
+        return findInstance(
+            HelperClass.identifyGenericsClass(sourceBased, Identifiable.class),
+            HelperClass.identifyGenericsClass(sourceBased, Persistable.class)
+        );
+    }
+
+    @SuppressWarnings("unchecked")
+    static <S, D> Mappable<S, D> findInstance(Class<S> sourceClass, Class<D> destinationClass) {
+        return RegisterByInterface.findImplementation(Mappable.class)
+            .setup(sourceClass, destinationClass);
     }
 }

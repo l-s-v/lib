@@ -23,9 +23,9 @@ public interface ReadableRepositorySpringJpa<
     P extends Persistable<ID>,
     S extends StorableSpringJpa<P, ID>>
     extends
-    ReadableRepository<I, ID, P, S>,
-    RepositoryImplementeableSpringJpa<I, ID, P, S> {
+    ReadableRepository<I, ID, P, S> {
 
+    @Override
     default ListDto<I> findByFilter(@NonNull Filter<I> filter) {
         Pageable pageable = ConverterSpringJpa.to(filter);
         Specification<P> specification = this.specificationToFindByFilter();

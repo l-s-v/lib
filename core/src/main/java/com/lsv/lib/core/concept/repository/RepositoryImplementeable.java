@@ -3,7 +3,6 @@ package com.lsv.lib.core.concept.repository;
 import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.behavior.Persistable;
 import com.lsv.lib.core.behavior.Storable;
-import com.lsv.lib.core.helper.FactoryImplementation;
 
 import java.io.Serializable;
 
@@ -15,8 +14,5 @@ public interface RepositoryImplementeable<
     extends
     Repository<I> {
 
-    @SuppressWarnings("unchecked")
-    default RepositoryProvider<I, ID, P, S> repositoryProvider() {
-        return (RepositoryProvider<I, ID, P, S>) FactoryImplementation.createRepositoryProvider(this);
-    }
+    RepositoryProvider<I, ID, P, S> repositoryProvider();
 }

@@ -14,7 +14,8 @@ import java.util.Optional;
 @Builder(builderMethodName = "of", buildMethodName = "get")
 public class ListDto<T> implements List<T>, Dto {
 
-    @NonNull @Delegate
+    @NonNull
+    @Delegate
     private List<T> records;
     @Setter
     private Long totalRecords;

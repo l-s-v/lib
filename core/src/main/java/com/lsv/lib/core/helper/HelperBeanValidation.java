@@ -53,7 +53,7 @@ public final class HelperBeanValidation {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     private static <T> void throwsViolations(Set<ConstraintViolation<T>> violations) {
-        if(! violations.isEmpty()) {
+        if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
     }

@@ -1,11 +1,10 @@
-package com.lsv.lib.core;
+package com.lsv.lib.core.pattern.register;
 
 import com.lsv.lib.core.concept.dto.Dto;
 import com.lsv.lib.core.concept.dto.ListDto;
 import com.lsv.lib.core.concept.repository.RepositoryImplementeable;
 import com.lsv.lib.core.concept.repository.RepositoryProvider;
-import com.lsv.lib.core.helper.RepositoryProviderImpl;
-import com.lsv.lib.core.pattern.register.RegisterByInterface;
+import com.lsv.lib.core.concept.repository.RepositoryProviderImpl;
 import com.lsv.lib.core.pattern.register.mock.Implementation;
 import com.lsv.lib.core.pattern.register.mock.InterfaceTest;
 import org.junit.jupiter.api.Assertions;
@@ -19,10 +18,10 @@ public class RegisterByInterfaceTest {
     @Test
     public void automaticRegistryByService() {
         Assertions.assertEquals(1,
-                RegisterByInterface.of(RepositoryProvider.class)
-                        .findImplementationsByService()
-                        .implementations()
-                        .size());
+            RegisterByInterface.of(RepositoryProvider.class)
+                .findImplementationsByService()
+                .implementations()
+                .size());
     }
 
     @Test
@@ -46,10 +45,10 @@ public class RegisterByInterfaceTest {
     @Test
     public void automaticRegistryByReflectionNotFound() {
         Assertions.assertEquals(0,
-                RegisterByInterface.of(RepositoryImplementeable.class)
-                        .findImplementationsByReflection(RepositoryImplementeable.class.getPackageName())
-                        .implementations()
-                        .size());
+            RegisterByInterface.of(RepositoryImplementeable.class)
+                .findImplementationsByReflection(RepositoryImplementeable.class.getPackageName())
+                .implementations()
+                .size());
     }
 
     @Test
@@ -62,22 +61,22 @@ public class RegisterByInterfaceTest {
     @Test
     public void manualRegistry() {
         Assertions.assertInstanceOf(Implementation.class,
-                RegisterByInterface.of(InterfaceTest.class)
-                        .register(new Implementation())
-                        .implementations()
-                        .toArray()[0]);
+            RegisterByInterface.of(InterfaceTest.class)
+                .register(new Implementation())
+                .implementations()
+                .toArray()[0]);
     }
 
     @Test
     public void invalidArgument() {
         Assertions.assertThrows(IllegalArgumentException.class, () ->
-                RegisterByInterface.of(Implementation.class)
-                        .implementations());
+            RegisterByInterface.of(Implementation.class)
+                .implementations());
     }
 
     @Test
     public void findImplementationNoSuchElement() {
         Assertions.assertThrows(NoSuchElementException.class, () ->
-                RegisterByInterface.findImplementation(List.class));
+            RegisterByInterface.findImplementation(List.class));
     }
 }

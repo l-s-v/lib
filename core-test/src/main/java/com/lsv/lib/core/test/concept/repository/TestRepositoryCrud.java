@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 public interface TestRepositoryCrud
     <
         D extends Identifiable<?>,
-        R extends Repository<?> & Crud<D>>
+        R extends Repository<D> & Crud<D>>
     extends
     TestRepositoryCreatable<D, R>,
     TestRepositoryReadable<D, R>,

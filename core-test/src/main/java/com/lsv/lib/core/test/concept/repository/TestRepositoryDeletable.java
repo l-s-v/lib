@@ -15,9 +15,9 @@ import java.util.stream.Stream;
 public interface TestRepositoryDeletable
     <
         D extends Identifiable<?>,
-        R extends Repository<?> & Creatable<D> & Deletable<D> & Readable<D>>
+        R extends Repository<D> & Creatable<D> & Deletable<D> & Readable<D>>
     extends
-    TestRepository<R>,
+    TestRepository<D, R>,
     TestRepositoryProvider<D> {
 
     @Override

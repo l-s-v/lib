@@ -6,6 +6,11 @@ import com.lsv.lib.core.behavior.Storable;
 
 import java.io.Serializable;
 
+/**
+ * Utiliza o padrão Delegation para formar um CRUD.
+ *
+ * @author Leandro da Silva Vieira
+ */
 public interface CrudRepository<
     I extends Identifiable<ID>,
     ID extends Serializable,
@@ -13,7 +18,19 @@ public interface CrudRepository<
     S extends Storable<P, ID>>
     extends
     CreatableRepository<I, ID, P, S>,
+    ReadableRepository<I, ID, P, S>,
     UpdatableRepository<I, ID, P, S>,
-    DeletableRepository<I, ID, P, S>,
-    ReadableRepository<I, ID, P, S> {
+    DeletableRepository<I, ID, P, S> {
+
+    static <
+        I extends Identifiable<ID>,
+        ID extends Serializable,
+        P extends Persistable<ID>,
+        S extends Storable<P, ID>>
+    CrudRepository<I, ID, P, S> of(Object sourceBased) {
+        // Inside lambda type inference does not work.
+        RepositoryProvider<I, ID, P, S> repositoryProvider = RepositoryProviderImpl.of(sourceBased);
+
+        return () -> repositoryProvider;
+    }
 }
