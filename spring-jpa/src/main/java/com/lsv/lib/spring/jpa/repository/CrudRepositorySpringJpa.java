@@ -4,7 +4,6 @@ import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.behavior.Persistable;
 import com.lsv.lib.core.concept.repository.CrudRepository;
 import com.lsv.lib.core.concept.repository.RepositoryProvider;
-import com.lsv.lib.spring.jpa.helper.RepositoryProviderSpringJpaImpl;
 
 import java.io.Serializable;
 
@@ -22,8 +21,8 @@ public interface CrudRepositorySpringJpa<
         ID extends Serializable,
         P extends Persistable<ID>,
         S extends StorableSpringJpa<P, ID>>
-    CrudRepositorySpringJpa<I, ID, P, S> of(Object sourceBase) {
-        return of(RepositoryProviderSpringJpaImpl.of(sourceBase));
+    CrudRepository<I, ID, P, S> of(Object sourceBase) {
+        return of(RepositoryProvider.findInstance(sourceBase));
     }
 
     static <
@@ -31,7 +30,7 @@ public interface CrudRepositorySpringJpa<
         ID extends Serializable,
         P extends Persistable<ID>,
         S extends StorableSpringJpa<P, ID>>
-    CrudRepositorySpringJpa<I, ID, P, S> of(RepositoryProvider<I, ID, P, S> repositoryProvider) {
-        return () -> repositoryProvider;
+    CrudRepository<I, ID, P, S> of(RepositoryProvider<I, ID, P, S> repositoryProvider) {
+        return (CrudRepositorySpringJpa<I, ID, P, S>) () -> repositoryProvider;
     }
 }

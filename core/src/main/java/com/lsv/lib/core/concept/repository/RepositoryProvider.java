@@ -6,6 +6,7 @@ import com.lsv.lib.core.behavior.Persistable;
 import com.lsv.lib.core.pattern.register.RegisterByInterface;
 
 import java.io.Serializable;
+import java.util.NoSuchElementException;
 
 public interface RepositoryProvider<
     I extends Identifiable<?>,
@@ -28,7 +29,11 @@ public interface RepositoryProvider<
         P extends Persistable<ID>,
         S>
     RepositoryProvider<I, ID, P, S> findInstance(Object sourceBase) {
-        return RegisterByInterface.findImplementation(RepositoryProvider.class)
-            .configureRequiredWhenByService(sourceBase);
+        try {
+            return RegisterByInterface.findImplementation(RepositoryProvider.class)
+                .configureRequiredWhenByService(sourceBase);
+        } catch (NoSuchElementException e) {
+            return RepositoryProviderBasicImpl.of(sourceBase);
+        }
     }
 }

@@ -5,7 +5,7 @@ import com.lsv.lib.core.behavior.Persistable;
 import com.lsv.lib.core.concept.dto.Filter;
 import com.lsv.lib.core.concept.dto.ListDto;
 import com.lsv.lib.core.concept.repository.ReadableRepository;
-import com.lsv.lib.spring.jpa.helper.ConverterSpringJpa;
+import com.lsv.lib.spring.core.ConverterSpringJpa;
 import lombok.NonNull;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;

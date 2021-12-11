@@ -22,16 +22,15 @@ public class Filter<T extends Identifiable<?>> implements Dto {
     @Singular
     private Map<String, Object> extraParameters;
 
-    @Builder
     @Getter
+    @Builder(builderMethodName = "of", buildMethodName = "get")
     public static class Page {
         int numPage;
         int size;
-        OrderBy orderBy;
     }
 
-    @Builder
     @Getter
+    @Builder(builderMethodName = "of", buildMethodName = "get")
     public static class OrderBy {
         @NonNull String property;
         boolean asc;

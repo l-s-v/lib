@@ -7,6 +7,7 @@ import com.lsv.lib.core.concept.service.validations.ValidableIdentifiable;
 import com.lsv.lib.core.pattern.register.RegisterByInterface;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public interface ServiceProvider<
     I extends Identifiable<?>,
@@ -16,7 +17,11 @@ public interface ServiceProvider<
 
     R repository();
 
+    ServiceProvider<I, R> repository(R repository);
+
     List<Validable<I>> validables();
+
+    ServiceProvider<I, R> validables(List<Validable<I>> validables);
 
     ServiceProvider<?, ?> configureRequiredWhenByService(Object sourceBase);
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -26,7 +31,11 @@ public interface ServiceProvider<
         I extends Identifiable<?>,
         R extends Repository<I>>
     ServiceProvider<I, R> findInstance(Object sourceBase) {
-        return RegisterByInterface.findImplementation(ServiceProvider.class)
-            .configureRequiredWhenByService(sourceBase);
+        try {
+            return RegisterByInterface.findImplementation(ServiceProvider.class)
+                .configureRequiredWhenByService(sourceBase);
+        } catch (NoSuchElementException e) {
+            return ServiceProviderBasicImpl.of(sourceBase);
+        }
     }
 }

@@ -4,10 +4,13 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import org.reflections.Reflections;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Aplicação do pattern Registry para qualquer Interface.
@@ -16,7 +19,7 @@ import java.util.*;
  */
 public final class RegisterByInterface<T> {
 
-    private final Map<String, T> implementacoes = new WeakHashMap<>();
+    private final Map<String, T> implementations = new WeakHashMap<>();
     @NonNull
     @Getter(AccessLevel.PRIVATE)
     private final Class<T> classType;
@@ -40,8 +43,8 @@ public final class RegisterByInterface<T> {
     }
 
     public RegisterByInterface<T> findImplementationsByReflection(@NonNull String packageName) {
-        new Reflections(packageName).getSubTypesOf(classType())
-            .stream().filter(aClass -> classNotIsValid(aClass) && !aClass.isAnonymousClass())
+        getSubTypesOf(packageName)
+            .filter(aClass -> classNotIsValid(aClass) && !aClass.isAnonymousClass())
             .forEach(aClass -> {
                 try {
                     register(aClass.getConstructor().newInstance());
@@ -57,13 +60,19 @@ public final class RegisterByInterface<T> {
         return this;
     }
 
-    public RegisterByInterface<T> register(T template) {
-        implementacoes.put(template.getClass().getName(), template);
+    public List<Class<? extends T>> findSubInterfaces(@NonNull String packageName) {
+        return getSubTypesOf(packageName)
+            .filter(Class::isInterface)
+            .toList();
+    }
+
+    public RegisterByInterface<T> register(T obj) {
+        implementations.put(obj.getClass().getName(), obj);
         return this;
     }
 
     public List<T> implementations() {
-        return List.copyOf(implementacoes.values());
+        return List.copyOf(implementations.values());
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -91,5 +100,11 @@ public final class RegisterByInterface<T> {
 
     private boolean classNotIsValid(@NonNull Class<?> classType) {
         return !(classType.isInterface() || Modifier.isAbstract(classType.getModifiers()));
+    }
+
+    private Stream<Class<? extends T>> getSubTypesOf(String packageName) {
+        return new Reflections(new ConfigurationBuilder()
+            .setUrls(ClasspathHelper.forPackage(packageName)))
+            .getSubTypesOf(classType()).stream();
     }
 }

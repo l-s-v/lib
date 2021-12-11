@@ -15,24 +15,24 @@ public class ModelMapper<S, D> implements Mappable<S, D> {
     private Class<D> destinationClass;
 
     public ModelMapper(@NonNull Class<S> sourceClass, @NonNull Class<D> destinationClass) {
-        this.setup(sourceClass, destinationClass);
+        setup(sourceClass, destinationClass);
     }
 
     @Override
     public Mappable<S, D> setup(Class<S> sourceClass, Class<D> destinationClass) {
-        this.sourceClass(sourceClass);
-        this.destinationClass(destinationClass);
-        this.modelMapperComponent(new org.modelmapper.ModelMapper());
+        sourceClass(sourceClass);
+        destinationClass(destinationClass);
+        modelMapperComponent(new org.modelmapper.ModelMapper());
         return this;
     }
 
     @Override
     public D to(S source) {
-        return this.modelMapperComponent().map(source, this.destinationClass());
+        return modelMapperComponent().map(source, destinationClass());
     }
 
     @Override
     public S of(D destination) {
-        return this.modelMapperComponent().map(destination, this.sourceClass());
+        return modelMapperComponent().map(destination, sourceClass());
     }
 }

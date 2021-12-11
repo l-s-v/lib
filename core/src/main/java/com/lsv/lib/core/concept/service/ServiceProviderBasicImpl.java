@@ -10,8 +10,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Getter(AccessLevel.PUBLIC)
-@Setter(AccessLevel.PRIVATE)
-public class ServiceProviderImpl<
+@Setter(AccessLevel.PUBLIC)
+public class ServiceProviderBasicImpl<
     I extends Identifiable<?>,
     R extends Repository<I>>
     implements
@@ -25,7 +25,7 @@ public class ServiceProviderImpl<
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     @Override
-    public ServiceProviderImpl<I, R> configureRequiredWhenByService(Object sourceBase) {
+    public ServiceProviderBasicImpl<I, R> configureRequiredWhenByService(Object sourceBase) {
         repository(findRepository(sourceBase));
         validables(validablesDefault(sourceBase));
         return this;
@@ -36,8 +36,8 @@ public class ServiceProviderImpl<
     public static <
         I extends Identifiable<?>,
         R extends Repository<I>>
-    ServiceProviderImpl<I, R> of(Object sourceBase) {
-        return new ServiceProviderImpl<I, R>().configureRequiredWhenByService(sourceBase);
+    ServiceProviderBasicImpl<I, R> of(Object sourceBase) {
+        return new ServiceProviderBasicImpl<I, R>().configureRequiredWhenByService(sourceBase);
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

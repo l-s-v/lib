@@ -1,4 +1,4 @@
-package com.lsv.lib.spring.jpa.helper;
+package com.lsv.lib.spring.core;
 
 import com.lsv.lib.core.concept.dto.Filter;
 import lombok.NonNull;
@@ -8,7 +8,6 @@ import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public final class ConverterSpringJpa {
 
@@ -21,7 +20,7 @@ public final class ConverterSpringJpa {
     public static Sort to(List<Filter.OrderBy> orderBies) {
         return Optional.ofNullable(orderBies)
             .map(orderBIES -> Sort.by(orderBIES.stream()
-                .map(ConverterSpringJpa::to).collect(Collectors.toList())))
+                .map(ConverterSpringJpa::to).toList()))
             .orElse(Sort.unsorted());
     }
 

@@ -4,7 +4,7 @@ import com.lsv.lib.core.concept.dto.Dto;
 import com.lsv.lib.core.concept.dto.ListDto;
 import com.lsv.lib.core.concept.repository.RepositoryImplementeable;
 import com.lsv.lib.core.concept.repository.RepositoryProvider;
-import com.lsv.lib.core.concept.repository.RepositoryProviderImpl;
+import com.lsv.lib.core.concept.repository.RepositoryProviderBasicImpl;
 import com.lsv.lib.core.pattern.register.mock.Implementation;
 import com.lsv.lib.core.pattern.register.mock.InterfaceTest;
 import org.junit.jupiter.api.Assertions;
@@ -14,15 +14,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class RegisterByInterfaceTest {
-
-    @Test
-    public void automaticRegistryByService() {
-        Assertions.assertEquals(1,
-            RegisterByInterface.of(RepositoryProvider.class)
-                .findImplementationsByService()
-                .implementations()
-                .size());
-    }
 
     @Test
     public void automaticRegistryByServiceNotFound() {
@@ -37,7 +28,7 @@ public class RegisterByInterfaceTest {
     public void automaticRegistryByReflection() {
         Assertions.assertEquals(1,
             RegisterByInterface.of(RepositoryProvider.class)
-                .findImplementationsByReflection(RepositoryProviderImpl.class.getPackageName())
+                .findImplementationsByReflection(RepositoryProviderBasicImpl.class.getPackageName())
                 .implementations()
                 .size());
     }

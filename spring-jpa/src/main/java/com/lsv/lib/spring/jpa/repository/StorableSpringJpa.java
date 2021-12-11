@@ -3,19 +3,16 @@ package com.lsv.lib.spring.jpa.repository;
 import com.lsv.lib.core.behavior.Persistable;
 import com.lsv.lib.core.behavior.Storable;
 import com.lsv.lib.core.helper.HelperClass;
-import com.lsv.lib.spring.jpa.helper.SpringFactory;
+import com.lsv.lib.spring.jpa.SpringJpaFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.util.NoSuchElementException;
 
-@Repository
-public interface StorableSpringJpa
-    <
-        P extends Persistable<ID>,
-        ID extends Serializable>
+public interface StorableSpringJpa<
+    P extends Persistable<ID>,
+    ID extends Serializable>
     extends
     Storable<P, ID>,
     JpaRepository<P, ID>,
@@ -25,9 +22,9 @@ public interface StorableSpringJpa
     static <S> S findInstance(Object sourceBase) {
         try {
             Class<?> classType = HelperClass.identifyGenericsClass(sourceBase, StorableSpringJpa.class);
-            return (S) SpringFactory.repository(HelperClass.identifyGenericsClass(sourceBase, classType));
+            return (S) SpringJpaFactory.repository(HelperClass.identifyGenericsClass(sourceBase, classType));
         } catch (NoSuchElementException e) {
-            return (S) SpringFactory.simpleRepository(HelperClass.identifyGenericsClass(sourceBase, Persistable.class));
+            return (S) SpringJpaFactory.simpleRepository(HelperClass.identifyGenericsClass(sourceBase, Persistable.class));
         }
     }
 }

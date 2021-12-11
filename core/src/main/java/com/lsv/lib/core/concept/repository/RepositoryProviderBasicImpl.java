@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Getter(AccessLevel.PUBLIC)
 @Setter(AccessLevel.PRIVATE)
-public class RepositoryProviderImpl<
+public class RepositoryProviderBasicImpl<
     I extends Identifiable<ID>,
     ID extends Serializable,
     P extends Persistable<ID>,
@@ -43,7 +43,7 @@ public class RepositoryProviderImpl<
         P extends Persistable<ID>,
         S>
     RepositoryProvider<I, ID, P, S> of(Object sourceBase) {
-        return new RepositoryProviderImpl<I, ID, P, S>().configureRequiredWhenByService(sourceBase);
+        return new RepositoryProviderBasicImpl<I, ID, P, S>().configureRequiredWhenByService(sourceBase);
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
