@@ -14,13 +14,12 @@ public interface TestRepositoryCreatable<
     D extends Identifiable<?>,
     R extends Repository<D> & Creatable<D>>
     extends
-    TestRepository<D, R>,
-    TestRepositoryProvider<D> {
+    TestRepository<D, R> {
 
     @Override
     default Stream<DynamicNode> of() {
         return HelperDynamicTest.joinAndRemoveDuplicatedByName(
-            Stream.of(this.create()),
+            Stream.of(create()),
             TestRepository.super.of());
     }
 

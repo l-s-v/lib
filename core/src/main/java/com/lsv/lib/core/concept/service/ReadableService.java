@@ -20,14 +20,14 @@ public interface ReadableService<
 
     default Optional<T> findById(@NonNull T identifiable) {
         validateFindById(identifiable);
-        return serviceProvider().repository().findById(identifiable);
+        return repository().findById(identifiable);
     }
 
     default ListDto<T> findByFilter(@NonNull Filter<T> filter) {
-        return serviceProvider().repository().findByFilter(filter);
+        return repository().findByFilter(filter);
     }
 
     default void validateFindById(@NonNull T identifiable) {
-        HelperBeanValidation.validate(serviceProvider().validables(), identifiable, TypeOperation.READ);
+        HelperBeanValidation.validate(validables(), identifiable, TypeOperation.READ);
     }
 }

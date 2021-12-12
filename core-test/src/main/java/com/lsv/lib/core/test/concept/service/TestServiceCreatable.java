@@ -36,7 +36,7 @@ public interface TestServiceCreatable<
             R repositoryMock = repositoryMock();
 
             lenient().when(repositoryMock.create(any()))
-                .thenAnswer(args -> newObjectWithId());
+                .thenReturn(newObjectWithId());
 
             I obj = newObjectCompleteWithoutId();
             Assertions.assertNotNull(service(repositoryMock).create(obj).getId());

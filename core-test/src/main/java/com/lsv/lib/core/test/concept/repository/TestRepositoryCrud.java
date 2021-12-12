@@ -8,10 +8,9 @@ import org.junit.jupiter.api.DynamicNode;
 
 import java.util.stream.Stream;
 
-public interface TestRepositoryCrud
-    <
-        D extends Identifiable<?>,
-        R extends Repository<D> & Creatable<D> & Readable<D> & Updatable<D> & Deletable<D>>
+public interface TestRepositoryCrud<
+    D extends Identifiable<?>,
+    R extends Repository<D> & Creatable<D> & Readable<D> & Updatable<D> & Deletable<D>>
     extends
     TestRepositoryCreatable<D, R>,
     TestRepositoryReadable<D, R>,

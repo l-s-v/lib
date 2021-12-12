@@ -1,5 +1,6 @@
 package com.lsv.lib.spring.core;
 
+import com.lsv.lib.core.helper.HelperClass;
 import lombok.*;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -31,6 +32,10 @@ public class SpringFactory implements ApplicationContextAware {
 
     public static <T> T bean(Class<T> classe) {
         return applicationContext.getBean(classe);
+    }
+
+    public static <T> T bean(Object sourceBase, Class<T> classe) {
+        return bean(HelperClass.identifyGenericsClass(sourceBase, classe));
     }
 
     public static <T> void registerBean(Class<T> classe, @NonNull T bean) {

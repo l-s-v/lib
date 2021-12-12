@@ -19,8 +19,10 @@ public class ListDto<T> implements List<T>, Dto {
     private List<T> records;
     @Setter
     private Long totalRecords;
+    @Setter
+    private Integer totalPages;
 
-    public Long getTotalRecords() {
+    public Long totalRecords() {
         return Optional.ofNullable(totalRecords).orElseGet(() -> (long) records().size());
     }
 

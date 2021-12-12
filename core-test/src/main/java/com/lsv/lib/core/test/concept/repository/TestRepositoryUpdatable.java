@@ -12,13 +12,11 @@ import org.junit.jupiter.api.DynamicTest;
 
 import java.util.stream.Stream;
 
-public interface TestRepositoryUpdatable
-    <
-        D extends Identifiable<?>,
-        R extends Repository<D> & Creatable<D> & Updatable<D> & Readable<D>>
+public interface TestRepositoryUpdatable<
+    D extends Identifiable<?>,
+    R extends Repository<D> & Creatable<D> & Updatable<D> & Readable<D>>
     extends
-    TestRepository<D, R>,
-    TestRepositoryProvider<D> {
+    TestRepository<D, R> {
 
     @Override
     default Stream<DynamicNode> of() {

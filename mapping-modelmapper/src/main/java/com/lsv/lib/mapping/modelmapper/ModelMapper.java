@@ -3,11 +3,12 @@ package com.lsv.lib.mapping.modelmapper;
 import com.lsv.lib.core.behavior.Mappable;
 import lombok.*;
 
-@Getter(AccessLevel.PROTECTED)
+@Getter(AccessLevel.PUBLIC)
 @Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor
 public class ModelMapper<S, D> implements Mappable<S, D> {
 
+    @Getter(AccessLevel.PRIVATE)
     private org.modelmapper.ModelMapper modelMapperComponent;
     @NonNull
     private Class<S> sourceClass;

@@ -42,7 +42,7 @@ public interface TestServiceReadable<
             I obj = newObjectWithId();
 
             lenient().when(repositoryMock.findById(any()))
-                .thenAnswer(invocation -> Optional.of(obj));
+                .thenReturn(Optional.of(obj));
 
             Assertions.assertEquals(obj, service(repositoryMock).findById(obj).orElse(null));
         });
@@ -55,7 +55,7 @@ public interface TestServiceReadable<
             Filter<I> filter = Filter.of(obj).get();
 
             lenient().when(repositoryMock.findByFilter(filter))
-                .thenAnswer(args -> ListDto.of(List.of(obj)).get());
+                .thenReturn(ListDto.of(List.of(obj)).get());
 
             Assertions.assertEquals(1, service(repositoryMock).findByFilter(filter).size());
         });

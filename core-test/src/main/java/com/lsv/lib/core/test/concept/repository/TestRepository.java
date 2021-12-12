@@ -10,6 +10,8 @@ import com.lsv.lib.core.test.TestForFactory;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
+import static org.mockito.ArgumentMatchers.any;
+
 public interface TestRepository<
     D extends Identifiable<?>,
     R extends Repository<D>>
@@ -27,7 +29,7 @@ public interface TestRepository<
          * */
         try (MockedStatic<Mappable> mappableMockedStatic = Mockito.mockStatic(Mappable.class)) {
             mappableMockedStatic
-                .when(() -> Mappable.findInstance(Mockito.any()))
+                .when(() -> Mappable.findInstance(any(), any(), any()))
                 .thenAnswer(invocation -> mappable().setup(
                     (Class<Identifiable<?>>) (Object) HelperClass.identifyGenericsClass(invocation.getArguments()[0], Identifiable.class),
                     (Class<Persistable<?>>) (Object) HelperClass.identifyGenericsClass(invocation.getArguments()[0], Persistable.class)

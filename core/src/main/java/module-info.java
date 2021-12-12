@@ -22,5 +22,6 @@ module com.lsv.lib.core {
     exports com.lsv.lib.core.concept.service.validations;
     exports com.lsv.lib.core.concept.repository;
     exports com.lsv.lib.core.concept.dto;
+    exports com.lsv.lib.core.concept.controller;
     exports com.lsv.lib.core.helper;
 }

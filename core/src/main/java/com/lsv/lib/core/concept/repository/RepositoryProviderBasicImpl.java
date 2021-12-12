@@ -49,7 +49,7 @@ public class RepositoryProviderBasicImpl<
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     protected Mappable<?, ?> findMapper(Object sourceBase) {
-        return Mappable.findInstance(sourceBase);
+        return Mappable.findInstance(sourceBase, Identifiable.class, Persistable.class);
     }
 
     @SuppressWarnings("unchecked")

@@ -2,16 +2,18 @@ package com.lsv.lib.core.concept.dto;
 
 import com.lsv.lib.core.behavior.Identifiable;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 import java.util.Map;
 
 @Getter
 @Setter
-@Builder(builderMethodName = "of", buildMethodName = "get")
+@NoArgsConstructor
+@SuperBuilder(buildMethodName = "get")
+@ToString
 public class Filter<T extends Identifiable<?>> implements Dto {
 
-    @With
     private T obj;
     private boolean loadQuantityRecords;
     private boolean onlyQuantityRecords;
@@ -22,6 +24,7 @@ public class Filter<T extends Identifiable<?>> implements Dto {
     @Singular
     private Map<String, Object> extraParameters;
 
+    @ToString
     @Getter
     @Builder(builderMethodName = "of", buildMethodName = "get")
     public static class Page {
@@ -29,6 +32,7 @@ public class Filter<T extends Identifiable<?>> implements Dto {
         int size;
     }
 
+    @ToString
     @Getter
     @Builder(builderMethodName = "of", buildMethodName = "get")
     public static class OrderBy {
@@ -36,8 +40,10 @@ public class Filter<T extends Identifiable<?>> implements Dto {
         boolean asc;
     }
 
-    // Substituindo a criação do Builder para a tipagem ser automática
-    public static <V extends Identifiable<?>> FilterBuilder<V> of(V obj) {
-        return new FilterBuilder<V>().obj(obj);
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    @SuppressWarnings("rawtypes")
+    public static <V extends Identifiable<?>> FilterBuilder of(V obj) {
+        return Filter.builder().obj(obj);
     }
 }

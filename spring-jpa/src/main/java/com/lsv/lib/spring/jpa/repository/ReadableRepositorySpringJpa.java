@@ -32,7 +32,7 @@ public interface ReadableRepositorySpringJpa<
         Example<P> example = null;
 
         if (specification == null && filter.obj() != null) {
-            example = Example.of(repositoryProvider().mappable().to(filter.obj()));
+            example = Example.of(mappable().to(filter.obj()));
         }
 
         if (pageable != null) {
@@ -55,18 +55,15 @@ public interface ReadableRepositorySpringJpa<
         Page<P> page;
 
         if (specification != null) {
-            page = repositoryProvider().storable().findAll(specification, pageable);
+            page = storable().findAll(specification, pageable);
         } else if (example != null) {
-            page = repositoryProvider().storable().findAll(example, pageable);
+            page = storable().findAll(example, pageable);
         } else {
-            page = repositoryProvider().storable().findAll(pageable);
+            page = storable().findAll(pageable);
         }
 
         return Optional.of(page)
-            .map(ps -> ListDto
-                .of(repositoryProvider().mappable().of(ps.getContent()))
-                .totalRecords(ps.getTotalElements())
-                .get())
+            .map(ps -> ConverterSpringJpa.of(page, mappable()))
             .orElse(ListDto.empty());
     }
 
@@ -77,16 +74,16 @@ public interface ReadableRepositorySpringJpa<
         List<P> results;
 
         if (specification != null) {
-            results = repositoryProvider().storable().findAll(specification, sort);
+            results = storable().findAll(specification, sort);
         } else if (example != null) {
-            results = repositoryProvider().storable().findAll(example, sort);
+            results = storable().findAll(example, sort);
         } else {
-            results = repositoryProvider().storable().findAll(sort);
+            results = storable().findAll(sort);
         }
 
         return Optional.of(results)
             .map(ps -> ListDto
-                .of(repositoryProvider().mappable().of(ps))
+                .of(mappable().of(ps))
                 .get())
             .orElse(ListDto.empty());
     }

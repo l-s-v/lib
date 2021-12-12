@@ -52,21 +52,31 @@ public final class HelperDynamicTest {
     }
 
     public static Stream<DynamicNode> findTestForFactory(Class<?> aClass, @NonNull String... packagesNames) {
-        return join(reduce(
-                Arrays.stream(packagesNames).map(packageName ->
-                    reduce(RegisterByInterface.of(TestForFactory.class)
-                        .findImplementationsByReflection(packageName)
-                        .implementations().stream()
-                        .filter(testForFactory -> aClass == null || aClass.equals(testForFactory.getClass()))
-                        .map(testForFactory -> formatDisplayWithTopSeparator(
-                            "- Dynamic " + testForFactory.getClass().getSimpleName(),
-                            testForFactory.of())))
-                )),
-            createContainer(SEPARATOR_DISPLAY, Stream.empty()));
+        return formatDisplayWithBottomSeparator(reduce(
+            Arrays.stream(packagesNames).map(packageName ->
+                reduce(RegisterByInterface.of(TestForFactory.class)
+                    .findImplementationsByReflection(packageName)
+                    .implementations().stream()
+                    .filter(testForFactory -> aClass == null || aClass.equals(testForFactory.getClass()))
+                    .map(testForFactory -> formatDisplayWithTopSeparator(
+                        "- Dynamic " + testForFactory.getClass().getSimpleName(),
+                        testForFactory.of())))
+            )));
     }
 
-    private static Stream<DynamicNode> formatDisplayWithTopSeparator(@NonNull String displayName, @NonNull Stream<DynamicNode> dynamicNodeStream) {
+    public static Stream<DynamicNode> formatDisplayWithTopSeparator(@NonNull String displayName, @NonNull Stream<DynamicNode> dynamicNodeStream) {
         return createContainer(SEPARATOR_DISPLAY,
             createContainer(displayName, dynamicNodeStream));
+    }
+
+    public static Stream<DynamicNode> formatDisplayWithBottomSeparator(@NonNull Stream<DynamicNode> dynamicNodeStream) {
+        return join(dynamicNodeStream, createContainer(SEPARATOR_DISPLAY, Stream.empty()));
+    }
+
+    public static Stream<DynamicNode> formatDisplayWithTopAndBottomSeparator(@NonNull Class<?> aClass, @NonNull Stream<DynamicNode> dynamicNodeStream) {
+        return formatDisplayWithBottomSeparator(
+            formatDisplayWithTopSeparator(
+                "- Dynamic " + aClass.getSimpleName(),
+                dynamicNodeStream));
     }
 }

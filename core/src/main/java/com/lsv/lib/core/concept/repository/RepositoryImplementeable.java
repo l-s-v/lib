@@ -1,6 +1,7 @@
 package com.lsv.lib.core.concept.repository;
 
 import com.lsv.lib.core.behavior.Identifiable;
+import com.lsv.lib.core.behavior.Mappable;
 import com.lsv.lib.core.behavior.Persistable;
 import com.lsv.lib.core.behavior.Storable;
 
@@ -15,4 +16,12 @@ public interface RepositoryImplementeable<
     Repository<I> {
 
     RepositoryProvider<I, ID, P, S> repositoryProvider();
+
+    default S storable() {
+        return repositoryProvider().storable();
+    }
+
+    default Mappable<I, P> mappable() {
+        return repositoryProvider().mappable();
+    }
 }

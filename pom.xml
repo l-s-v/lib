@@ -28,5 +28,7 @@
         <module>core-test</module>
         <module>spring-jpa-test</module>
         <module>spring-core</module>
+        <module>spring-web</module>
+        <module>spring-web-test</module>
     </modules>
 </project>

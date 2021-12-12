@@ -16,11 +16,11 @@ public interface UpdatableService<
 
     default T update(@NonNull T identifiable) {
         validateUpdate(identifiable);
-        return serviceProvider().repository().update(identifiable);
+        return repository().update(identifiable);
     }
 
     default void validateUpdate(@NonNull T identifiable) {
         HelperBeanValidation.validate(identifiable);
-        HelperBeanValidation.validate(serviceProvider().validables(), identifiable, TypeOperation.UPDATE);
+        HelperBeanValidation.validate(validables(), identifiable, TypeOperation.UPDATE);
     }
 }

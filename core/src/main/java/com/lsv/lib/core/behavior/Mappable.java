@@ -15,6 +15,10 @@ public interface Mappable<S, D> {
 
     S of(D destination);
 
+    Class<S> sourceClass();
+
+    Class<D> destinationClass();
+
     default List<D> to(@NonNull List<S> sources) {
         return sources.stream().map(this::to).collect(Collectors.toList());
     }
@@ -25,10 +29,10 @@ public interface Mappable<S, D> {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    static Mappable<?, ?> findInstance(Object sourceBase) {
+    static Mappable<?, ?> findInstance(Object sourceBase, Class<?> sourceExtends, Class<?> destinationExtends) {
         return findInstance(
-            HelperClass.identifyGenericsClass(sourceBase, Identifiable.class),
-            HelperClass.identifyGenericsClass(sourceBase, Persistable.class)
+            HelperClass.identifyGenericsClass(sourceBase, sourceExtends),
+            HelperClass.identifyGenericsClass(sourceBase, destinationExtends)
         );
     }
 

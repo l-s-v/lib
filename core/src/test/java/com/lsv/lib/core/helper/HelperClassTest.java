@@ -30,6 +30,10 @@ public class HelperClassTest {
             public Long getId() {
                 return null;
             }
+            @Override
+            public Identifiable<Long> setId(Long aLong) {
+                return null;
+            }
         }, Number.class));
     }
 
@@ -38,6 +42,10 @@ public class HelperClassTest {
         Assertions.assertEquals(String.class, HelperClass.identifyGenericsClass(new Identifiable<String>() {
             @Override
             public String getId() {
+                return null;
+            }
+            @Override
+            public Identifiable<String> setId(String s) {
                 return null;
             }
         }));
