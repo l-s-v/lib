@@ -4,8 +4,9 @@ import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.behavior.Updatable;
 import com.lsv.lib.core.concept.controller.Controller;
 import com.lsv.lib.core.concept.service.Service;
-import lombok.NonNull;
+import com.lsv.lib.core.helper.HelperBeanValidation;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 public interface UpdatableController<
     IN extends Identifiable<?>,
@@ -15,7 +16,8 @@ public interface UpdatableController<
     Controller<IN, OUT, S> {
 
     @PutMapping
-    default IN update(@NonNull IN identifiable) {
+    default IN update(@RequestBody IN identifiable) {
+        HelperBeanValidation.validate(identifiable); // @Valid didn't work
         return mappableOf(service().update(mappableTo(identifiable)));
     }
 }

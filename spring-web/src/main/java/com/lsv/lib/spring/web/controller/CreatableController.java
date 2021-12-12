@@ -4,8 +4,9 @@ import com.lsv.lib.core.behavior.Creatable;
 import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.concept.controller.Controller;
 import com.lsv.lib.core.concept.service.Service;
-import lombok.NonNull;
+import com.lsv.lib.core.helper.HelperBeanValidation;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 public interface CreatableController<
     IN extends Identifiable<?>,
@@ -15,7 +16,8 @@ public interface CreatableController<
     Controller<IN, OUT, S> {
 
     @PostMapping
-    default IN create(@NonNull IN identifiable) {
+    default IN create(@RequestBody IN identifiable) {
+        HelperBeanValidation.validate(identifiable); // @Valid didn't work
         return mappableOf(service().create(mappableTo(identifiable)));
     }
 }

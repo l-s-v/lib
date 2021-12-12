@@ -6,6 +6,7 @@ import com.lsv.lib.core.concept.service.Service;
 import com.lsv.lib.core.test.helper.HelperDynamicTest;
 import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.DynamicTest;
+import org.springframework.http.MediaType;
 
 import java.util.stream.Stream;
 
@@ -26,7 +27,9 @@ public interface TestControllerCreatable<
     @Override
     default Stream<DynamicNode> of() {
         return HelperDynamicTest.joinAndRemoveDuplicatedByName(
-            Stream.of(create()),
+            Stream.of(
+                create(),
+                createWithObjectInvalid()),
             TestController.super.of());
     }
 
@@ -39,10 +42,24 @@ public interface TestControllerCreatable<
 
             String objJson = objectMapper().writeValueAsString(newObjectIn());
 
-            performInContext(post(urlBase()).content(objJson))
+            performInContext(
+                post(urlBase())
+                    .content(objJson)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json(objJson));
+        });
+    }
+
+    private DynamicTest createWithObjectInvalid() {
+        return DynamicTest.dynamicTest("createWithObjectInvalid", () -> {
+            performInContext(
+                post(urlBase())
+                    .content(objectMapper().writeValueAsString(newObjectInInvalidForCreateAndUpdate()))
+                    .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
         });
     }
 }

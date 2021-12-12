@@ -29,4 +29,6 @@ public interface TestControllerProvider<
     IN newObjectIn();
 
     OUT expectedObjectOut();
+
+    IN newObjectInInvalidForCreateAndUpdate();
 }

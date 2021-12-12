@@ -4,6 +4,7 @@ import com.lsv.lib.core.concept.service.ServiceProvider;
 
 module com.lsv.lib.core {
     requires static lombok;
+    requires static org.slf4j;
     requires jakarta.validation;
     requires jakarta.el;
     requires org.reflections;
@@ -24,4 +25,5 @@ module com.lsv.lib.core {
     exports com.lsv.lib.core.concept.dto;
     exports com.lsv.lib.core.concept.controller;
     exports com.lsv.lib.core.helper;
+    exports com.lsv.lib.core.error;
 }
