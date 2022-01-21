@@ -8,4 +8,6 @@ module com.lsv.lib.spring.web {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     exports com.lsv.lib.spring.web.controller;
     exports com.lsv.lib.spring.web.advice;
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    opens com.lsv.lib.spring.web.advice;
 }

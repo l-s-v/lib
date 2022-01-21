@@ -17,7 +17,6 @@ public interface DeletableController<
     extends
     Controller<IN, OUT, S> {
 
-    @SuppressWarnings("unchecked")
     @DeleteMapping(PARAM_ID)
     default void delete(@PathVariable ID id) {
         service().delete((OUT) Identifiable.of(outClass(), id));
