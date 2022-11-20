@@ -9,16 +9,16 @@ import lombok.NonNull;
 import java.io.Serializable;
 
 public interface DeletableRepository<
-    I extends Identifiable<ID>,
-    ID extends Serializable,
-    P extends Persistable<ID>,
-    S extends Storable<P, ID>>
-    extends
-    RepositoryImplementeable<I, ID, P, S>,
-    Deletable<I> {
+        I extends Identifiable<ID>,
+        ID extends Serializable,
+        P extends Persistable<ID>,
+        S extends Storable<P, ID>>
+        extends
+        RepositoryImplementeable<I, ID, P, S>,
+        Deletable<I> {
 
     @Override
     default void delete(@NonNull I identifiable) {
-        repositoryProvider().storable().deleteById(identifiable.getId());
+        storable().deleteById(identifiable.getId());
     }
 }

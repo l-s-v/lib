@@ -15,13 +15,13 @@
     <description>Biblioteca principal. Não contém implementações específicas.</description>
 
     <properties>
-        <hibernate.validator.version>7.0.1.Final</hibernate.validator.version>
-        <jakarta.el.version>4.0.2</jakarta.el.version>
+        <hibernate.validator.version>8.0.0.Final</hibernate.validator.version>
+        <jakarta.el.version>5.0.0-M1</jakarta.el.version>
         <reflections.version>0.10.2</reflections.version>
     </properties>
 
     <dependencies>
-    <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
+<!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>

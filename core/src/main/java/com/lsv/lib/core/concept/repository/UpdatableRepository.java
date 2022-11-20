@@ -9,18 +9,18 @@ import lombok.NonNull;
 import java.io.Serializable;
 
 public interface UpdatableRepository<
-    I extends Identifiable<ID>,
-    ID extends Serializable,
-    P extends Persistable<ID>,
-    S extends Storable<P, ID>>
-    extends
-    RepositoryImplementeable<I, ID, P, S>,
-    Updatable<I> {
+        I extends Identifiable<ID>,
+        ID extends Serializable,
+        P extends Persistable<ID>,
+        S extends Storable<P, ID>>
+        extends
+        RepositoryImplementeable<I, ID, P, S>,
+        Updatable<I> {
 
     @Override
     default I update(@NonNull I identifiable) {
-        return repositoryProvider().mappable().of(
-            repositoryProvider().storable().save(
-                repositoryProvider().mappable().to(identifiable)));
+        return mappable().of(
+                storable().save(
+                        mappable().to(identifiable)));
     }
 }

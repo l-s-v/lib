@@ -15,31 +15,28 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 
 public interface TestServiceCreatable<
-    I extends Identifiable<?>,
-    S extends Service<I> & Creatable<I>,
-    R extends Repository<I> & Creatable<I>>
-    extends
-    TestServiceWithRepository<I, S, R>,
-    TestServiceProvider<I> {
+        I extends Identifiable<?>,
+        S extends Service<I> & Creatable<I>,
+        R extends Repository<I> & Creatable<I>>
+        extends
+        TestServiceWithRepository<I, S, R>,
+        TestServiceProvider<I> {
 
     @Override
     default Stream<DynamicNode> of() {
         return HelperDynamicTest.joinAndRemoveDuplicatedByName(
-            Stream.of(create()),
-            TestServiceWithRepository.super.of());
+                Stream.of(create()),
+                TestServiceWithRepository.super.of());
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     private DynamicNode create() {
         return DynamicTest.dynamicTest("create", () -> {
-            R repositoryMock = repositoryMock();
+            lenient().when(repository().create(any()))
+                    .thenReturn(newObjectWithId());
 
-            lenient().when(repositoryMock.create(any()))
-                .thenReturn(newObjectWithId());
-
-            I obj = newObjectCompleteWithoutId();
-            Assertions.assertNotNull(service(repositoryMock).create(obj).getId());
+            Assertions.assertNotNull(service().create(newObjectCompleteWithoutId()).getId());
         });
     }
 }

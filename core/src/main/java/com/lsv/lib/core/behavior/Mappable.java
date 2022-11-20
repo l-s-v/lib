@@ -1,7 +1,7 @@
 package com.lsv.lib.core.behavior;
 
 import com.lsv.lib.core.helper.HelperClass;
-import com.lsv.lib.core.pattern.register.RegisterByInterface;
+import com.lsv.lib.core.loader.Loader;
 import lombok.NonNull;
 
 import java.util.List;
@@ -31,14 +31,14 @@ public interface Mappable<S, D> {
 
     static Mappable<?, ?> findInstance(Object sourceBase, Class<?> sourceExtends, Class<?> destinationExtends) {
         return findInstance(
-            HelperClass.identifyGenericsClass(sourceBase, sourceExtends),
-            HelperClass.identifyGenericsClass(sourceBase, destinationExtends)
+                HelperClass.identifyGenericsClass(sourceBase, sourceExtends),
+                HelperClass.identifyGenericsClass(sourceBase, destinationExtends)
         );
     }
 
     @SuppressWarnings("unchecked")
     static <S, D> Mappable<S, D> findInstance(Class<S> sourceClass, Class<D> destinationClass) {
-        return RegisterByInterface.findImplementation(Mappable.class)
-            .setup(sourceClass, destinationClass);
+        return Loader.findImplementation(Mappable.class)
+                .setup(sourceClass, destinationClass);
     }
 }

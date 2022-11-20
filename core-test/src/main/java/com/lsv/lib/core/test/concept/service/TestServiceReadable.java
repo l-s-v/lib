@@ -19,45 +19,45 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 
 public interface TestServiceReadable<
-    I extends Identifiable<?>,
-    S extends Service<I> & Readable<I>,
-    R extends Repository<I> & Readable<I>>
-    extends
-    TestServiceWithRepository<I, S, R>,
-    TestServiceProvider<I> {
+        I extends Identifiable<?>,
+        S extends Service<I> & Readable<I>,
+        R extends Repository<I> & Readable<I>>
+        extends
+        TestServiceWithRepository<I, S, R>,
+        TestServiceProvider<I> {
 
     @Override
     default Stream<DynamicNode> of() {
         return HelperDynamicTest.joinAndRemoveDuplicatedByName(
-            Stream.of(
-                findById(),
-                findByFilters()),
-            TestServiceWithRepository.super.of());
+                Stream.of(
+                        findById(),
+                        findByFilters()),
+                TestServiceWithRepository.super.of());
     }
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     private DynamicNode findById() {
         return DynamicTest.dynamicTest("findById", () -> {
-            R repositoryMock = repositoryMock();
+            R repositoryMock = repository();
             I obj = newObjectWithId();
 
             lenient().when(repositoryMock.findById(any()))
-                .thenReturn(Optional.of(obj));
+                    .thenReturn(Optional.of(obj));
 
-            Assertions.assertEquals(obj, service(repositoryMock).findById(obj).orElse(null));
+            Assertions.assertEquals(obj, service().findById(obj).orElse(null));
         });
     }
 
     private DynamicNode findByFilters() {
         return DynamicTest.dynamicTest("findByFilters", () -> {
-            R repositoryMock = repositoryMock();
+            R repositoryMock = repository();
             I obj = newObjectComplete();
             Filter<I> filter = Filter.of(obj).get();
 
             lenient().when(repositoryMock.findByFilter(filter))
-                .thenReturn(ListDto.of(List.of(obj)).get());
+                    .thenReturn(ListDto.of(List.of(obj)).get());
 
-            Assertions.assertEquals(1, service(repositoryMock).findByFilter(filter).size());
+            Assertions.assertEquals(1, service().findByFilter(filter).size());
         });
     }
 }

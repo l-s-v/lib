@@ -30,6 +30,7 @@ public class HelperClassTest {
             public Long getId() {
                 return null;
             }
+
             @Override
             public Identifiable<Long> setId(Long aLong) {
                 return null;
@@ -44,6 +45,7 @@ public class HelperClassTest {
             public String getId() {
                 return null;
             }
+
             @Override
             public Identifiable<String> setId(String s) {
                 return null;
@@ -64,9 +66,9 @@ public class HelperClassTest {
     @Test
     public void testCloneSerializable() {
         Source source = new Source()
-            .id(UUID.randomUUID())
-            .nome("nome")
-            .descricao("descrição");
+                .id(UUID.randomUUID())
+                .nome("nome")
+                .descricao("descrição");
 
         Source destination = HelperClass.cloneSerializable(source);
 

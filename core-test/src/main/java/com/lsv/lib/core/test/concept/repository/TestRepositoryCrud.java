@@ -9,20 +9,20 @@ import org.junit.jupiter.api.DynamicNode;
 import java.util.stream.Stream;
 
 public interface TestRepositoryCrud<
-    D extends Identifiable<?>,
-    R extends Repository<D> & Creatable<D> & Readable<D> & Updatable<D> & Deletable<D>>
-    extends
-    TestRepositoryCreatable<D, R>,
-    TestRepositoryReadable<D, R>,
-    TestRepositoryUpdatable<D, R>,
-    TestRepositoryDeletable<D, R> {
+        D extends Identifiable<?>,
+        R extends Repository<D> & Creatable<D> & Readable<D> & Updatable<D> & Deletable<D>>
+        extends
+        TestRepositoryCreatable<D, R>,
+        TestRepositoryReadable<D, R>,
+        TestRepositoryUpdatable<D, R>,
+        TestRepositoryDeletable<D, R> {
 
     @Override
     default Stream<DynamicNode> of() {
         return HelperDynamicTest.joinAndRemoveDuplicatedByName(
-            TestRepositoryCreatable.super.of(),
-            TestRepositoryReadable.super.of(),
-            TestRepositoryUpdatable.super.of(),
-            TestRepositoryDeletable.super.of());
+                TestRepositoryCreatable.super.of(),
+                TestRepositoryReadable.super.of(),
+                TestRepositoryUpdatable.super.of(),
+                TestRepositoryDeletable.super.of());
     }
 }

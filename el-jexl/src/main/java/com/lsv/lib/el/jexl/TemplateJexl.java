@@ -1,5 +1,7 @@
 package com.lsv.lib.el.jexl;
 
+import com.google.auto.service.AutoService;
+import com.lsv.lib.template.Template;
 import com.lsv.lib.template.TemplateAbstract;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,14 +14,15 @@ import org.apache.commons.jexl3.MapContext;
 /**
  * Para execução de expressões regulares (uma forma de template) feitos em Jexl3.
  *
- * @see <a href="hhttps://commons.apache.org/proper/commons-jexl/">Jexl3</a>
  * @author Leandro da Silva Vieira
+ * @see <a href="hhttps://commons.apache.org/proper/commons-jexl/">Jexl3</a>
  */
 @Getter(AccessLevel.PRIVATE)
 @Setter(AccessLevel.PRIVATE)
+@AutoService(Template.class)
 public class TemplateJexl extends TemplateAbstract<Object> {
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     private JexlEngine engine;
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

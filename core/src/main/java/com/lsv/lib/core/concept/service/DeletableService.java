@@ -5,17 +5,20 @@ import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.concept.repository.Repository;
 import com.lsv.lib.core.concept.service.validations.TypeOperation;
 import com.lsv.lib.core.helper.HelperBeanValidation;
+import com.lsv.lib.core.helper.Log;
 import lombok.NonNull;
 
 public interface DeletableService<
-    T extends Identifiable<?>,
-    R extends Deletable<T> & Repository<T>>
-    extends
-    ServiceWithRepository<T, R>,
-    Deletable<T> {
+        T extends Identifiable<?>,
+        R extends Deletable<T> & Repository<T>>
+        extends
+        ServiceWithRepository<T, R>,
+        Deletable<T> {
 
     @Override
     default void delete(@NonNull T identifiable) {
+        Log.of(this).debug("delete {}", identifiable);
+
         validateDelete(identifiable);
         repository().delete(identifiable);
     }

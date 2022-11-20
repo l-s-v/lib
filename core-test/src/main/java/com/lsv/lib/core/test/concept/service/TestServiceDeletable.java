@@ -11,26 +11,30 @@ import org.junit.jupiter.api.DynamicTest;
 
 import java.util.stream.Stream;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
+
 public interface TestServiceDeletable<
-    I extends Identifiable<?>,
-    S extends Service<I> & Deletable<I>,
-    R extends Repository<I> & Deletable<I>>
-    extends
-    TestServiceWithRepository<I, S, R>,
-    TestServiceProvider<I> {
+        I extends Identifiable<?>,
+        S extends Service<I> & Deletable<I>,
+        R extends Repository<I> & Deletable<I>>
+        extends
+        TestServiceWithRepository<I, S, R>,
+        TestServiceProvider<I> {
 
     @Override
     default Stream<DynamicNode> of() {
         return HelperDynamicTest.joinAndRemoveDuplicatedByName(
-            Stream.of(delete()),
-            TestServiceWithRepository.super.of());
+                Stream.of(delete()),
+                TestServiceWithRepository.super.of());
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     private DynamicNode delete() {
         return DynamicTest.dynamicTest("delete", () -> {
-            Assertions.assertDoesNotThrow(() -> service(repositoryMock()).delete(newObjectWithId()));
+            lenient().doNothing().when(repository()).delete(any());
+            Assertions.assertDoesNotThrow(() -> service().delete(newObjectWithId()));
         });
     }
 }

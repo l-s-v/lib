@@ -15,7 +15,7 @@
     <description>Biblioteca para trabalhar com templates utilizando Pebble.</description>
 
     <properties>
-        <pebble.version>3.1.5</pebble.version>
+        <pebble.version>3.1.6</pebble.version>
     </properties>
 
     <dependencies>

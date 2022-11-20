@@ -23,8 +23,8 @@ public class ErrorConstraintViolation implements Error<ConstraintViolationExcept
         log.debug(throwable.getMessage(), throwable);
 
         return setViolations(throwable.getConstraintViolations().stream()
-            .map(Violation::of)
-            .toList());
+                .map(Violation::of)
+                .toList());
     }
 
     @Getter
@@ -36,9 +36,9 @@ public class ErrorConstraintViolation implements Error<ConstraintViolationExcept
 
         private static Violation of(ConstraintViolation<?> constraintViolation) {
             return Violation.builder()
-                .message(constraintViolation.getMessage())
-                .property(Optional.ofNullable((Object) constraintViolation.getPropertyPath()).orElse(Optional.empty()).toString())
-                .build();
+                    .message(constraintViolation.getMessage())
+                    .property(Optional.ofNullable((Object) constraintViolation.getPropertyPath()).orElse(Optional.empty()).toString())
+                    .build();
         }
     }
 }

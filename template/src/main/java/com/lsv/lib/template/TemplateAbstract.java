@@ -19,7 +19,7 @@ public abstract class TemplateAbstract<T> implements Template<T> {
 
     @SuppressWarnings("all")
     private static final Map<String, Object> DADOS_PADRAO_PARA_CONTEXTO = Map.of(
-                                                "StringUtils", new StringUtils()
+            "StringUtils", new StringUtils()
     );
 
     private final Map<String, Object> dadosContexto = new LinkedHashMap<>();

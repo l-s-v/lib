@@ -1,13 +1,14 @@
 package com.lsv.lib.core.behavior;
 
-import com.lsv.lib.core.pattern.register.RegisterByInterface;
+import com.lsv.lib.core.helper.HelperClass;
+import com.lsv.lib.core.loader.Loader;
 
 import java.io.Serializable;
 import java.util.Optional;
 
 public interface Storable<
-    P extends Persistable<ID>,
-    ID extends Serializable> {
+        P extends Persistable<ID>,
+        ID extends Serializable> {
 
     <S extends P> S save(S entity);
 
@@ -33,8 +34,7 @@ public interface Storable<
 
     void deleteAll();
 
-    @SuppressWarnings("unchecked")
-    static <P extends Persistable<ID>, ID extends Serializable> Storable<P, ID> findInstance() {
-        return RegisterByInterface.findImplementation(Storable.class);
+    static <P extends Persistable<ID>, ID extends Serializable> Storable<P, ID> findInstance(Object sourceBase, Class<?> sourceExtends) {
+        return (Storable<P, ID>) Loader.findImplementation(HelperClass.identifyGenericsClass(sourceBase, sourceExtends));
     }
 }

@@ -13,7 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 public interface Identifiable<ID extends Serializable> extends Serializable {
 
     /**
-     * Deve retorno o objeto que identifica a classe.
+     * Deve retornar o objeto que identifica a classe.
      */
     ID getId();
 
@@ -21,8 +21,8 @@ public interface Identifiable<ID extends Serializable> extends Serializable {
 
     @SuppressWarnings("unchecked")
     static <
-        I extends Identifiable<ID>,
-        ID extends Serializable>
+            I extends Identifiable<ID>,
+            ID extends Serializable>
     I of(@NonNull Class<I> iClass, ID id) {
         try {
             return iClass.getConstructor().newInstance().setId(id);

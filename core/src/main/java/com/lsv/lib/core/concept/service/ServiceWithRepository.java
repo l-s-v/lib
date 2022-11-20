@@ -7,18 +7,14 @@ import com.lsv.lib.core.concept.service.validations.Validable;
 import java.util.List;
 
 public interface ServiceWithRepository<
-    I extends Identifiable<?>,
-    R extends Repository<I>>
-    extends
-    Service<I> {
-
-    ServiceProvider<I, R> serviceProvider();
+        I extends Identifiable<?>,
+        R extends Repository<I>>
+        extends
+        Service<I> {
 
     default R repository() {
-        return serviceProvider().repository();
+        return (R) Repository.findInstance(this, Repository.class);
     }
 
-    default List<Validable<I>> validables() {
-        return serviceProvider().validables();
-    }
+    List<Validable<I>> validables();
 }

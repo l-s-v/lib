@@ -18,12 +18,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ReadableRepositorySpringJpa<
-    I extends Identifiable<ID>,
-    ID extends Serializable,
-    P extends Persistable<ID>,
-    S extends StorableSpringJpa<P, ID>>
-    extends
-    ReadableRepository<I, ID, P, S> {
+        I extends Identifiable<ID>,
+        ID extends Serializable,
+        P extends Persistable<ID>,
+        S extends StorableSpringJpa<P, ID>>
+        extends
+        ReadableRepository<I, ID, P, S> {
 
     @Override
     default ListDto<I> findByFilter(@NonNull Filter<I> filter) {
@@ -63,8 +63,8 @@ public interface ReadableRepositorySpringJpa<
         }
 
         return Optional.of(page)
-            .map(ps -> ConverterSpringJpa.of(page, mappable()))
-            .orElse(ListDto.empty());
+                .map(ps -> ConverterSpringJpa.of(page, mappable()))
+                .orElse(ListDto.empty());
     }
 
     private ListDto<I> findAllSorted(Example<P> example,
@@ -82,9 +82,9 @@ public interface ReadableRepositorySpringJpa<
         }
 
         return Optional.of(results)
-            .map(ps -> ListDto
-                .of(mappable().of(ps))
-                .get())
-            .orElse(ListDto.empty());
+                .map(ps -> ListDto
+                        .of(mappable().of(ps))
+                        .get())
+                .orElse(ListDto.empty());
     }
 }

@@ -35,19 +35,19 @@ public final class HelperBeanValidation {
 
     public static <T> void validate(List<Validable<T>> validables) {
         Optional.ofNullable(validables)
-            .orElse(Collections.emptyList())
-            .forEach(HelperBeanValidation::validate);
+                .orElse(Collections.emptyList())
+                .forEach(HelperBeanValidation::validate);
     }
 
     public static <T extends Identifiable<?>> void validate(List<Validable<T>> validables, T identifiable, TypeOperation typeOperation) {
         validate(
-            Optional.ofNullable(validables)
-                .orElse(Collections.emptyList())
-                .stream().map(validable -> validable
-                    .objValidable(identifiable)
-                    .typeOperation(typeOperation))
-                .collect(Collectors.toList()
-                )
+                Optional.ofNullable(validables)
+                        .orElse(Collections.emptyList())
+                        .stream().map(validable -> validable
+                                .objValidable(identifiable)
+                                .typeOperation(typeOperation))
+                        .collect(Collectors.toList()
+                        )
         );
     }
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

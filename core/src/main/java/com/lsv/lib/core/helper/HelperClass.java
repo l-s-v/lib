@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 public final class HelperClass {
 
     private static final NoSuchElementException NO_SUCH_ELEMENT_EXCEPTION =
-        new NoSuchElementException("Type not found among generics.");
+            new NoSuchElementException("Type not found among generics.");
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -67,15 +67,15 @@ public final class HelperClass {
     @SuppressWarnings("unchecked")
     private static <R> Class<R> identifyGenericsClassByType(@NonNull Object objSource, Predicate<Type> predicate) {
         return (Class<R>) Stream.concat(
-                Stream.of(objSource.getClass().getGenericSuperclass()),
-                Arrays.stream(objSource.getClass().getGenericInterfaces()))
-            .filter(type -> type instanceof ParameterizedType)
-            .map(type -> Arrays.stream(((ParameterizedType) type).getActualTypeArguments())
-                .filter(predicate)
-                .findFirst())
-            .filter(Optional::isPresent)
-            .findFirst()
-            .orElseThrow(() -> NO_SUCH_ELEMENT_EXCEPTION)
-            .orElse(null);
+                        Stream.of(objSource.getClass().getGenericSuperclass()),
+                        Arrays.stream(objSource.getClass().getGenericInterfaces()))
+                .filter(type -> type instanceof ParameterizedType)
+                .map(type -> Arrays.stream(((ParameterizedType) type).getActualTypeArguments())
+                        .filter(predicate)
+                        .findFirst())
+                .filter(Optional::isPresent)
+                .findFirst()
+                .orElseThrow(() -> NO_SUCH_ELEMENT_EXCEPTION)
+                .orElse(null);
     }
 }

@@ -2,13 +2,11 @@ package com.lsv.lib.core.concept.repository;
 
 import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.helper.HelperClass;
-import com.lsv.lib.core.pattern.register.RegisterByInterface;
+import com.lsv.lib.core.loader.Loader;
 
 public interface Repository<T extends Identifiable<?>> {
 
-    @SuppressWarnings("unchecked")
-    static <R extends Repository<?>> R findInstance(Object sourceBase) {
-        return (R) RegisterByInterface.findImplementation(
-            HelperClass.identifyGenericsClass(sourceBase, Repository.class));
+    static <ID extends Identifiable<?>> Repository<ID> findInstance(Object sourceBase, Class<?> sourceExtends) {
+        return (Repository<ID>) Loader.findImplementation(HelperClass.identifyGenericsClass(sourceBase, sourceExtends));
     }
 }

@@ -1,7 +1,7 @@
 package com.lsv.lib.mapping.modelmapper;
 
 import com.lsv.lib.core.behavior.Mappable;
-import com.lsv.lib.core.pattern.register.RegisterByInterface;
+import com.lsv.lib.core.loader.Loader;
 import com.lsv.lib.mapping.modelmapper.test.Destination;
 import com.lsv.lib.mapping.modelmapper.test.Source;
 import org.junit.jupiter.api.Assertions;
@@ -14,9 +14,9 @@ public class ModelMapperTest {
     @Test
     public void toSuccess() {
         Source source = new Source()
-            .setId(UUID.randomUUID())
-            .setNome("nome")
-            .setDescricao("descrição");
+                .setId(UUID.randomUUID())
+                .setNome("nome")
+                .setDescricao("descrição");
 
         Destination destination = mapper().to(source);
         Assertions.assertEquals(source.getId(), destination.getId());
@@ -26,8 +26,8 @@ public class ModelMapperTest {
     @Test
     public void ofSuccess() {
         Destination destination = new Destination()
-            .setId(UUID.randomUUID())
-            .setNome("nome");
+                .setId(UUID.randomUUID())
+                .setNome("nome");
 
         Source source = mapper().of(destination);
         Assertions.assertEquals(source.getId(), destination.getId());
@@ -39,6 +39,6 @@ public class ModelMapperTest {
 
     @SuppressWarnings({"unchecked"})
     private Mappable<Source, Destination> mapper() {
-        return (Mappable<Source, Destination>) RegisterByInterface.findImplementation(Mappable.class).setup(Source.class, Destination.class);
+        return (Mappable<Source, Destination>) Loader.findImplementation(Mappable.class).setup(Source.class, Destination.class);
     }
 }

@@ -14,12 +14,6 @@
     <packaging>jar</packaging>
     <description>Biblioteca de testes para o Core.</description>
 
-    <properties>
-        <springboot.version>2.6.1</springboot.version>
-        <javax.validation.version>2.0.1.Final</javax.validation.version>
-        <h2.version>2.0.202</h2.version>
-    </properties>
-
     <dependencies>
 <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
         <dependency>

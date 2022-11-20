@@ -9,18 +9,18 @@ import lombok.NonNull;
 import java.io.Serializable;
 
 public interface CreatableRepository<
-    I extends Identifiable<ID>,
-    ID extends Serializable,
-    P extends Persistable<ID>,
-    S extends Storable<P, ID>>
-    extends
-    RepositoryImplementeable<I, ID, P, S>,
-    Creatable<I> {
+        I extends Identifiable<ID>,
+        ID extends Serializable,
+        P extends Persistable<ID>,
+        S extends Storable<P, ID>>
+        extends
+        RepositoryImplementeable<I, ID, P, S>,
+        Creatable<I> {
 
     @Override
     default I create(@NonNull I identifiable) {
-        return repositoryProvider().mappable().of(
-            repositoryProvider().storable().save(
-                repositoryProvider().mappable().to(identifiable)));
+        return mappable().of(
+                storable().save(
+                        mappable().to(identifiable)));
     }
 }

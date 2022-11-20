@@ -17,65 +17,65 @@ public class TemplateVelocityTest {
     @Test
     public void aplicarDadosTemplate() {
         templatesParaTestar().forEach(template ->
-            Assertions.assertEquals("Hello Leandro!",
-                template
-                .adicionarDadoAoContexto("nome", "Leandro")
-                .aplicarDadosTemplate(this.carregarArquivo("/templates/" + template.nome()))
-            )
+                Assertions.assertEquals("Hello Leandro!",
+                        template
+                                .adicionarDadoAoContexto("nome", "Leandro")
+                                .aplicarDadosTemplate(this.carregarArquivo("/templates/" + template.nome()))
+                )
         );
     }
 
     @Test
     public void aplicarDadosTemplateSobrepondo() {
         templatesParaTestar().forEach(template ->
-            Assertions.assertEquals("Hello Maria!",
-                template
-                .adicionarDadoAoContexto("nome", "Leandro")
-                .adicionarDadosAoContexto(Map.of("nome", "Maria"))
-                .aplicarDadosTemplate(this.carregarArquivo("/templates/" + template.nome()))
-            )
+                Assertions.assertEquals("Hello Maria!",
+                        template
+                                .adicionarDadoAoContexto("nome", "Leandro")
+                                .adicionarDadosAoContexto(Map.of("nome", "Maria"))
+                                .aplicarDadosTemplate(this.carregarArquivo("/templates/" + template.nome()))
+                )
         );
     }
 
     @Test
     public void aplicarDadosTemplateNulo() {
         templatesParaTestar().forEach(template ->
-            Assertions.assertThrows(NullPointerException.class, () -> template.aplicarDadosTemplate(null))
+                Assertions.assertThrows(NullPointerException.class, () -> template.aplicarDadosTemplate(null))
         );
     }
 
     @Test
     public void aplicarDadosTemplateDadoNuloVazio() {
         templatesParaTestar().forEach(template ->
-            Assertions.assertEquals("teste",
-                template
-                .adicionarDadosAoContexto(Map.of())
-                .aplicarDadosTemplate("teste")
-            )
+                Assertions.assertEquals("teste",
+                        template
+                                .adicionarDadosAoContexto(Map.of())
+                                .aplicarDadosTemplate("teste")
+                )
         );
     }
 
     @Test
     public void aplicarDadosTemplateSobrepondoMultiplosDados() {
         templatesParaTestar().forEach(template ->
-            Assertions.assertEquals("Hello Maria!",
-                template
-                    .adicionarDadosAoContexto(Map.of("nome", "Maria"))
-                    .aplicarDadosTemplate(
-                        this.carregarArquivo("/templates/" + template.nome()))
-            )
+                Assertions.assertEquals("Hello Maria!",
+                        template
+                                .adicionarDadosAoContexto(Map.of("nome", "Maria"))
+                                .aplicarDadosTemplate(
+                                        this.carregarArquivo("/templates/" + template.nome()))
+                )
         );
     }
 
     @Test
     public void testandoRegistroTemplate() {
         templatesParaTestar().forEach(template ->
-            Assertions.assertEquals("Hello Maria!",
-                template
-                    .adicionarDadosAoContexto(Map.of("nome", "Maria"))
-                    .aplicarDadosTemplate(
-                        this.carregarArquivo("/templates/" + template.nome()))
-            )
+                Assertions.assertEquals("Hello Maria!",
+                        template
+                                .adicionarDadosAoContexto(Map.of("nome", "Maria"))
+                                .aplicarDadosTemplate(
+                                        this.carregarArquivo("/templates/" + template.nome()))
+                )
         );
     }
 
@@ -89,7 +89,7 @@ public class TemplateVelocityTest {
         }
         return null;
     }
-    
+
     private Stream<Template<String>> templatesParaTestar() {
         return Stream.of(new TemplateVelocity());
     }

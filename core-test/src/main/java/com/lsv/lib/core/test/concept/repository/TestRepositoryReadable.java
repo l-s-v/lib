@@ -13,16 +13,16 @@ import org.junit.jupiter.api.DynamicTest;
 import java.util.stream.Stream;
 
 public interface TestRepositoryReadable<
-    D extends Identifiable<?>,
-    R extends Repository<D> & Creatable<D> & Readable<D>>
-    extends
-    TestRepository<D, R> {
+        D extends Identifiable<?>,
+        R extends Repository<D> & Creatable<D> & Readable<D>>
+        extends
+        TestRepository<D, R> {
 
     @Override
     default Stream<DynamicNode> of() {
         return HelperDynamicTest.joinAndRemoveDuplicatedByName(
-            Stream.of(this.findById(), this.findByFilter()),
-            TestRepository.super.of());
+                Stream.of(this.findById(), this.findByFilter()),
+                TestRepository.super.of());
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

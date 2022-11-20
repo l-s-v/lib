@@ -16,31 +16,31 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 
 public interface TestServiceUpdatable<
-    I extends Identifiable<?>,
-    S extends Service<I> & Updatable<I>,
-    R extends Repository<I> & Updatable<I>>
-    extends
-    TestServiceWithRepository<I, S, R>,
-    TestServiceProvider<I> {
+        I extends Identifiable<?>,
+        S extends Service<I> & Updatable<I>,
+        R extends Repository<I> & Updatable<I>>
+        extends
+        TestServiceWithRepository<I, S, R>,
+        TestServiceProvider<I> {
 
     @Override
     default Stream<DynamicNode> of() {
         return HelperDynamicTest.joinAndRemoveDuplicatedByName(
-            Stream.of(update()),
-            TestServiceWithRepository.super.of());
+                Stream.of(update()),
+                TestServiceWithRepository.super.of());
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     private DynamicNode update() {
         return DynamicTest.dynamicTest("update", () -> {
-            R repositoryMock = repositoryMock();
+            R repositoryMock = repository();
 
             lenient().when(repositoryMock.update(any()))
-                .thenAnswer(AdditionalAnswers.returnsFirstArg());
+                    .thenAnswer(AdditionalAnswers.returnsFirstArg());
 
             I obj = newObjectComplete();
-            Assertions.assertEquals(obj, service(repositoryMock).update(obj));
+            Assertions.assertEquals(obj, service().update(obj));
         });
     }
 }

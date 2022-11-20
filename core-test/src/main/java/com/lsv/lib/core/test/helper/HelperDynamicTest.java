@@ -1,6 +1,6 @@
 package com.lsv.lib.core.test.helper;
 
-import com.lsv.lib.core.pattern.register.RegisterByInterface;
+import com.lsv.lib.core.loader.Loader;
 import com.lsv.lib.core.test.TestForFactory;
 import lombok.NonNull;
 import org.junit.jupiter.api.DynamicContainer;
@@ -27,7 +27,7 @@ public final class HelperDynamicTest {
     @SafeVarargs
     public static Stream<DynamicNode> createContainer(@NonNull String displayName, @NonNull Stream<DynamicNode>... dynamicNodeStream) {
         return Stream.of(DynamicContainer.dynamicContainer(displayName,
-            reduce(Stream.of(dynamicNodeStream))));
+                reduce(Stream.of(dynamicNodeStream))));
     }
 
     public static Stream<DynamicNode> reduce(@NonNull Stream<Stream<DynamicNode>> dynamicNodeStream) {
@@ -53,20 +53,20 @@ public final class HelperDynamicTest {
 
     public static Stream<DynamicNode> findTestForFactory(Class<?> aClass, @NonNull String... packagesNames) {
         return formatDisplayWithBottomSeparator(reduce(
-            Arrays.stream(packagesNames).map(packageName ->
-                reduce(RegisterByInterface.of(TestForFactory.class)
-                    .findImplementationsByReflection(packageName)
-                    .implementations().stream()
-                    .filter(testForFactory -> aClass == null || aClass.equals(testForFactory.getClass()))
-                    .map(testForFactory -> formatDisplayWithTopSeparator(
-                        "- Dynamic " + testForFactory.getClass().getSimpleName(),
-                        testForFactory.of())))
-            )));
+                Arrays.stream(packagesNames).map(packageName ->
+                        reduce(Loader.of(TestForFactory.class)
+                                .findImplementationsByReflection(packageName)
+                                .implementations().stream()
+                                .filter(testForFactory -> aClass == null || aClass.equals(testForFactory.getClass()))
+                                .map(testForFactory -> formatDisplayWithTopSeparator(
+                                        "- Dynamic " + testForFactory.getClass().getSimpleName(),
+                                        testForFactory.of())))
+                )));
     }
 
     public static Stream<DynamicNode> formatDisplayWithTopSeparator(@NonNull String displayName, @NonNull Stream<DynamicNode> dynamicNodeStream) {
         return createContainer(SEPARATOR_DISPLAY,
-            createContainer(displayName, dynamicNodeStream));
+                createContainer(displayName, dynamicNodeStream));
     }
 
     public static Stream<DynamicNode> formatDisplayWithBottomSeparator(@NonNull Stream<DynamicNode> dynamicNodeStream) {
@@ -75,8 +75,8 @@ public final class HelperDynamicTest {
 
     public static Stream<DynamicNode> formatDisplayWithTopAndBottomSeparator(@NonNull Class<?> aClass, @NonNull Stream<DynamicNode> dynamicNodeStream) {
         return formatDisplayWithBottomSeparator(
-            formatDisplayWithTopSeparator(
-                "- Dynamic " + aClass.getSimpleName(),
-                dynamicNodeStream));
+                formatDisplayWithTopSeparator(
+                        "- Dynamic " + aClass.getSimpleName(),
+                        dynamicNodeStream));
     }
 }

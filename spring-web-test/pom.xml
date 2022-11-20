@@ -14,10 +14,6 @@
     <packaging>jar</packaging>
     <description>Biblioteca para trabalhar com spring web.</description>
 
-    <properties>
-        <springboot.version>2.6.1</springboot.version>
-    </properties>
-
     <dependencies>
 <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
 

@@ -11,36 +11,36 @@ public class TemplateTest {
     @Test
     public void adicionarDadoContexto() {
         templatesParaTestar().forEach(template ->
-            Assertions.assertEquals("Hello Leandro!",
-                    template
-                            .adicionarDadoAoContexto("nome", "Leandro")
-                            .aplicarDadosTemplate("Hello nome!")
-            )
+                Assertions.assertEquals("Hello Leandro!",
+                        template
+                                .adicionarDadoAoContexto("nome", "Leandro")
+                                .aplicarDadosTemplate("Hello nome!")
+                )
         );
     }
 
     @Test
     public void adicionarDadosContexto() {
         templatesParaTestar().forEach(template ->
-            Assertions.assertEquals("Hello Maria Silva!",
-                    template
-                            .adicionarDadosAoContexto(Map.of(
-                                            "nome", "João",
-                                            "final", "Silva"
-                                    )
-                            )
-                            .adicionarDadosAoContexto(Map.of("nome", "Maria"))
-                            .aplicarDadosTemplate("Hello nome final!")
-            )
+                Assertions.assertEquals("Hello Maria Silva!",
+                        template
+                                .adicionarDadosAoContexto(Map.of(
+                                                "nome", "João",
+                                                "final", "Silva"
+                                        )
+                                )
+                                .adicionarDadosAoContexto(Map.of("nome", "Maria"))
+                                .aplicarDadosTemplate("Hello nome final!")
+                )
         );
     }
 
     @Test
     public void adicionarNullContexto() {
         templatesParaTestar().forEach(template ->
-            Assertions.assertEquals("Teste",
-                template.aplicarDadosTemplate("Teste")
-            )
+                Assertions.assertEquals("Teste",
+                        template.aplicarDadosTemplate("Teste")
+                )
         );
     }
 

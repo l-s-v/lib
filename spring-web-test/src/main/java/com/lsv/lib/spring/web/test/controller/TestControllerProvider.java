@@ -5,26 +5,27 @@ import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.behavior.Mappable;
 import com.lsv.lib.core.concept.controller.Controller;
 import com.lsv.lib.core.concept.service.Service;
-import org.springframework.test.web.servlet.MockMvc;
 
 public interface TestControllerProvider<
-    IN extends Identifiable<?>,
-    OUT extends Identifiable<?>,
-    S extends Service<OUT>> {
+        IN extends Identifiable<?>,
+        OUT extends Identifiable<?>,
+        S extends Service<OUT>> {
 
-    MockMvc mockMvc();
+    default Mappable<IN, OUT> mappable() {
+        return (Mappable<IN, OUT>) Mappable.findInstance(this, Identifiable.class, Identifiable.class);
+    }
 
-    ObjectMapper objectMapper();
-
-    Mappable<IN, OUT> mappable();
-
-    S serviceMock();
-
-    String urlBase();
+    default S service() {
+        return (S) Service.findInstance(this, Service.class);
+    }
 
     default String urlBaseWithId() {
         return urlBase() + Controller.PARAM_ID;
     }
+
+    ObjectMapper objectMapper();
+
+    String urlBase();
 
     IN newObjectIn();
 

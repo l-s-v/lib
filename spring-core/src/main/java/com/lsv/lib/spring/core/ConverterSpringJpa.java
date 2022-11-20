@@ -14,21 +14,21 @@ public final class ConverterSpringJpa {
 
     public static Pageable to(@NonNull Filter<?> filter) {
         return Optional.ofNullable(filter.page())
-            .map(page -> PageRequest.of(page.numPage(), page.size(), to(filter.orderBies())))
-            .orElse(null);
+                .map(page -> PageRequest.of(page.numPage(), page.size(), to(filter.orderBies())))
+                .orElse(null);
     }
 
     public static Sort to(List<Filter.OrderBy> orderBies) {
         return Optional.ofNullable(orderBies)
-            .map(orderBIES -> Sort.by(orderBIES.stream()
-                .map(ConverterSpringJpa::to).toList()))
-            .orElse(Sort.unsorted());
+                .map(orderBIES -> Sort.by(orderBIES.stream()
+                        .map(ConverterSpringJpa::to).toList()))
+                .orElse(Sort.unsorted());
     }
 
     public static Sort.Order to(@NonNull Filter.OrderBy orderBy) {
         return orderBy.asc()
-            ? Sort.Order.asc(orderBy.property())
-            : Sort.Order.desc(orderBy.property());
+                ? Sort.Order.asc(orderBy.property())
+                : Sort.Order.desc(orderBy.property());
     }
 
     public static <I> Page<I> to(@NonNull ListDto<I> listaDto, Pageable pageable) {
@@ -40,12 +40,12 @@ public final class ConverterSpringJpa {
     @SuppressWarnings("unchecked")
     public static <T extends Identifiable<?>> Filter<T> of(@NonNull Pageable pageable) {
         return Filter.<T>of(null)
-            .page(Filter.Page.of()
-                .numPage(pageable.getPageNumber())
-                .size(pageable.getPageSize())
-                .get())
-            .orderBies(of(pageable.getSort()))
-            .get();
+                .page(Filter.Page.of()
+                        .numPage(pageable.getPageNumber())
+                        .size(pageable.getPageSize())
+                        .get())
+                .orderBies(of(pageable.getSort()))
+                .get();
     }
 
     public static List<Filter.OrderBy> of(@NonNull Sort sort) {
@@ -54,16 +54,16 @@ public final class ConverterSpringJpa {
 
     public static Filter.OrderBy of(@NonNull Sort.Order order) {
         return Filter.OrderBy.of()
-            .asc(order.isAscending())
-            .property(order.getProperty())
-            .get();
+                .asc(order.isAscending())
+                .property(order.getProperty())
+                .get();
     }
 
     public static <I, P> ListDto<I> of(@NonNull Page<P> page, Mappable<I, P> mappable) {
         return ListDto
-            .of(mappable.of(page.getContent()))
-            .totalRecords(page.getTotalElements())
-            .totalPages(page.getTotalPages())
-            .get();
+                .of(mappable.of(page.getContent()))
+                .totalRecords(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .get();
     }
 }

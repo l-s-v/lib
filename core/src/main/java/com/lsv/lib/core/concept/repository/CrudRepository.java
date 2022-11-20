@@ -12,31 +12,13 @@ import java.io.Serializable;
  * @author Leandro da Silva Vieira
  */
 public interface CrudRepository<
-    I extends Identifiable<ID>,
-    ID extends Serializable,
-    P extends Persistable<ID>,
-    S extends Storable<P, ID>>
-    extends
-    CreatableRepository<I, ID, P, S>,
-    ReadableRepository<I, ID, P, S>,
-    UpdatableRepository<I, ID, P, S>,
-    DeletableRepository<I, ID, P, S> {
-
-    static <
         I extends Identifiable<ID>,
         ID extends Serializable,
         P extends Persistable<ID>,
         S extends Storable<P, ID>>
-    CrudRepository<I, ID, P, S> of(Object sourceBase) {
-        return ofProvider(RepositoryProvider.findInstance(sourceBase));
-    }
-
-    static <
-        I extends Identifiable<ID>,
-        ID extends Serializable,
-        P extends Persistable<ID>,
-        S extends Storable<P, ID>>
-    CrudRepository<I, ID, P, S> ofProvider(RepositoryProvider<I, ID, P, S> repositoryProvider) {
-        return () -> repositoryProvider;
-    }
+        extends
+        CreatableRepository<I, ID, P, S>,
+        ReadableRepository<I, ID, P, S>,
+        UpdatableRepository<I, ID, P, S>,
+        DeletableRepository<I, ID, P, S> {
 }

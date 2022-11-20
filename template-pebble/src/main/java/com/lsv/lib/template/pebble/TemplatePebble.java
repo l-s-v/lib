@@ -1,5 +1,7 @@
 package com.lsv.lib.template.pebble;
 
+import com.google.auto.service.AutoService;
+import com.lsv.lib.template.Template;
 import com.lsv.lib.template.TemplateAbstract;
 import com.mitchellbosecke.pebble.PebbleEngine;
 import lombok.*;
@@ -9,11 +11,12 @@ import java.io.StringWriter;
 /**
  * Para execução de templates feitos em Pebble.
  *
- * @see <a href="https://pebbletemplates.io/">Pebble</a>
  * @author Leandro da Silva Vieira
+ * @see <a href="https://pebbletemplates.io/">Pebble</a>
  */
 @Setter(AccessLevel.PRIVATE)
 @Getter(AccessLevel.PRIVATE)
+@AutoService(Template.class)
 public class TemplatePebble extends TemplateAbstract<String> {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -1,5 +1,7 @@
 package com.lsv.lib.template.velocity;
 
+import com.google.auto.service.AutoService;
+import com.lsv.lib.template.Template;
 import com.lsv.lib.template.TemplateAbstract;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -13,14 +15,15 @@ import java.util.Properties;
 /**
  * Para execução de templates feitos em Velocity.
  *
+ * @author Leandro da Silva Vieira
  * @see <a href="https://velocity.apache.org">Velocity</a>
  * @see <a href="https://velocity.apache.org/engine/2.3/vtl-reference.html">Velocity Language Reference</a>
- * @author Leandro da Silva Vieira
  */
 @Getter(AccessLevel.PRIVATE)
+@AutoService(Template.class)
 public class TemplateVelocity extends TemplateAbstract<String> {
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     private final VelocityEngine velocityEngine;
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

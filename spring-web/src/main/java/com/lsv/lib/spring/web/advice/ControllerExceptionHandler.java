@@ -26,4 +26,11 @@ public class ControllerExceptionHandler {
     Error<?> handleMethodArgumentNotValidException(ConstraintViolationException e) {
         return Error.of(e);
     }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    Error<?> handleMethodArgumentNotValidException(Exception e) {
+        return Error.of(e);
+    }
 }
