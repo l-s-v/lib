@@ -35,12 +35,12 @@ public class ModelMapper<S, D> implements Mappable<S, D> {
 
     @Override
     public D to(S source) {
-        return modelMapperComponent().map(source, destinationClass());
+        return source == null ? null: modelMapperComponent().map(source, destinationClass());
     }
 
     @Override
     public S of(D destination) {
-        return modelMapperComponent().map(destination, sourceClass());
+        return destination == null ? null: modelMapperComponent().map(destination, sourceClass());
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

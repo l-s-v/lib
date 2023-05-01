@@ -2,6 +2,7 @@ package com.lsv.lib.spring.jpa.helper;
 
 import com.lsv.lib.core.behavior.Persistable;
 import com.lsv.lib.spring.loader.SpringLoader;
+import jakarta.persistence.EntityManager;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,6 @@ import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
 
-import javax.persistence.EntityManager;
 import java.io.Serializable;
 
 @Getter(AccessLevel.PRIVATE)

@@ -23,7 +23,10 @@ public interface ReadableRepository<
     @Override
     default Optional<I> findById(@NonNull I identifiable) {
         return storable().findById(identifiable.getId())
-                .map(p -> mappable().of(p));
+                .map(p -> {
+                    initializeLazyFindById(p);
+                    return mappable().of(p);
+                });
     }
 
     @Override
@@ -31,4 +34,6 @@ public interface ReadableRepository<
         throw new IllegalCallerException("Basic implementation does not contain this method. " +
                 "A new implementation of ReadableRepository must be provided.");
     }
+
+    default void initializeLazyFindById(P persistable) {};
 }

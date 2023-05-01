@@ -12,6 +12,8 @@ public interface Storable<
 
     <S extends P> S save(S entity);
 
+    <S extends P> S merge(S entity);
+
     <S extends P> Iterable<S> saveAll(Iterable<S> entities);
 
     Optional<P> findById(ID id);
@@ -36,5 +38,9 @@ public interface Storable<
 
     static <P extends Persistable<ID>, ID extends Serializable> Storable<P, ID> findInstance(Object sourceBase, Class<?> sourceExtends) {
         return (Storable<P, ID>) Loader.findImplementation(HelperClass.identifyGenericsClass(sourceBase, sourceExtends));
+    }
+
+    default boolean isUtilizeSave() {
+        return true;
     }
 }

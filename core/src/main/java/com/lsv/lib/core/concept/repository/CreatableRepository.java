@@ -19,8 +19,11 @@ public interface CreatableRepository<
 
     @Override
     default I create(@NonNull I identifiable) {
-        return mappable().of(
-                storable().save(
-                        mappable().to(identifiable)));
+        var persistable = mappable().to(identifiable);
+        persistable = storable().isUtilizeSave()
+                ? storable().save(persistable)
+                : storable().merge(persistable);
+
+        return mappable().of(persistable);
     }
 }
