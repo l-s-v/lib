@@ -4,8 +4,6 @@ import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.behavior.Readable;
 import com.lsv.lib.core.concept.controller.Controller;
 import com.lsv.lib.core.concept.service.Service;
-import com.lsv.lib.core.helper.Log;
-import com.lsv.lib.spring.core.ConverterSpringJpa;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,10 +18,8 @@ import java.io.Serializable;
 public interface ReadableController<
         IN extends Identifiable<ID>,
         OUT extends Identifiable<ID>,
-        ID extends Serializable,
-        S extends Service<OUT> & Readable<OUT>>
-        extends
-        Controller<IN, OUT, S> {
+        S extends Service<OUT> & Readable<OUT>,
+        ID extends Serializable> {
 
     int PAGEABLE_DEFAULT_PAGE = 0;
     int PAGEABLE_DEFAULT_SIZE = 10;
@@ -36,17 +32,15 @@ public interface ReadableController<
             PAGEABLE_DEFAULT_DIRECTION,
             PAGEABLE_DEFAULT_SORT);
 
+    ReadControllerImpl<IN, OUT, S, ID> readControllerImpl();
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    @GetMapping(PARAM_ID)
+    @GetMapping(Controller.PARAM_ID)
     default ResponseEntity<IN> findById(@PathVariable ID id) {
-        Log.of(this).debug("findById {}", id);
-
-        return ResponseEntity.ok(mappableOf(
-                service().findById(Identifiable.of(outClass(), id)).orElseThrow()));
+        return readControllerImpl().findById(id);
     }
 
-    @SuppressWarnings("unchecked")
     @GetMapping
     default ResponseEntity<Page<IN>> findByFilter(@PageableDefault(
             page = PAGEABLE_DEFAULT_PAGE,
@@ -54,10 +48,6 @@ public interface ReadableController<
             sort = PAGEABLE_DEFAULT_SORT,
             direction = Sort.Direction.DESC) Pageable pageable) {
 
-        Log.of(this).debug("findByFilter {}", pageable);
-
-        return ResponseEntity.ok((Page<IN>) ConverterSpringJpa.to(
-                service().findByFilter(ConverterSpringJpa.of(pageable)),
-                pageable));
+        return readControllerImpl().findByFilter(pageable);
     }
 }
