@@ -15,8 +15,8 @@
     <description>Biblioteca para trabalhar com spring web.</description>
 
     <properties>
-        <springdoc-openapi.version>1.6.12</springdoc-openapi.version>
-        <jackson.version>2.14.0</jackson.version>
+        <springdoc-openapi.version>2.1.0</springdoc-openapi.version>
+        <jackson.version>2.15.2</jackson.version>
     </properties>
 
     <dependencies>
@@ -44,19 +44,14 @@
         <!-- springdoc-openapi -->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${springdoc-openapi.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-data-rest</artifactId>
+            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
             <version>${springdoc-openapi.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>javax.validation</groupId>-->
-<!--            <artifactId>validation-api</artifactId>-->
-<!--            <version>${javax.validation.version}</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>

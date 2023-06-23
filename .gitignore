@@ -29,3 +29,4 @@
 /spring-core/target
 /spring-web/target
 /spring-web-test/target
+/mapping-mapstruct/target

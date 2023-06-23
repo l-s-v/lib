@@ -1,5 +1,6 @@
 package com.lsv.lib.core.loader;
 
+import com.lsv.lib.core.helper.HelperPriority;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
@@ -9,10 +10,9 @@ import org.reflections.util.ConfigurationBuilder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.WeakHashMap;
 import java.util.stream.Stream;
 
 /**
@@ -22,12 +22,11 @@ import java.util.stream.Stream;
  */
 public final class Loader<T> {
 
-    private final Map<String, T> implementations = new WeakHashMap<>();
+    private static final List<Loadable> loadables = findLoadables();
+
     @NonNull
     @Getter(AccessLevel.PRIVATE)
     private final Class<T> classType;
-
-    private final List<Loadable> loadables = findLoadables();
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -38,63 +37,22 @@ public final class Loader<T> {
         this.classType = classType;
     }
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    public Loader<T> findImplementationsByService() {
-        for (Loadable loadable : loadables) {
-            if (!implementations().isEmpty()) {
-                break;
-            }
-
-            loadable.load(classType()).stream().forEach(obj -> register(obj));
-        }
-
-        return this;
-    }
-
-    public Loader<T> findImplementationsByReflection(@NonNull String packageName) {
-        getSubTypesOf(packageName)
-                .filter(aClass -> classNotIsValid(aClass) && !aClass.isAnonymousClass())
-                .forEach(aClass -> {
-                    try {
-                        register(aClass.getConstructor().newInstance());
-                    } catch (InstantiationException |
-                            IllegalAccessException |
-                            InvocationTargetException |
-                            IllegalArgumentException |
-                            ArrayIndexOutOfBoundsException |
-                            NoSuchMethodException e) {
-                        throw new UnsupportedOperationException("Could not instantiate class " + aClass, e);
-                    }
-                });
-        return this;
-    }
-
-    public List<Class<? extends T>> findSubInterfaces(@NonNull String packageName) {
-        return getSubTypesOf(packageName)
-                .filter(Class::isInterface)
-                .toList();
-    }
-
-    public Loader<T> register(T obj) {
-        implementations.put(obj.getClass().getName(), obj);
-        return this;
-    }
-
-    public List<T> implementations() {
-        return List.copyOf(implementations.values());
-    }
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
     public static <T> Loader<T> of(@NonNull Class<T> classType) {
         return new Loader<>(classType);
     }
 
-    public static <T> T findImplementation(@NonNull Class<T> classType) {
-        List<T> subTypes = Loader.of(classType)
-                .findImplementationsByService()
-                .implementations();
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    public List<T> findImplementationsByAllLoaders() {
+        return findImplementationsByService(false);
+    }
+
+    public List<T> findImplementationsByFirstLoader() {
+        return findImplementationsByService(true);
+    }
+
+    public T findUniqueImplementationByFirstLoader() {
+        List<T> subTypes = findImplementationsByFirstLoader();
 
         if (subTypes.isEmpty()) {
             throw new NoSuchElementException("No implementation found to interface " + classType.getName());
@@ -106,7 +64,42 @@ public final class Loader<T> {
         return subTypes.get(0);
     }
 
+    public List<T> findImplementationsByReflection(@NonNull String packageName) {
+        var implementations = new LinkedList<T>();
+
+        getSubTypesOf(packageName)
+                .filter(aClass -> classNotIsValid(aClass) && !aClass.isAnonymousClass())
+                .forEach(aClass -> {
+                    try {
+                        implementations.add(aClass.getConstructor().newInstance());
+                    } catch (InstantiationException |
+                            IllegalAccessException |
+                            InvocationTargetException |
+                            IllegalArgumentException |
+                            ArrayIndexOutOfBoundsException |
+                            NoSuchMethodException e) {
+                        throw new UnsupportedOperationException("Could not instantiate class " + aClass, e);
+                    }
+                });
+
+        return prepareList(implementations);
+    }
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    private List<T> findImplementationsByService(boolean onlyFirstLoadable) {
+        var implementations = new LinkedList<T>();
+
+        for (Loadable loadable : loadables) {
+            if (onlyFirstLoadable && !implementations.isEmpty()) {
+                break;
+            }
+
+            loadable.load(classType()).stream().forEach(implementations::add);
+        }
+
+        return prepareList(implementations);
+    }
 
     private boolean classNotIsValid(@NonNull Class<?> classType) {
         return !(classType.isInterface() || Modifier.isAbstract(classType.getModifiers()));
@@ -118,9 +111,16 @@ public final class Loader<T> {
                 .getSubTypesOf(classType()).stream();
     }
 
-    private List<Loadable> findLoadables() {
+    private List<T> prepareList(List<T> implementations) {
+        implementations.sort(HelperPriority::comparePriorityDescending);
+        return List.copyOf(implementations);
+    }
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    private static List<Loadable> findLoadables() {
         return new SPILoader().load(Loadable.class).stream()
-                .sorted((o1, o2) -> o2.priority().compareTo(o1.priority()))
+                .sorted(HelperPriority::comparePriorityDescending)
                 .toList();
     }
 }

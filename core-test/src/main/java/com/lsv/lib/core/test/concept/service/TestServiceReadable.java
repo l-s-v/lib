@@ -4,8 +4,6 @@ import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.behavior.Readable;
 import com.lsv.lib.core.concept.dto.Filter;
 import com.lsv.lib.core.concept.dto.ListDto;
-import com.lsv.lib.core.concept.repository.Repository;
-import com.lsv.lib.core.concept.service.Service;
 import com.lsv.lib.core.test.helper.HelperDynamicTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DynamicNode;
@@ -20,8 +18,8 @@ import static org.mockito.Mockito.lenient;
 
 public interface TestServiceReadable<
         I extends Identifiable<?>,
-        S extends Service<I> & Readable<I>,
-        R extends Repository<I> & Readable<I>>
+        S extends Readable<I>,
+        R extends Readable<I>>
         extends
         TestServiceWithRepository<I, S, R>,
         TestServiceProvider<I> {

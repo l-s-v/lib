@@ -2,7 +2,6 @@ package com.lsv.lib.spring.web.test.controller.servlet;
 
 import com.lsv.lib.core.behavior.Creatable;
 import com.lsv.lib.core.behavior.Identifiable;
-import com.lsv.lib.core.concept.service.Service;
 import com.lsv.lib.spring.web.test.controller.TestControllerCreatable;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.http.MediaType;
@@ -16,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public interface TestControllerCreatableMockMvc<
         IN extends Identifiable<?>,
         OUT extends Identifiable<?>,
-        S extends Service<OUT> & Creatable<OUT>>
+        S extends Creatable<OUT>>
         extends
         TestControllerCreatable<IN, OUT, S>,
         TestControllerMockMvc<IN, OUT, S> {

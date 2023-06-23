@@ -2,7 +2,6 @@ package com.lsv.lib.spring.web.test.controller.servlet;
 
 import com.lsv.lib.core.behavior.Readable;
 import com.lsv.lib.core.behavior.*;
-import com.lsv.lib.core.concept.service.Service;
 import com.lsv.lib.core.test.helper.HelperDynamicTest;
 import org.junit.jupiter.api.DynamicNode;
 
@@ -11,7 +10,7 @@ import java.util.stream.Stream;
 public interface TestControllerCrudMockMvc<
         IN extends Identifiable<?>,
         OUT extends Identifiable<?>,
-        S extends Service<OUT> & Creatable<OUT> & Readable<OUT> & Updatable<OUT> & Deletable<OUT>>
+        S extends Creatable<OUT> & Readable<OUT> & Updatable<OUT> & Deletable<OUT>>
         extends
         TestControllerCreatableMockMvc<IN, OUT, S>,
         TestControllerReadableMockMvc<IN, OUT, S>,

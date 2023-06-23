@@ -2,40 +2,131 @@ package com.lsv.lib.spring.web.controller;
 
 import com.lsv.lib.core.behavior.Readable;
 import com.lsv.lib.core.behavior.*;
-import com.lsv.lib.core.concept.service.Service;
+import com.lsv.lib.core.concept.repository.CrudRepository;
+import com.lsv.lib.core.helper.HelperBeanValidation;
+import com.lsv.lib.spring.core.converter.ConverterSpringJpa;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.Serializable;
 
-public interface CrudController<
-        IN extends Identifiable<ID>,
-        OUT extends Identifiable<ID>,
-        S extends Service<OUT> & Creatable<OUT> & Readable<OUT> & Updatable<OUT> & Deletable<OUT>,
-        ID extends Serializable>
-        extends
-        CreatableController<IN, OUT, S>,
-        ReadableController<IN, OUT, S, ID>,
-        UpdatableController<IN, OUT, S, ID>,
-        DeletableController<IN, OUT, S, ID> {
+/**
+ * Provides standard CRUD methods for Controller.
+ *
+ * @author leandro.vieira
+ */
+@Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class CrudController {
 
-    CrudControllerImpl<IN, OUT, S, ID> crudControllerImpl();
+    public static final String PARAM_ID = "/{id}";
 
-    @Override
-    default CreateControllerImpl<IN, OUT, S> createControllerImpl() {
-        return crudControllerImpl().createControllerImpl();
+    public static final int PAGEABLE_DEFAULT_PAGE = 0;
+    public static final int PAGEABLE_DEFAULT_SIZE = 10;
+    public static final String PAGEABLE_DEFAULT_SORT = "id";
+    public static final Sort.Direction PAGEABLE_DEFAULT_DIRECTION = Sort.Direction.DESC;
+
+    public static final Pageable PAGEABLE_DEFAULT = PageRequest.of(
+            PAGEABLE_DEFAULT_PAGE,
+            PAGEABLE_DEFAULT_SIZE,
+            PAGEABLE_DEFAULT_DIRECTION,
+            PAGEABLE_DEFAULT_SORT);
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    public static <
+            ID extends Serializable,
+            IN extends Identifiable<ID>,
+            S extends Creatable<IN>>
+    ResponseEntity<Object> create(
+            S service,
+            String urlBase,
+            IN identifiable, UriComponentsBuilder uriBuilder) {
+
+        log.debug("create {}", identifiable);
+
+        HelperBeanValidation.validate(identifiable);
+        IN objOut = service.create(identifiable);
+
+        return ResponseEntity.created(
+                        uriBuilder
+                                .path(urlBase)
+                                .pathSegment(objOut.getId().toString())
+                                .build().toUri())
+                .build();
     }
 
-    @Override
-    default DeleteControllerImpl<IN, OUT, S, ID> deleUpdateControllerImpl() {
-        return crudControllerImpl().deleteController();
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    public static <
+            ID extends Serializable,
+            IN extends Identifiable<ID>,
+            S extends Updatable<IN>>
+    ResponseEntity<IN> update(
+            S service,
+            ID id, IN identifiable) {
+
+        log.debug("update {} {}", id, identifiable);
+
+        HelperBeanValidation.validate(identifiable);
+        identifiable.setId(id);
+        service.update(identifiable);
+
+        return ResponseEntity.ok().build();
     }
 
-    @Override
-    default ReadControllerImpl<IN, OUT, S, ID> readControllerImpl() {
-        return crudControllerImpl().readControllerImpl();
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    public static <
+            ID extends Serializable,
+            IN extends Identifiable<ID>,
+            S extends Deletable<IN>>
+    ResponseEntity<Object> delete(
+            S service,
+            Class<IN> inClass,
+            ID id) {
+        log.debug("delete {}", id);
+
+        service.delete(Identifiable.of(inClass, id));
+        return ResponseEntity.ok().build();
     }
 
-    @Override
-    default UpdateControllerImpl<IN, OUT, S, ID> updateControllerImpl() {
-        return crudControllerImpl().updateControllerImpl();
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    public static <
+            ID extends Serializable,
+            IN extends Identifiable<ID>,
+            S extends Readable<IN>>
+    ResponseEntity<IN> findById(
+            S service,
+            Class<IN> inClass,
+            ID id) {
+
+        log.debug("findById {}", id);
+
+        return ResponseEntity.ok(
+                service.findById(Identifiable.of(inClass, id)).orElseThrow(() -> CrudRepository.EXCEPTION_ID_NAO_EXISTE));
+    }
+
+    public static <
+            ID extends Serializable,
+            IN extends Identifiable<ID>,
+            S extends Readable<IN>>
+    ResponseEntity<Page<IN>> findByFilter(
+            S service,
+            Pageable pageable) {
+
+        log.debug("findByFilter {}", pageable);
+
+        return ResponseEntity.ok(ConverterSpringJpa.to(
+                service.findByFilter(ConverterSpringJpa.of(pageable)),
+                pageable));
     }
 }

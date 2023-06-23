@@ -2,7 +2,6 @@ package com.lsv.lib.spring.jpa.repository;
 
 import com.lsv.lib.core.behavior.Persistable;
 import com.lsv.lib.core.behavior.Storable;
-import com.lsv.lib.core.helper.HelperClass;
 import com.lsv.lib.core.loader.Loader;
 import com.lsv.lib.spring.jpa.helper.SpringJpaFactory;
 import org.hibernate.Session;
@@ -22,16 +21,17 @@ public interface StorableSpringJpa<
 
     @Override
     default <S extends P> S merge(S entity) {
-        return (S) Loader.findImplementation(Session.class).merge(entity);
+        return (S) Loader.of(Session.class).findUniqueImplementationByFirstLoader().merge(entity);
     }
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
     @SuppressWarnings("unchecked")
-    static <S> S findInstance(Object sourceBase) {
+    static <S> S of(Class<?> classTypeStorable, Class<? extends Persistable> classTypePersistable) {
         try {
-            Class<?> classType = HelperClass.identifyGenericsClass(sourceBase, StorableSpringJpa.class);
-            return (S) SpringJpaFactory.repository(HelperClass.identifyGenericsClass(sourceBase, classType));
+            return (S) SpringJpaFactory.repository(classTypeStorable);
         } catch (NoSuchElementException e) {
-            return (S) SpringJpaFactory.simpleRepository(HelperClass.identifyGenericsClass(sourceBase, Persistable.class));
+            return (S) SpringJpaFactory.simpleRepository(classTypePersistable);
         }
     }
 }

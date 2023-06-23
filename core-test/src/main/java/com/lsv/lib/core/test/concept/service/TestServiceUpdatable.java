@@ -2,8 +2,6 @@ package com.lsv.lib.core.test.concept.service;
 
 import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.behavior.Updatable;
-import com.lsv.lib.core.concept.repository.Repository;
-import com.lsv.lib.core.concept.service.Service;
 import com.lsv.lib.core.test.helper.HelperDynamicTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DynamicNode;
@@ -17,8 +15,8 @@ import static org.mockito.Mockito.lenient;
 
 public interface TestServiceUpdatable<
         I extends Identifiable<?>,
-        S extends Service<I> & Updatable<I>,
-        R extends Repository<I> & Updatable<I>>
+        S extends Updatable<I>,
+        R extends Updatable<I>>
         extends
         TestServiceWithRepository<I, S, R>,
         TestServiceProvider<I> {

@@ -2,8 +2,6 @@ package com.lsv.lib.core.test.concept.service;
 
 import com.lsv.lib.core.behavior.Deletable;
 import com.lsv.lib.core.behavior.Identifiable;
-import com.lsv.lib.core.concept.repository.Repository;
-import com.lsv.lib.core.concept.service.Service;
 import com.lsv.lib.core.test.helper.HelperDynamicTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DynamicNode;
@@ -16,8 +14,8 @@ import static org.mockito.Mockito.lenient;
 
 public interface TestServiceDeletable<
         I extends Identifiable<?>,
-        S extends Service<I> & Deletable<I>,
-        R extends Repository<I> & Deletable<I>>
+        S extends Deletable<I>,
+        R extends Deletable<I>>
         extends
         TestServiceWithRepository<I, S, R>,
         TestServiceProvider<I> {

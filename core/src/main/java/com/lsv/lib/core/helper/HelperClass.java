@@ -2,13 +2,12 @@ package com.lsv.lib.core.helper;
 
 import lombok.NonNull;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.ClassUtils;
 
 import java.io.*;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -62,13 +61,34 @@ public final class HelperClass {
             return (T) in.readObject();
         }
     }
+
+    public static Class<?> findDirectSuperclassOrInterface(@NonNull Object objSource, @NonNull Class<?> superclassOrInterface) {
+        List<Class<?>> classes = new ArrayList<>();
+
+        classes.add(objSource.getClass());
+        classes.addAll(ClassUtils.getAllInterfaces(objSource.getClass()));
+        classes.addAll(ClassUtils.getAllSuperclasses(objSource.getClass()));
+
+        return classes.stream()
+                .filter(aClass ->
+                        Stream.concat(
+                                        Arrays.stream(aClass.getInterfaces()),
+                                        Stream.of(aClass.getSuperclass()))
+                                .toList()
+                                .contains(superclassOrInterface))
+                .findFirst()
+                .orElseThrow(() -> NO_SUCH_ELEMENT_EXCEPTION);
+    }
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     @SuppressWarnings("unchecked")
     private static <R> Class<R> identifyGenericsClassByType(@NonNull Object objSource, Predicate<Type> predicate) {
+        var classe = !(objSource instanceof Class<?>) ? objSource.getClass() : (Class<?>) objSource;
+
         return (Class<R>) Stream.concat(
-                        Stream.of(objSource.getClass().getGenericSuperclass()),
-                        Arrays.stream(objSource.getClass().getGenericInterfaces()))
+                        Stream.of(classe.getGenericSuperclass()),
+                        Arrays.stream(classe.getGenericInterfaces()))
                 .filter(type -> type instanceof ParameterizedType)
                 .map(type -> Arrays.stream(((ParameterizedType) type).getActualTypeArguments())
                         .filter(predicate)

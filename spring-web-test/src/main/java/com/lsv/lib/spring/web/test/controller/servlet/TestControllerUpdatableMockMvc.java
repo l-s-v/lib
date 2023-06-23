@@ -2,7 +2,6 @@ package com.lsv.lib.spring.web.test.controller.servlet;
 
 import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.behavior.Updatable;
-import com.lsv.lib.core.concept.service.Service;
 import com.lsv.lib.spring.web.test.controller.TestControllerUpdatable;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.http.MediaType;
@@ -16,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public interface TestControllerUpdatableMockMvc<
         IN extends Identifiable<?>,
         OUT extends Identifiable<?>,
-        S extends Service<OUT> & Updatable<OUT>>
+        S extends Updatable<OUT>>
         extends
         TestControllerUpdatable<IN, OUT, S>,
         TestControllerMockMvc<IN, OUT, S> {

@@ -4,7 +4,6 @@ import com.lsv.lib.core.behavior.Creatable;
 import com.lsv.lib.core.behavior.Deletable;
 import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.behavior.Readable;
-import com.lsv.lib.core.concept.repository.Repository;
 import com.lsv.lib.core.test.helper.HelperDynamicTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DynamicNode;
@@ -14,7 +13,7 @@ import java.util.stream.Stream;
 
 public interface TestRepositoryDeletable<
         D extends Identifiable<?>,
-        R extends Repository<D> & Creatable<D> & Deletable<D> & Readable<D>>
+        R extends Creatable<D> & Deletable<D> & Readable<D>>
         extends
         TestRepository<D, R> {
 

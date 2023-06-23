@@ -4,9 +4,8 @@ import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.behavior.Readable;
 import com.lsv.lib.core.concept.dto.Filter;
 import com.lsv.lib.core.concept.dto.ListDto;
-import com.lsv.lib.core.concept.service.Service;
-import com.lsv.lib.spring.core.ConverterSpringJpa;
-import com.lsv.lib.spring.web.controller.ReadableController;
+import com.lsv.lib.spring.core.converter.ConverterSpringJpa;
+import com.lsv.lib.spring.web.controller.CrudController;
 import com.lsv.lib.spring.web.test.controller.TestControllerReadable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.function.Executable;
@@ -26,7 +25,7 @@ import static org.mockito.Mockito.when;
 public interface TestControllerReadableWebClient<
         IN extends Identifiable<?>,
         OUT extends Identifiable<?>,
-        S extends Service<OUT> & Readable<OUT>>
+        S extends Readable<OUT>>
         extends
         TestControllerReadable<IN, OUT, S>,
         TestControllerWebClient<IN, OUT, S> {
@@ -69,7 +68,7 @@ public interface TestControllerReadableWebClient<
             when(service().findByFilter(any()))
                     .thenReturn(listDto);
 
-            Page<OUT> page = ConverterSpringJpa.to(listDto, ReadableController.PAGEABLE_DEFAULT);
+            Page<OUT> page = ConverterSpringJpa.to(listDto, CrudController.PAGEABLE_DEFAULT);
 
             webTestClient()
                     .get()

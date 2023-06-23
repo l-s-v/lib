@@ -3,7 +3,6 @@ package com.lsv.lib.spring.web.test.controller;
 import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.behavior.Readable;
 import com.lsv.lib.core.concept.dto.Filter;
-import com.lsv.lib.core.concept.service.Service;
 import com.lsv.lib.core.test.TestForFactory;
 import com.lsv.lib.core.test.helper.HelperDynamicTest;
 import org.junit.jupiter.api.DynamicNode;
@@ -15,7 +14,7 @@ import java.util.stream.Stream;
 public interface TestControllerReadable<
         IN extends Identifiable<?>,
         OUT extends Identifiable<?>,
-        S extends Service<OUT> & Readable<OUT>>
+        S extends Readable<OUT>>
         extends
         TestForFactory {
 

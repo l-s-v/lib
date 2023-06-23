@@ -22,9 +22,9 @@
         <module>template-velocity</module>
         <module>template-pebble</module>
         <module>el-jexl</module>
-        <module>bytecode-asm</module>
         <module>spring-jpa</module>
         <module>mapping-modelmapper</module>
+        <module>mapping-mapstruct</module>
         <module>core-test</module>
         <module>spring-jpa-test</module>
         <module>spring-core</module>

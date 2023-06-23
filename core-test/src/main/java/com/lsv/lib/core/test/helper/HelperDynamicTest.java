@@ -56,7 +56,7 @@ public final class HelperDynamicTest {
                 Arrays.stream(packagesNames).map(packageName ->
                         reduce(Loader.of(TestForFactory.class)
                                 .findImplementationsByReflection(packageName)
-                                .implementations().stream()
+                                .stream()
                                 .filter(testForFactory -> aClass == null || aClass.equals(testForFactory.getClass()))
                                 .map(testForFactory -> formatDisplayWithTopSeparator(
                                         "- Dynamic " + testForFactory.getClass().getSimpleName(),

@@ -1,7 +1,7 @@
 package com.lsv.lib.spring.jpa.helper;
 
 import com.lsv.lib.core.behavior.Persistable;
-import com.lsv.lib.spring.loader.SpringLoader;
+import com.lsv.lib.spring.core.loader.SpringLoader;
 import jakarta.persistence.EntityManager;
 import lombok.AccessLevel;
 import lombok.Getter;

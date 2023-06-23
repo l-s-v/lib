@@ -2,25 +2,23 @@ package com.lsv.lib.spring.web.test.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lsv.lib.core.behavior.Identifiable;
-import com.lsv.lib.core.behavior.Mappable;
-import com.lsv.lib.core.concept.controller.Controller;
-import com.lsv.lib.core.concept.service.Service;
+import com.lsv.lib.core.mapper.HelperMappable;
+import com.lsv.lib.core.mapper.Mappable;
+import com.lsv.lib.spring.web.controller.CrudController;
 
 public interface TestControllerProvider<
         IN extends Identifiable<?>,
         OUT extends Identifiable<?>,
-        S extends Service<OUT>> {
+        S > {
 
     default Mappable<IN, OUT> mappable() {
-        return (Mappable<IN, OUT>) Mappable.findInstance(this, Identifiable.class, Identifiable.class);
+        return (Mappable<IN, OUT>) HelperMappable.of(this, Identifiable.class, Identifiable.class);
     }
 
-    default S service() {
-        return (S) Service.findInstance(this, Service.class);
-    }
+    S service();
 
     default String urlBaseWithId() {
-        return urlBase() + Controller.PARAM_ID;
+        return urlBase() + CrudController.PARAM_ID;
     }
 
     ObjectMapper objectMapper();

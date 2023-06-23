@@ -37,7 +37,9 @@ public interface Storable<
     void deleteAll();
 
     static <P extends Persistable<ID>, ID extends Serializable> Storable<P, ID> findInstance(Object sourceBase, Class<?> sourceExtends) {
-        return (Storable<P, ID>) Loader.findImplementation(HelperClass.identifyGenericsClass(sourceBase, sourceExtends));
+        return (Storable<P, ID>) Loader
+                .of(HelperClass.identifyGenericsClass(sourceBase, sourceExtends))
+                .findUniqueImplementationByFirstLoader();
     }
 
     default boolean isUtilizeSave() {
