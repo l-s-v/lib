@@ -1,8 +1,8 @@
 package com.lsv.lib.template.velocity;
 
 import com.google.auto.service.AutoService;
-import com.lsv.lib.template.Template;
-import com.lsv.lib.template.TemplateAbstract;
+import com.lsv.lib.core.template.Template;
+import com.lsv.lib.core.template.TemplateAbstract;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
@@ -23,8 +23,8 @@ import java.util.Properties;
 @AutoService(Template.class)
 public class TemplateVelocity extends TemplateAbstract<String> {
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     private final VelocityEngine velocityEngine;
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     public TemplateVelocity() {

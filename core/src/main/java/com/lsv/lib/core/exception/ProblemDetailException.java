@@ -1,7 +1,9 @@
 package com.lsv.lib.core.exception;
 
+import com.lsv.lib.core.exception.helper.ProblemDetail;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.experimental.Accessors;
 
 /**
  * Lets you inform properties that comply with RFC7807.
@@ -9,6 +11,7 @@ import lombok.NonNull;
  * @author Leandro da Silva Vieira
  */
 @Getter
+@Accessors(fluent = true)
 public class ProblemDetailException extends RuntimeException {
 
     private ProblemDetail problemDetail;
@@ -16,7 +19,11 @@ public class ProblemDetailException extends RuntimeException {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     public ProblemDetailException(@NonNull ProblemDetail problemDetail) {
-        super(problemDetail.detail());
+        this(problemDetail, null);
+    }
+
+    public ProblemDetailException(@NonNull ProblemDetail problemDetail, Throwable cause) {
+        super(problemDetail.getDetail(), cause);
         this.problemDetail = problemDetail;
     }
 }

@@ -1,7 +1,7 @@
 package com.lsv.lib.core.concept.service.validations;
 
 import com.lsv.lib.core.behavior.Identifiable;
-import com.lsv.lib.core.msg.MsgsLib;
+import com.lsv.lib.core.exception.message.MessageDisplayExceptionEnum;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
@@ -19,13 +19,13 @@ public class ValidableIdentifiable<T extends Identifiable<?>> implements Validab
 
     private void createIdNotPermit(T identifiable) {
         if (identifiable.getId() != null) {
-            throw MsgsLib.CREATE_ID_NOT_PERMIT.businessException();
+            throw MessageDisplayExceptionEnum.CREATE_ID_NOT_PERMIT.displayException();
         }
     }
 
     private void updateDeleteFindByIdRequiredId(T identifiable) {
         if (identifiable.getId() == null) {
-            throw MsgsLib.UPDATE_DELETE_FIND_BY_ID_REQUIRED_ID.businessException();
+            throw MessageDisplayExceptionEnum.UPDATE_DELETE_FIND_BY_ID_REQUIRED_ID.displayException();
         }
     }
 }

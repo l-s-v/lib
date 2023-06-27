@@ -4,8 +4,8 @@ import com.lsv.lib.core.behavior.Identifiable;
 import com.lsv.lib.core.mapper.Mappable;
 import com.lsv.lib.core.behavior.Persistable;
 import com.lsv.lib.core.behavior.Storable;
-import com.lsv.lib.core.exception.BusinessException;
-import com.lsv.lib.core.exception.ProblemDetail;
+import com.lsv.lib.core.exception.DisplayException;
+import com.lsv.lib.core.exception.helper.ProblemDetail;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import static com.lsv.lib.core.msg.MsgsLib.ID_NOT_FOUND;
+import static com.lsv.lib.core.exception.message.MessageDisplayExceptionEnum.ID_NOT_FOUND;
 
 /**
  * Provides standard CRUD methods for Repository.
@@ -26,7 +26,7 @@ import static com.lsv.lib.core.msg.MsgsLib.ID_NOT_FOUND;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CrudRepository {
 
-    public static final BusinessException EXCEPTION_ID_NAO_EXISTE = ID_NOT_FOUND.businessExceptionWithStatus(ProblemDetail.NOT_FOUND);
+    public static final DisplayException EXCEPTION_ID_NOT_FOUND = ID_NOT_FOUND.displayException(ProblemDetail.NOT_FOUND);
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -63,7 +63,7 @@ public final class CrudRepository {
         log.debug("update {}", identifiable);
 
         if(! storable.existsById(identifiable.getId())) {
-            throw EXCEPTION_ID_NAO_EXISTE;
+            throw EXCEPTION_ID_NOT_FOUND;
         }
 
         return mappable.of(
@@ -84,7 +84,7 @@ public final class CrudRepository {
         log.debug("delete {}", identifiable);
 
         if(! storable.existsById(identifiable.getId())) {
-            throw EXCEPTION_ID_NAO_EXISTE;
+            throw EXCEPTION_ID_NOT_FOUND;
         }
 
         storable.deleteById(identifiable.getId());

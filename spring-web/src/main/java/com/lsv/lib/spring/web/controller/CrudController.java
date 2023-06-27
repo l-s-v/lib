@@ -112,7 +112,7 @@ public final class CrudController {
         log.debug("findById {}", id);
 
         return ResponseEntity.ok(
-                service.findById(Identifiable.of(inClass, id)).orElseThrow(() -> CrudRepository.EXCEPTION_ID_NAO_EXISTE));
+                service.findById(Identifiable.of(inClass, id)).orElseThrow(() -> CrudRepository.EXCEPTION_ID_NOT_FOUND));
     }
 
     public static <

@@ -22,7 +22,7 @@
 <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
         <dependency>
             <groupId>com.lsv.lib</groupId>
-            <artifactId>template</artifactId>
+            <artifactId>core</artifactId>
             <version>${project.version}</version>
         </dependency>
 

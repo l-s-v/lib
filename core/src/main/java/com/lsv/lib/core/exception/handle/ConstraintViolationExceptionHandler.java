@@ -2,7 +2,9 @@ package com.lsv.lib.core.exception.handle;
 
 import com.google.auto.service.AutoService;
 import com.lsv.lib.core.annotation.Priority;
-import com.lsv.lib.core.exception.ProblemDetail;
+import com.lsv.lib.core.exception.helper.HelperExceptionHandler;
+import com.lsv.lib.core.exception.helper.ProblemDetail;
+import com.lsv.lib.core.exception.message.MessageDisplayExceptionEnum;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.Builder;
@@ -20,21 +22,21 @@ import java.util.Optional;
 @AutoService(ExceptionHandleable.class)
 public class ConstraintViolationExceptionHandler implements ExceptionHandleable<ConstraintViolationException> {
 
-    private static final String TITLE = "BEAN_VALIDATION";
     private static final String PROPERTY_VIOLATIONS = "violations";
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     @Override
-    public ProblemDetail create(ConstraintViolationException constraintViolationException) {
+    public ProblemDetail handle(ConstraintViolationException constraintViolationException) {
         log.debug(constraintViolationException.getMessage(), constraintViolationException);
 
-        return new ProblemDetail()
-                .title(TITLE)
-                .detail(constraintViolationException.getMessage())
-                .property(PROPERTY_VIOLATIONS, constraintViolationException.getConstraintViolations().stream()
-                        .map(Violation::of)
-                        .toList())
+        return HelperExceptionHandler.createProblemDetail(
+                MessageDisplayExceptionEnum.BEAN_VALIDATION,
+                constraintViolationException.getMessage(),
+                null
+        ).property(PROPERTY_VIOLATIONS, constraintViolationException.getConstraintViolations().stream()
+                .map(Violation::of)
+                .toList())
                 ;
     }
 

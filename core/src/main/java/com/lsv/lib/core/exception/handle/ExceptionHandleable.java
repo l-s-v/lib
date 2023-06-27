@@ -1,6 +1,6 @@
 package com.lsv.lib.core.exception.handle;
 
-import com.lsv.lib.core.exception.ProblemDetail;
+import com.lsv.lib.core.exception.helper.ProblemDetail;
 
 import java.io.Serializable;
 
@@ -9,5 +9,5 @@ import java.io.Serializable;
  */
 public interface ExceptionHandleable<T extends Throwable> extends Serializable {
 
-    ProblemDetail create(T throwable);
+    ProblemDetail handle(T throwable);
 }

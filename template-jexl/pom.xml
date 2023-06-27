@@ -10,12 +10,12 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>template-velocity</artifactId>
+    <artifactId>template-jexl</artifactId>
     <packaging>jar</packaging>
-    <description>Biblioteca para trabalhar com templates utilizando Velocity.</description>
+    <description>Biblioteca para trabalhar com expressões regulares utilizando Jexl.</description>
 
     <properties>
-        <velocity.version>2.3</velocity.version>
+        <jexl3.version>3.2.1</jexl3.version>
     </properties>
 
     <dependencies>
@@ -27,10 +27,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity-engine-core</artifactId>
-            <version>${velocity.version}</version>
-            <optional>true</optional>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-jexl3</artifactId>
+            <version>${jexl3.version}</version>
         </dependency>
 <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
     </dependencies>

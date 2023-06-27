@@ -6,6 +6,7 @@ import com.lsv.lib.core.helper.HelperClass;
 import com.lsv.lib.core.loader.Loadable;
 import lombok.*;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -27,7 +28,7 @@ import java.util.Map;
 @Priority(1)
 @AutoService(Loadable.class)
 @Component
-public class SpringLoader implements ApplicationContextAware, Loadable {
+public class SpringLoader implements ApplicationContextAware, BeanPostProcessor, Loadable {
 
     private static ApplicationContext applicationContext;
     private static ConfigurableListableBeanFactory beanFactory;

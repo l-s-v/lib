@@ -18,10 +18,9 @@
 
     <modules>
         <module>core</module>
-        <module>template</module>
         <module>template-velocity</module>
         <module>template-pebble</module>
-        <module>el-jexl</module>
+        <module>template-jexl</module>
         <module>spring-jpa</module>
         <module>mapping-modelmapper</module>
         <module>mapping-mapstruct</module>

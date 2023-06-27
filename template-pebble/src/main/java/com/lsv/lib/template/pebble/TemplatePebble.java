@@ -1,8 +1,8 @@
 package com.lsv.lib.template.pebble;
 
 import com.google.auto.service.AutoService;
-import com.lsv.lib.template.Template;
-import com.lsv.lib.template.TemplateAbstract;
+import com.lsv.lib.core.template.Template;
+import com.lsv.lib.core.template.TemplateAbstract;
 import com.mitchellbosecke.pebble.PebbleEngine;
 import lombok.*;
 
@@ -19,8 +19,8 @@ import java.io.StringWriter;
 @AutoService(Template.class)
 public class TemplatePebble extends TemplateAbstract<String> {
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     private final PebbleEngine pebbleEngine;
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     public TemplatePebble() {

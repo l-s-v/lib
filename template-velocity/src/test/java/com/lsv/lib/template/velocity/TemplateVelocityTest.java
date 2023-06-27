@@ -1,6 +1,6 @@
 package com.lsv.lib.template.velocity;
 
-import com.lsv.lib.template.Template;
+import com.lsv.lib.core.template.Template;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;

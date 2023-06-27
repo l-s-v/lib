@@ -30,3 +30,4 @@
 /spring-web/target
 /spring-web-test/target
 /mapping-mapstruct/target
+/template-jexl/target
