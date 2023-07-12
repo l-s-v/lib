@@ -14,20 +14,30 @@
     <artifactId>parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
+    <name>${project.groupId}:${project.artifactId}:${project.version}</name>
     <description>Base para bibliotecas modulares</description>
 
     <modules>
-        <module>core</module>
-        <module>template-velocity</module>
-        <module>template-pebble</module>
-        <module>template-jexl</module>
-        <module>spring-jpa</module>
-        <module>mapping-modelmapper</module>
-        <module>mapping-mapstruct</module>
-        <module>core-test</module>
-        <module>spring-jpa-test</module>
-        <module>spring-core</module>
-        <module>spring-web</module>
-        <module>spring-web-test</module>
+        <module>basic/core</module>
+        <module>basic/core-test</module>
+
+        <module>spring/jpa</module>
+        <module>spring/jpa-test</module>
+        <module>spring/core</module>
+        <module>spring/web</module>
+        <module>spring/web-test</module>
+        <module>spring/security-web</module>
+        <module>spring/security-web-client</module>
+        <module>spring/security-web-resource-server</module>
+
+        <module>misc/template/velocity</module>
+        <module>misc/template/pebble</module>
+        <module>misc/template/jexl</module>
+        <module>misc/mapping/modelmapper</module>
+        <module>misc/mapping/mapstruct</module>
+        <module>misc/jwt</module>
+
+        <module>teste</module>
     </modules>
 </project>
