@@ -1,0 +1,30 @@
+# Needed to reuse default properties and not be overwritten
+# File created just to facilitate the to/from of default values
+# Maps directly to spring settings.
+
+lib:
+  observability:
+    enabled: false
+    enabledObservedAspect: ${lib.observability.enabled}
+    export:
+      endpoint:
+      enabled: ${lib.observability.enabled}
+      enabledLogs: ${lib.observability.export.enabled}
+      enabledMetrics: ${lib.observability.export.enabled}
+      enabledTracing: ${lib.observability.export.enabled}
+
+management:
+  tracing:
+    enabled: ${lib.observability.export.enabledTracing}
+    sampling:
+      probability: 1.0
+  otlp:
+    metrics:
+      export:
+        enabled: false # Disabled because this export via spring/micrometer is done via http
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true # For Exemplars to work we need histogram buckets
