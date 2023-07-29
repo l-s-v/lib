@@ -20,7 +20,7 @@ public class ReactiveExceptionHandler
         implements WebExceptionHandler<ServerWebExchange, Mono> {
 
     @ExceptionHandler(Exception.class)
-    Mono<ResponseEntity<Object>> handleGlobalException(Exception exception, ServerWebExchange exchange) {
+    public Mono<ResponseEntity<Object>> handleGlobalException(Exception exception, ServerWebExchange exchange) {
         return createProblemDetail(exception, getMessageSource(), exchange);
     }
 

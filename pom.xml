@@ -18,9 +18,12 @@
     <name>${project.groupId}:${project.artifactId}:${project.version}</name>
     <description>Base para bibliotecas modulares</description>
 
+<!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
+
     <modules>
         <module>basic/core</module>
         <module>basic/core-test</module>
+        <module>basic/security</module>
 
         <module>spring/jpa</module>
         <module>spring/jpa-test</module>
@@ -30,6 +33,7 @@
         <module>spring/security-web</module>
         <module>spring/security-web-client</module>
         <module>spring/security-web-resource-server</module>
+        <module>spring/observability</module>
 
         <module>misc/template/velocity</module>
         <module>misc/template/pebble</module>
@@ -40,4 +44,5 @@
 
         <module>teste</module>
     </modules>
+
 </project>

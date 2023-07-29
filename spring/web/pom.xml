@@ -27,6 +27,11 @@
         <!-- lib -->
         <dependency>
             <groupId>com.lsv.lib</groupId>
+            <artifactId>security</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lsv.lib</groupId>
             <artifactId>spring-core</artifactId>
             <version>${project.version}</version>
         </dependency>

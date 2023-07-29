@@ -32,9 +32,6 @@ public final class Loader<T> {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     private Loader(@NonNull Class<T> classType) {
-        if (classNotIsValid(classType)) {
-            throw new IllegalArgumentException("Invalid argument. Accepts only interface.");
-        }
         this.classType = classType;
     }
 

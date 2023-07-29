@@ -40,13 +40,6 @@ public class LoaderTest {
     }
 
     @Test
-    public void invalidArgument() {
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
-                Loader.of(Implementation.class)
-                        .findImplementationsByFirstLoader());
-    }
-
-    @Test
     public void findImplementationNoSuchElement() {
         Assertions.assertThrows(NoSuchElementException.class, () ->
                 Loader.of(List.class).findUniqueImplementationByFirstLoader());

@@ -19,7 +19,7 @@ public class MvcExceptionHandler
         implements WebExceptionHandler<WebRequest, ResponseEntity> {
 
     @ExceptionHandler(Exception.class)
-    ResponseEntity<Object> handleGlobalException(Exception exception, WebRequest request) {
+    public ResponseEntity<Object> handleGlobalException(Exception exception, WebRequest request) {
         return createProblemDetail(exception, getMessageSource(), request);
     }
 
