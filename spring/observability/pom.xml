@@ -78,7 +78,7 @@ Important to stay before micrometer-tracing-bridge-otel.
             <version>${opentelemetry-instrumentation.version}</version>
         </dependency>
 <!-- - - - - - - - - - - - - - - - - - - - -->
-        <!-- Prepares OpenTelemetry to export data in the OTLP standard. -->
+        <!-- Prepares OpenTelemetry to export data in the OTLP (grpc) -->
         <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-exporter-otlp</artifactId>
@@ -96,13 +96,7 @@ Important to stay before micrometer-tracing-bridge-otel.
             <artifactId>opentelemetry-logback-appender-1.0</artifactId>
             <version>${opentelemetry-instrumentation.version}</version>
         </dependency>
-
         <!-- micrometer for otel (opentelemetry) -->
-<!--        <dependency>-->
-<!--            <groupId>io.micrometer</groupId>-->
-<!--            <artifactId>micrometer-registry-otlp</artifactId>-->
-<!--            <version>${micrometer.version}</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-tracing-bridge-otel</artifactId>
