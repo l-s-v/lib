@@ -12,7 +12,9 @@ import java.io.Serializable;
 import java.util.NoSuchElementException;
 
 /**
- * @author leandro.vieira
+ * Uses Spring Jpa(JpaRepository, JpaSpecificationExecutor) to provide the storage part.
+ *
+ * @author Leandro da Silva Vieira
  */
 public interface StorableSpringJpa<
         P extends Persistable<ID>,
@@ -22,6 +24,9 @@ public interface StorableSpringJpa<
         JpaRepository<P, ID>,
         JpaSpecificationExecutor<P> {
 
+    /**
+     * Spring JPA doesn't provide merge method, so it uses directly from hibernate's Session bean.
+     */
     @Override
     default <S extends P> S merge(S entity) {
         return (S) Loader.of(Session.class).findUniqueImplementationByFirstLoader().merge(entity);
@@ -29,6 +34,10 @@ public interface StorableSpringJpa<
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+    /**
+     * Looks for some existing bean for the repository interface.
+     * If not found, it creates an instance of SimpleJpaRepository for the object of type Persistable.
+     */
     @SuppressWarnings("unchecked")
     static <S> S of(Class<?> classTypeStorable, Class<? extends Persistable> classTypePersistable) {
         try {

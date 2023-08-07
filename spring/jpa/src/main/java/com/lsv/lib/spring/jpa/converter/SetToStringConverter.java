@@ -7,7 +7,7 @@ import org.springframework.util.StringUtils;
 import java.util.Set;
 
 /**
- * @author leandro.vieira
+ * @author Leandro da Silva Vieira
  */
 @Converter
 public class SetToStringConverter implements AttributeConverter<Set<Object>, String> {

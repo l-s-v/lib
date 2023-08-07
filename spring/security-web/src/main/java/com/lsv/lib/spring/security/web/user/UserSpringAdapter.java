@@ -1,7 +1,7 @@
 package com.lsv.lib.spring.security.web.user;
 
+import com.lsv.lib.spring.security.web.helper.SpringSecurityHelper;
 import lombok.experimental.Delegate;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Facilitates the adaptation of the logged in user to some specific context.
@@ -12,16 +12,6 @@ public abstract class UserSpringAdapter {
 
     @Delegate(types = UserSpring.class)
     private UserSpring getUser() {
-        return resolveUser();
-    }
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    public static UserSpring resolveUser() {
-        try{
-            return (UserSpring) SecurityContextHolder.getContext().getAuthentication();
-        } catch (NullPointerException e) {
-            throw new IllegalCallerException("Usuário não autenticado.");
-        }
+        return SpringSecurityHelper.resolveUser();
     }
 }

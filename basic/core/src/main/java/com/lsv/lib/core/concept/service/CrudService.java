@@ -18,7 +18,7 @@ import java.util.Optional;
 /**
  * Provides standard CRUD methods for Service.
  *
- * @author leandro.vieira
+ * @author Leandro da Silva Vieira
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

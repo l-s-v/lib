@@ -20,7 +20,7 @@ import static com.lsv.lib.core.exception.message.MessageDisplayExceptionEnum.ID_
 /**
  * Provides standard CRUD methods for Repository.
  *
- * @author leandro.vieira
+ * @author Leandro da Silva Vieira
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

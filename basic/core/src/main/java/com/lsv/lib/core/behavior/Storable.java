@@ -6,6 +6,11 @@ import com.lsv.lib.core.loader.Loader;
 import java.io.Serializable;
 import java.util.Optional;
 
+/**
+ * Defines the pattern of classes responsible for storing objects that can be persisted.
+ *
+ * @author Leandro da Silva Vieira
+ */
 public interface Storable<
         P extends Persistable<ID>,
         ID extends Serializable> {
@@ -42,6 +47,10 @@ public interface Storable<
                 .findUniqueImplementationByFirstLoader();
     }
 
+    /**
+     * If, when saving the object, you must use the save method.
+     * If it is false, then you must use merge.
+     */
     default boolean isUtilizeSave() {
         return true;
     }

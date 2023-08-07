@@ -69,7 +69,7 @@ public class SpringLoader implements ApplicationContextAware, BeanPostProcessor,
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    private static ApplicationContext applicationContext() {
+    public static ApplicationContext applicationContext() {
         if (applicationContext == null) {
             throw new NullPointerException("Contexto do spring não carregado.");
         }

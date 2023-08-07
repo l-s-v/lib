@@ -1,5 +1,6 @@
 package com.lsv.lib.spring.security.web.properties;
 
+import com.lsv.lib.core.audit.AuditProperties;
 import com.lsv.lib.core.helper.LibConstants;
 import com.lsv.lib.core.properties.LibProperties;
 import com.lsv.lib.security.web.properties.Cors;
@@ -42,4 +43,8 @@ public class SpringSecurityWebProperties implements LibProperties {
      */
     @NotNull
     private List<Cors> cors = EMPTY_LIST;
+    /**
+     * Properties related to the audit.
+     */
+    private AuditProperties audit;
 }

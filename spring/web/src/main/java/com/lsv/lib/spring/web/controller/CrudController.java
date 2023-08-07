@@ -20,7 +20,7 @@ import java.io.Serializable;
 /**
  * Provides standard CRUD methods for Controller.
  *
- * @author leandro.vieira
+ * @author Leandro da Silva Vieira
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

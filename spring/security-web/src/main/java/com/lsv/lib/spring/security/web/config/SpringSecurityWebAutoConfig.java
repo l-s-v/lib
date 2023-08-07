@@ -28,6 +28,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 import static com.lsv.lib.spring.core.helper.ConstantsSpring.SPRING_APPLICATION_NAME;
+import static com.lsv.lib.spring.core.helper.ConstantsSpring.SUPPRESS_WARNINGS_INJECTION;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
@@ -52,8 +53,7 @@ public class SpringSecurityWebAutoConfig {
     public SecurityFilterChain defaultEnabledSecurityFilterChain(HttpSecurity httpSecurity,
                                                                  List<AllowHttpAccess> allowHttpsAccess,
                                                                  List<ExtraProcess<HttpSecurity>> httpSecurityExtraProcesses,
-                                                                 @SuppressWarnings(SPRING_APPLICATION_NAME)
-                                                                     SpringSecurityWebHelperConfig springSecurityWebHelperConfig
+                                                                 SpringSecurityWebHelperConfig springSecurityWebHelperConfig
     ) throws Exception {
 
         log.trace("Iniciando configuração de segurança");

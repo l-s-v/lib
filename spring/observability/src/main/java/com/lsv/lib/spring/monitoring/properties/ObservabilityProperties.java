@@ -1,5 +1,6 @@
 package com.lsv.lib.spring.monitoring.properties;
 
+import com.lsv.lib.core.audit.AuditProperties;
 import com.lsv.lib.core.helper.LibConstants;
 import com.lsv.lib.core.properties.LibProperties;
 import io.opentelemetry.sdk.metrics.data.AggregationTemporality;
@@ -46,12 +47,16 @@ public class ObservabilityProperties implements LibProperties {
     /**
      * Data export settings.
      */
-    private Export export;
+    private ExportProperties export;
+    /**
+     * Properties related to the audit.
+     */
+    private AuditProperties audit;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     @Data
-    public static class Export {
+    public static class ExportProperties {
         /**
          * Enable all data export.
          */

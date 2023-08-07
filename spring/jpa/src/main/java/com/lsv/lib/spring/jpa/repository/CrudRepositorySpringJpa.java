@@ -26,7 +26,7 @@ import java.util.function.Consumer;
 /**
  * Provides standard CRUD methods for Repository with Spring and JPA.
  *
- * @author leandro.vieira
+ * @author Leandro da Silva Vieira
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

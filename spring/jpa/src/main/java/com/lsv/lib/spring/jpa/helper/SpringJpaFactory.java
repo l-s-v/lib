@@ -14,7 +14,7 @@ import org.springframework.data.repository.core.support.RepositoryFactorySupport
 import java.io.Serializable;
 
 /**
- * @author leandro.vieira
+ * @author Leandro da Silva Vieira
  */
 @Getter(AccessLevel.PRIVATE)
 @Setter(AccessLevel.PRIVATE)
@@ -36,7 +36,7 @@ public class SpringJpaFactory {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    private static EntityManager entityManager() {
+    public static EntityManager entityManager() {
         if (entityManager == null) {
             entityManager = SpringLoader.bean(EntityManager.class);
         }

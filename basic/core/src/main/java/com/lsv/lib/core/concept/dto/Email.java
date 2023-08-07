@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Encapsula as informações utilizadas no envio de email.
  *
- * @author leandro.vieira
+ * @author Leandro da Silva Vieira
  */
 @Getter
 @Setter
