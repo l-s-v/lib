@@ -16,7 +16,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @ConditionalOnProperty(
-    name = AuditProperties.PATH + "." + AuditProperties.PROP_ENABLED,
     havingValue = "true",
     matchIfMissing = true
 )
@@ -24,4 +23,7 @@ public @interface ConditionalAuditEnable {
 
     @AliasFor(annotation = ConditionalOnProperty.class, attribute = "prefix")
     String value();
+
+    @AliasFor(annotation = ConditionalOnProperty.class, attribute = "name")
+    String name() default AuditProperties.PATH + "." + AuditProperties.PROP_ENABLED;
 }

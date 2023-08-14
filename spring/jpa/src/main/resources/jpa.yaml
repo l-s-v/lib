@@ -1,7 +1,0 @@
-spring:
-  jpa:
-    properties:
-      hibernate:
-        current_session_context_class: org.hibernate.context.internal.ThreadLocalSessionContext
-        session_factory:
-          interceptor: com.lsv.lib.spring.jpa.audit.event.HibernateTransactionInterceptor

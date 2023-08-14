@@ -6,6 +6,7 @@ import com.lsv.lib.core.exception.message.MessageDisplayExceptionEnum;
 import com.lsv.lib.spring.web.exception.handler.MvcExceptionHandler;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
@@ -23,6 +24,7 @@ import static com.lsv.lib.spring.web.controller.MvcErrorController.REQUEST_MAPPI
  * @author Leandro da Silva Vieira
  */
 @Hidden
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.ANY)
 @RestController
 @RequestMapping(REQUEST_MAPPING)
 public class MvcErrorController extends AbstractErrorController {

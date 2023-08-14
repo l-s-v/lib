@@ -1,0 +1,6 @@
+lib:
+  database:
+    audit:
+      enabled: false
+      enabledTransactions: ${lib.database.audit.enabled}
+      enabledManual: false

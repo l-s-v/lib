@@ -1,9 +1,9 @@
 package com.lsv.lib.spring.security.web.audit;
 
 import com.lsv.lib.core.audit.Auditable;
+import com.lsv.lib.core.security.UserHandler;
 import com.lsv.lib.spring.core.annotation.ConditionalAuditEnable;
 import com.lsv.lib.spring.security.web.annotation.ConditionalWebSecurityEnable;
-import com.lsv.lib.spring.security.web.helper.SpringSecurityHelper;
 import com.lsv.lib.spring.security.web.properties.SpringSecurityWebProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -36,7 +36,7 @@ public class SpringSecurityWebAuditable implements Auditable {
     @Override
     public Map<String, String> geData() {
         try {
-            var user = SpringSecurityHelper.resolveUser();
+            var user = UserHandler.resolveUser();
 
             return Map.of(
                 "user", user.getName(),

@@ -1,6 +1,6 @@
 package com.lsv.lib.spring.security.web.user;
 
-import com.lsv.lib.spring.security.web.helper.SpringSecurityHelper;
+import com.lsv.lib.core.security.UserHandler;
 import lombok.experimental.Delegate;
 
 /**
@@ -12,6 +12,6 @@ public abstract class UserSpringAdapter {
 
     @Delegate(types = UserSpring.class)
     private UserSpring getUser() {
-        return SpringSecurityHelper.resolveUser();
+        return (UserSpring) UserHandler.resolveUser();
     }
 }
