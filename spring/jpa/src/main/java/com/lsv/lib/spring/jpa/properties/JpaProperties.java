@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * Settings for observability module.
+ * Settings for jpa module.
  *
  * @author Leandro da Silva Vieira
  */

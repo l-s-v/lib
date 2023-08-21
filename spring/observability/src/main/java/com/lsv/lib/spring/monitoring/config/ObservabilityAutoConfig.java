@@ -1,12 +1,17 @@
 package com.lsv.lib.spring.monitoring.config;
 
+import com.lsv.lib.core.audit.Auditable;
 import com.lsv.lib.security.web.AllowHttpAccess;
 import com.lsv.lib.security.web.properties.HttpMatcher;
+import com.lsv.lib.spring.core.annotation.ConditionalAuditEnable;
 import com.lsv.lib.spring.core.annotation.YamlSource;
 import com.lsv.lib.spring.core.config.SpringCoreAutoConfig;
+import com.lsv.lib.spring.core.loader.SpringLoader;
 import com.lsv.lib.spring.monitoring.properties.ObservabilityProperties;
 import io.micrometer.observation.ObservationRegistry;
 import io.micrometer.observation.aop.ObservedAspect;
+import io.micrometer.tracing.Tracer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -17,6 +22,7 @@ import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Map;
 
 import static com.lsv.lib.spring.core.helper.ConstantsSpring.SUPPRESS_WARNINGS_INJECTION;
 
@@ -36,6 +42,8 @@ import static com.lsv.lib.spring.core.helper.ConstantsSpring.SUPPRESS_WARNINGS_I
  *
  * @author Leandro da Silva Vieira
  */
+@Slf4j
+
 @YamlSource("classpath:/observability.yaml")
 @ObservabilityAutoConfig.ConditionalOnEnabledObservability
 @AutoConfiguration(after = {SpringCoreAutoConfig.class})
@@ -60,6 +68,36 @@ public class ObservabilityAutoConfig {
     @ConditionalOnEnabledObservedAspect
     public ObservedAspect observedAspect(@SuppressWarnings(SUPPRESS_WARNINGS_INJECTION) ObservationRegistry observationRegistry) {
         return new ObservedAspect(observationRegistry);
+    }
+
+    /**
+     * Assembles the observability module audit data.
+     */
+    @Bean
+    @ConditionalAuditEnable(ObservabilityProperties.PATH)
+    public Auditable observabilityAuditable() {
+        String ID = "observability";
+
+        return new Auditable() {
+            @Override
+            public String id() {
+                return ID;
+            }
+
+            @Override
+            public Map<String, String> geData() {
+                try {
+                    var trace = SpringLoader.bean(Tracer.class);
+
+                    return Map.of(
+                        "traceid", trace.currentSpan().context().traceId()
+                    );
+                } catch (Throwable e) {
+                    log.warn("Não foi possível recuperar os dados de auditoria de observability", e);
+                    return null;
+                }
+            }
+        };
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

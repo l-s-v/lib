@@ -26,8 +26,9 @@ public final class HelperBeanValidation {
         return getValidator().validate(bean);
     }
 
-    public static <T> void validate(T bean) {
+    public static <T> T validate(T bean) {
         throwsViolations(validateWhithoutThrow(bean));
+        return bean;
     }
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

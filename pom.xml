@@ -29,8 +29,11 @@
         <module>spring/jpa</module>
         <module>spring/jpa-test</module>
         <module>spring/jpa-audit</module>
+
         <module>spring/web</module>
         <module>spring/web-test</module>
+        <module>spring/web-commons</module>
+        <module>spring/web-client</module>
         <module>spring/security-web</module>
         <module>spring/security-web-client</module>
         <module>spring/security-web-resource-server</module>

@@ -53,3 +53,5 @@
 /spring/observability/target
 /teste
 /spring/jpa-audit/target
+/spring/web-client/target
+/spring/web-commons/target

@@ -5,7 +5,9 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 
-import static com.lsv.lib.core.helper.LibConstants.*;
+import static com.lsv.lib.core.helper.LibConstants.DEFAULT_ENCODING;
+import static com.lsv.lib.core.helper.LibConstants.DEFAULT_PROPERTIES_FILE_NAME;
+import static com.lsv.lib.spring.core.helper.ConstantsSpring.BASE_PACKAGE_SPRING;
 
 /**
  * Autoconfiguration of spring's core module, which will be the basis for all projects using spring.
@@ -25,7 +27,7 @@ import static com.lsv.lib.core.helper.LibConstants.*;
     ignoreResourceNotFound = true,
     encoding = DEFAULT_ENCODING
 )
-@ComponentScan(BASE_PACKAGE + "spring")
+@ComponentScan(BASE_PACKAGE_SPRING)
 @AutoConfiguration
 public class SpringCoreAutoConfig {
 }

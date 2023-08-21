@@ -14,8 +14,10 @@ import org.apache.commons.jexl3.MapContext;
 /**
  * Para execução de expressões regulares (uma forma de template) feitos em Jexl3.
  *
+ * @see <a href="https://commons.apache.org/proper/commons-jexl/">Jexl3</a>
+ * @see <a href="https://commons.apache.org/proper/commons-jexl/reference/syntax.html/">Jexl3 syntax</a>
+ *
  * @author Leandro da Silva Vieira
- * @see <a href="hhttps://commons.apache.org/proper/commons-jexl/">Jexl3</a>
  */
 @Getter(AccessLevel.PRIVATE)
 @Setter(AccessLevel.PRIVATE)

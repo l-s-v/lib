@@ -4,7 +4,6 @@ import lombok.NonNull;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.ClassUtils;
 
-import java.io.*;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
@@ -53,6 +52,17 @@ public final class HelperClass {
                                 .contains(superclassOrInterface))
                 .findFirst()
                 .orElseThrow(() -> NO_SUCH_ELEMENT_EXCEPTION);
+    }
+
+    @SuppressWarnings("unchecked")
+    @SneakyThrows
+    public static <T> Class<T> classForName(String name) {
+        return (Class<T>) Class.forName(name);
+    }
+
+    @SneakyThrows
+    public static <T> T newInstance(Class<T> objClass) {
+        return objClass.getConstructor().newInstance();
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
