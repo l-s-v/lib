@@ -35,7 +35,7 @@ public interface Auditable {
         return AUDITABLES.stream()
             .map(auditable -> Map.of(auditable.id(), auditable.geData()))
             .filter(map -> ObjectUtils.isNotEmpty(map.values()))
-            .flatMap(auditable -> auditable.entrySet().stream())
+            .flatMap(map -> map.entrySet().stream())
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }

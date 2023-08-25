@@ -55,3 +55,4 @@
 /spring/jpa-audit/target
 /spring/web-client/target
 /spring/web-commons/target
+/spring/web-resilient4j/target

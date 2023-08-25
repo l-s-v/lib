@@ -34,6 +34,7 @@
         <module>spring/web-test</module>
         <module>spring/web-commons</module>
         <module>spring/web-client</module>
+        <module>spring/web-resilient4j</module>
         <module>spring/security-web</module>
         <module>spring/security-web-client</module>
         <module>spring/security-web-resource-server</module>
