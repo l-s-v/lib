@@ -2,6 +2,3 @@ lib:
   web:
     client:
       basePackages: ${project.groupId:null}
-      defaultConfiguration:
-          enabledTokenPropagate: true
-          includeApicHeader: true

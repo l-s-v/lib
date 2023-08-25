@@ -8,8 +8,8 @@ import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 /**
  * @author Leandro da Silva Vieira
@@ -51,28 +51,28 @@ public interface ConverterProperties<T> extends Converter<String, T> {
 
     @Component
     @ConfigurationPropertiesBinding
-    class ConverterFunctionWebClientBuilderWebClientBuilder implements ConverterProperties<Function<WebClient.Builder, WebClient.Builder>> {
+    class ConverterUnaryOperatorWebClientBuilder implements ConverterProperties<UnaryOperator<WebClient.Builder>> {
 
         @Override
-        public Function<WebClient.Builder, WebClient.Builder> convert(@NonNull String className) {
+        public UnaryOperator<WebClient.Builder> convert(@NonNull String className) {
             try {
                 return newInstance(className);
             } catch (Exception e) {
-                return handlerError(e, className, "Function<WebClient.Builder, WebClient.Builder>");
+                return handlerError(e, className, "UnaryOperator<WebClient.Builder>");
             }
         }
     }
 
     @Component
     @ConfigurationPropertiesBinding
-    class ConverterFunctionWebClientHttpServiceProxyFactory implements ConverterProperties<Function<WebClient, HttpServiceProxyFactory>> {
+    class ConverterUnaryOperatorHttpServiceProxyFactory implements ConverterProperties<UnaryOperator<HttpServiceProxyFactory>> {
 
         @Override
-        public Function<WebClient, HttpServiceProxyFactory> convert(@NonNull String className) {
+        public UnaryOperator<HttpServiceProxyFactory> convert(@NonNull String className) {
             try {
                 return newInstance(className);
             } catch (Exception e) {
-                return handlerError(e, className, "Function<WebClient, HttpServiceProxyFactory>");
+                return handlerError(e, className, "UnaryOperator<HttpServiceProxyFactory>");
             }
         }
     }

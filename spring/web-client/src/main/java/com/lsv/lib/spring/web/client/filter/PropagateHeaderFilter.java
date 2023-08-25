@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.web.reactive.function.client.ClientRequest;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,9 +22,9 @@ public class PropagateHeaderFilter {
             return null;
         }
 
-        return (clientRequest, next) -> next.exchange(
+        return ExchangeFilterFunction.ofRequestProcessor(clientRequest -> Mono.just(
             propagateHeaders(clientRequest, headersToPropagate, WebSpringHelper.getCurrentHttpRequest())
-        );
+        ));
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

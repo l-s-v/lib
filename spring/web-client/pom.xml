@@ -14,10 +14,7 @@
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}:${project.version}</name>
-    <description>Biblioteca para trabalhar com spring using WebClient and @HttpExchange</description>
-
-    <properties>
-    </properties>
+    <description>Library for working with spring using WebClient and @HttpExchange</description>
 
     <dependencies>
 <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
@@ -50,7 +47,6 @@
             <artifactId>spring-security-oauth2-client</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
 <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
     </dependencies>
 </project>

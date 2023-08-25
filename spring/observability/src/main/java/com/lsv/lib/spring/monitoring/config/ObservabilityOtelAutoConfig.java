@@ -45,11 +45,9 @@ import static com.lsv.lib.spring.core.helper.ConstantsSpring.SUPPRESS_WARNINGS_I
 
 /**
  * Automatic configuration for export using OpenTelemetry (Otel).
- * <p>
- * Helpful links:
- * <p>
- * https://opentelemetry.io/docs/instrumentation/java/manual/
- * https://opentelemetry.io/docs/collector/deployment/gateway/
+ *
+ * @see <a href="https://opentelemetry.io/docs/instrumentation/java/manual/">opentelemetry</a>
+ * @see <a href="https://opentelemetry.io/docs/collector/deployment/gateway/">opentelemetry gateway</a>
  *
  * @author Leandro da Silva Vieira
  */

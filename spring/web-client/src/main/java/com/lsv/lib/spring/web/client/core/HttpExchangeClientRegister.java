@@ -5,6 +5,7 @@ import com.lsv.lib.core.helper.HelperClass;
 import com.lsv.lib.spring.core.loader.SpringLoader;
 import com.lsv.lib.spring.web.client.annotation.HttpExchangeClient;
 import com.lsv.lib.spring.web.client.properties.WebClientModuleProperties;
+import com.lsv.lib.spring.web.client.properties.WebClientProperties;
 import com.lsv.lib.spring.web.commons.helper.WebSpringHelper;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -22,24 +23,19 @@ import org.springframework.web.service.invoker.HttpServiceArgumentResolver;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 import java.util.LinkedList;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.lsv.lib.spring.core.helper.ConstantsSpring.BASE_PACKAGE_SPRING;
 
 /**
  * Looks for all interfaces with the @HttpExchangeClient annotation within the configured packages
- * and prepares the objects so that Spring can autowire them.<p>
- * <p>
- * Helpful links:
- * <ul>
- * <li> https://docs.spring.io/spring-framework/reference/integration/rest-clients.html#rest-http-interface
- * </ul>
+ * and prepares the objects so that Spring can autowire them.
  *
  * @author Leandro da Silva Vieira
+ * @see <a href="https://docs.spring.io/spring-framework/reference/integration/rest-clients.html#rest-http-interface">rest-http-interface</a>
  */
 @Slf4j
-public class HttpExchangeClientRegister implements Function<WebClient, HttpServiceProxyFactory> {
+public class HttpExchangeClientRegister {
 
     private final WebClientFactory webClientFactory;
 
@@ -52,23 +48,6 @@ public class HttpExchangeClientRegister implements Function<WebClient, HttpServi
         this.webClientFactory = webClientFactory;
 
         startRegisterHttpExchangeClients(webClientProperties);
-    }
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    /**
-     * Create HttpServiceProxyFactory.
-     *
-     * @see HttpServiceProxyFactory
-     * @see WebClientAdapter
-     * @see org.springframework.web.service.invoker.HttpServiceProxyFactory.Builder#customArgumentResolver(HttpServiceArgumentResolver)
-     */
-    @Override
-    public HttpServiceProxyFactory apply(WebClient webClient) {
-        return HttpServiceProxyFactory
-            .builder(WebClientAdapter.forClient(webClient))
-            .customArgumentResolver(objToMultiValueMapHttpServiceArgumentResolver())
-            .build();
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -102,11 +81,30 @@ public class HttpExchangeClientRegister implements Function<WebClient, HttpServi
         var objClass = HelperClass.classForName(beanDefinition.getBeanClassName());
         var webClientProperties = webClientFactory.resolveWebClientProperties(configurationId);
 
-        var httpServiceProxyFactory = ObjectUtils
-            .defaultIfNull(webClientProperties.getHttpServiceProxyFactoryCustomize(), this)
-            .apply(webClientFactory.createWebClient(configurationId, webClientProperties));
+        var httpServiceProxyFactory = customize(webClientProperties,
+            createHttpServiceProxyFactory(objClass, configurationId,
+                webClientFactory.createWebClient(configurationId, webClientProperties)
+            ));
 
         SpringLoader.registerBean(objClass, httpServiceProxyFactory.createClient(objClass));
+    }
+
+    /**
+     * @see HttpServiceProxyFactory
+     * @see WebClientAdapter
+     * @see org.springframework.web.service.invoker.HttpServiceProxyFactory.Builder#customArgumentResolver(HttpServiceArgumentResolver)
+     */
+    public HttpServiceProxyFactory createHttpServiceProxyFactory(Class<?> clientService, String configurationId, WebClient webClient) {
+        return HttpServiceProxyFactory
+            .builder(new InterceptorHttpClientAdapter(clientService, configurationId, webClient))
+            .customArgumentResolver(objToMultiValueMapHttpServiceArgumentResolver())
+            .build();
+    }
+
+    public HttpServiceProxyFactory customize(WebClientProperties webClientProperties, HttpServiceProxyFactory httpServiceProxyFactory) {
+        return webClientProperties.getHttpServiceProxyFactoryCustomize() != null
+            ? webClientProperties.getHttpServiceProxyFactoryCustomize().apply(httpServiceProxyFactory)
+            : httpServiceProxyFactory;
     }
 
     /**

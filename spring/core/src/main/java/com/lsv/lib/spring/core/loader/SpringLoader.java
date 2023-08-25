@@ -11,6 +11,7 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -64,7 +65,7 @@ public class SpringLoader implements ApplicationContextAware, BeanPostProcessor,
     }
 
     public static <T> void registerBean(Class<T> classe, @NonNull T bean) {
-        beanFactory.registerResolvableDependency(classe, bean);
+        ((GenericApplicationContext) applicationContext).registerBean(classe, () -> bean);
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

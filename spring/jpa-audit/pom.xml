@@ -17,7 +17,7 @@
     <description>Biblioteca para trabalhar com auditoria com Spring e JPA.</description>
 
     <dependencies>
-        <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
+<!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
         <dependency>
             <groupId>com.lsv.lib</groupId>
             <artifactId>spring-core</artifactId>
@@ -30,6 +30,6 @@
             <version>${springboot.version}</version>
         </dependency>
 
-        <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
+<!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
     </dependencies>
 </project>

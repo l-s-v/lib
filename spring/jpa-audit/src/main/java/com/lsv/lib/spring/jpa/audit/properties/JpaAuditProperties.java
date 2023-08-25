@@ -27,6 +27,7 @@ public class JpaAuditProperties extends AuditProperties {
 
     public static final String PATH_DATABASE = LibConstants.BASE_LIB_PROPERTIES + "database";
     public static final String PATH = PATH_DATABASE + "." + AuditProperties.PATH;
+
     public static final String PROP_ENABLED_TRANSACTIONS = "enabledTransactions";
     public static final String PROP_ENABLED_MANUAL = "enabledManual";
 

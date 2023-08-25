@@ -4,6 +4,7 @@ import com.lsv.lib.el.jexl.TemplateJexl;
 import com.lsv.lib.spring.core.loader.SpringLoader;
 import com.lsv.lib.spring.web.client.filter.OAuth2ClientCredentialsFilter;
 import com.lsv.lib.spring.web.client.filter.PropagateHeaderFilter;
+import com.lsv.lib.spring.web.client.filter.XForwardedHeaderFilter;
 import com.lsv.lib.spring.web.client.properties.WebClientModuleProperties;
 import com.lsv.lib.spring.web.client.properties.WebClientProperties;
 import lombok.RequiredArgsConstructor;
@@ -13,17 +14,15 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.Optional;
 
 import static com.google.common.net.HttpHeaders.AUTHORIZATION;
+import static com.lsv.lib.spring.web.client.helper.ConstantsWebClient.HEADER_X_IBM_CLIENT_ID_KEY;
+import static com.lsv.lib.spring.web.client.helper.ConstantsWebClient.HEADER_X_IBM_CLIENT_ID_VALUE;
 
 /**
- * Creates and configures WebClient objects.<p>
- * <p>
- * Helpful links:
- * <ul>
- * <li> https://docs.spring.io/spring-framework/reference/web/webflux-webclient.html
- * <li> https://www.baeldung.com/spring-webclient-oauth2
- * </ul>
+ * Creates and configures WebClient objects.
  *
  * @author Leandro da Silva Vieira
+ * @see <a href="https://docs.spring.io/spring-framework/reference/web/webflux-webclient.html">webflux-webclient</a>
+ * @see <a href="https://www.baeldung.com/spring-webclient-oauth2">spring-webclient-oauth2</a>
  */
 @RequiredArgsConstructor
 public class WebClientFactory {
@@ -42,13 +41,13 @@ public class WebClientFactory {
     }
 
     public WebClient createWebClientByConfigurationId(String configurationId) {
-        return createWebClient(ObjectUtils.defaultIfNull(configurationId, PROP_DEFAULT_CONFIGURATION),
+        return createWebClient(
+            ObjectUtils.defaultIfNull(configurationId, PROP_DEFAULT_CONFIGURATION),
             resolveWebClientProperties(configurationId));
     }
 
     public WebClientProperties resolveWebClientProperties(String configurationId) {
-        var defaultWebClientProperties = webClientModuleProperties.getDefaultConfig();
-        var finalWebClientProperties = defaultWebClientProperties;
+        var finalWebClientProperties = webClientModuleProperties.getDefaultConfig();
 
         if (ObjectUtils.isNotEmpty(configurationId)) {
             var webClientProperties = Optional
@@ -56,14 +55,21 @@ public class WebClientFactory {
                 .orElseThrow(() -> new IllegalArgumentException("configurationId \"%s\" informado não foi encontrado.".formatted(configurationId)));
 
 
+            var defaultWebClientProperties = finalWebClientProperties;
+
             // Merges default properties with specific ones
             finalWebClientProperties = new WebClientProperties()
                 .setUrl(ObjectUtils.defaultIfNull(webClientProperties.getUrl(), defaultWebClientProperties.getUrl()))
                 .setSa(ObjectUtils.defaultIfNull(webClientProperties.getSa(), defaultWebClientProperties.getSa()))
                 .setWebClientBuilderCustomize(ObjectUtils.defaultIfNull(webClientProperties.getWebClientBuilderCustomize(), defaultWebClientProperties.getWebClientBuilderCustomize()))
                 .setHttpServiceProxyFactoryCustomize(ObjectUtils.defaultIfNull(webClientProperties.getHttpServiceProxyFactoryCustomize(), defaultWebClientProperties.getHttpServiceProxyFactoryCustomize()))
+                .setShortcut(new WebClientProperties.Shortcut()
+                    .setPropagateToken(ObjectUtils.defaultIfNull(webClientProperties.getShortcut().getPropagateToken(), defaultWebClientProperties.getShortcut().getPropagateToken()))
+                    .setHeaderApic(ObjectUtils.defaultIfNull(webClientProperties.getShortcut().getHeaderApic(), defaultWebClientProperties.getShortcut().getHeaderApic()))
+                    .setHeaderApicPropagate(ObjectUtils.defaultIfNull(webClientProperties.getShortcut().getHeaderApicPropagate(), defaultWebClientProperties.getShortcut().getHeaderApicPropagate()))
+                    .setHeaderXForwarded(ObjectUtils.defaultIfNull(webClientProperties.getShortcut().getHeaderXForwarded(), defaultWebClientProperties.getShortcut().getHeaderXForwarded()))
+                )
             ;
-
             // The lists are summed
             finalWebClientProperties.getPropagateHeaders().addAll(defaultWebClientProperties.getPropagateHeaders());
             finalWebClientProperties.getPropagateHeaders().addAll(webClientProperties.getPropagateHeaders());
@@ -79,17 +85,44 @@ public class WebClientFactory {
     }
 
     public WebClient createWebClient(String id, WebClientProperties webClientProperties) {
-        if (webClientProperties.getSa() != null) {
-            webClientProperties.getFilters().add(() -> OAuth2ClientCredentialsFilter.create(id, webClientProperties.getSa()));
-        } else if (Boolean.TRUE.equals(webClientProperties.getEnabledTokenPropagate())) {
+        // @formatter:off
+        return
+            customize(webClientProperties,
+                    handleShortcuts(webClientProperties)
+                   .authenticationConfigure(id, webClientProperties)
+                   .addFilters(webClientProperties, webClientBuilder)
+                   .addHeaders(webClientProperties, webClientBuilder)
+                   .webClientBuilder.baseUrl(webClientProperties.getUrl())
+            ).build();
+        // @formatter:on
+    }
+
+    public WebClientFactory handleShortcuts(WebClientProperties webClientProperties) {
+        if (Boolean.TRUE.equals(webClientProperties.getShortcut().getPropagateToken())) {
             webClientProperties.getPropagateHeaders().add(AUTHORIZATION);
         }
 
-        this.addFilters(webClientProperties, webClientBuilder)
-            .addHeaders(webClientProperties, webClientBuilder)
-            .webClientBuilder.baseUrl(webClientProperties.getUrl());
+        if (Boolean.TRUE.equals(webClientProperties.getShortcut().getHeaderApic())) {
+            webClientProperties.getHeaders().put(HEADER_X_IBM_CLIENT_ID_KEY, HEADER_X_IBM_CLIENT_ID_VALUE);
+        }
+        if (Boolean.TRUE.equals(webClientProperties.getShortcut().getHeaderApicPropagate())) {
+            webClientProperties.getPropagateHeaders().add(HEADER_X_IBM_CLIENT_ID_KEY);
+        }
 
-        return customize(webClientProperties, webClientBuilder).build();
+        if (Boolean.TRUE.equals(webClientProperties.getShortcut().getHeaderXForwarded())) {
+            webClientProperties.getFilters().add(XForwardedHeaderFilter::create);
+        }
+
+        return this;
+    }
+
+    public WebClientFactory authenticationConfigure(String id, WebClientProperties webClientProperties) {
+        if (webClientProperties.getSa() != null) {
+            webClientProperties.getFilters().add(() -> OAuth2ClientCredentialsFilter.create(id, webClientProperties.getSa()));
+            webClientProperties.getPropagateHeaders().remove(AUTHORIZATION);
+        }
+
+        return this;
     }
 
     public WebClientFactory addFilters(WebClientProperties webClientProperties, WebClient.Builder webClientBuilder) {

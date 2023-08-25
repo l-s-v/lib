@@ -5,7 +5,6 @@ import com.lsv.lib.security.web.properties.HttpMatcher;
 import com.lsv.lib.spring.core.config.SpringCoreAutoConfig;
 import com.lsv.lib.spring.web.controller.MvcErrorController;
 import com.lsv.lib.spring.web.properties.SpringWebProperties;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -25,7 +24,6 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
  * @author Leandro da Silva Vieira
  */
 @Slf4j
-@RequiredArgsConstructor
 
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @AutoConfiguration(after = SpringCoreAutoConfig.class)

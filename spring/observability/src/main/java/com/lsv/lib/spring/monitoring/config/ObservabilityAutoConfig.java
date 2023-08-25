@@ -28,17 +28,15 @@ import static com.lsv.lib.spring.core.helper.ConstantsSpring.SUPPRESS_WARNINGS_I
 
 /**
  * Autoconfiguration for the observability module.
- * <p>
- * Helpful links:
- * <p>
- * https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html
- * https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.micrometer-tracing
- * https://docs.spring.io/spring-boot/docs/current/actuator-api/htmlsingle
- * <p>
- * https://spring.io/blog/2022/10/12/observability-with-spring-boot-3
- * <p>
- * https://www.baeldung.com/distributed-systems-observability
- * https://www.baeldung.com/spring-boot-3-observability
+ *
+ * @see <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html">actuator</a>
+ * @see <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.micrometer-tracing">actuator.micrometer-tracing</a>
+ * @see <a href="https://docs.spring.io/spring-boot/docs/current/actuator-api/htmlsingle">actuator-api</a>
+ *
+ * @see <a href="https://spring.io/blog/2022/10/12/observability-with-spring-boot-3">observability-with-spring-boot-3</a>
+ *
+ * @see <a href="https://www.baeldung.com/distributed-systems-observability">distributed-systems-observability</a>
+ * @see <a href="https://www.baeldung.com/spring-boot-3-observability">spring-boot-3-observability</a>
  *
  * @author Leandro da Silva Vieira
  */
