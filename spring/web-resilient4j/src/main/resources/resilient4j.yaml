@@ -1,0 +1,7 @@
+lib:
+  web:
+    resilient4j:
+      enabled: false
+      cacheOperator:
+        size: 50
+        duration: 1h
