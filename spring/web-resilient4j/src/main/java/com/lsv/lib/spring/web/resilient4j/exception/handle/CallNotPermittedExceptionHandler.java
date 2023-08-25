@@ -26,7 +26,7 @@ public class CallNotPermittedExceptionHandler implements ExceptionHandleable<Cal
         log.error(callNotPermittedException.getMessage(), callNotPermittedException);
 
         return HelperExceptionHandler.createProblemDetail(
-                MessageDisplayExceptionEnum.SERVER_ERROR,
+                MessageDisplayExceptionEnum.SERVICE_UNAVAILABLE,
                 null,
             SERVICE_UNAVAILABLE);
     }

@@ -10,6 +10,7 @@ import lombok.Getter;
 public enum MessageDisplayExceptionEnum implements MessageDisplayException {
     // Global
     SERVER_ERROR,
+    SERVICE_UNAVAILABLE,
     BEAN_VALIDATION,
     FORBIDDEN,
     UNAUTHORIZED,
