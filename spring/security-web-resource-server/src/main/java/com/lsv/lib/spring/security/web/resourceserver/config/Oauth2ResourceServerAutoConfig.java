@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.cache.Cache;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.convert.converter.Converter;
@@ -25,7 +26,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.OpaqueTokenAuthenticationProvider;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import static com.lsv.lib.spring.core.helper.ConstantsSpring.SPRING_APPLICATION_NAME;
 
@@ -86,7 +86,7 @@ public class Oauth2ResourceServerAutoConfig {
     @Bean
     @ConditionalOnMissingBean
     public AuthenticationEntryPoint defaultAuthenticationEntryPoint(@SuppressWarnings(SPRING_APPLICATION_NAME)
-                                                                        HandlerExceptionResolver handlerExceptionResolver) {
+                                                                        DefaultErrorAttributes handlerExceptionResolver) {
 
         return (request, response, authException) -> handlerExceptionResolver.resolveException(request, response, null, authException);
     }

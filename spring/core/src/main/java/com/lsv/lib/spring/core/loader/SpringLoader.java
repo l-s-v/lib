@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * Spring implementation for Loadable.
@@ -65,7 +66,11 @@ public class SpringLoader implements ApplicationContextAware, BeanPostProcessor,
     }
 
     public static <T> void registerBean(Class<T> classe, @NonNull T bean) {
-        ((GenericApplicationContext) applicationContext).registerBean(classe, () -> bean);
+        registerBeanWithSupplier(classe, () -> bean);
+    }
+
+    public static <T> void registerBeanWithSupplier(Class<T> classe, @NonNull Supplier<T> supplier) {
+        ((GenericApplicationContext) applicationContext).registerBean(classe, supplier);
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

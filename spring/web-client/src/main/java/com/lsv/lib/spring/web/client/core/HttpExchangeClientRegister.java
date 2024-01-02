@@ -81,12 +81,21 @@ public class HttpExchangeClientRegister {
         var objClass = HelperClass.classForName(beanDefinition.getBeanClassName());
         var webClientProperties = webClientFactory.resolveWebClientProperties(configurationId);
 
-        var httpServiceProxyFactory = customize(webClientProperties,
-            createHttpServiceProxyFactory(objClass, configurationId,
-                webClientFactory.createWebClient(configurationId, webClientProperties)
-            ));
+        registerHttpExchangeClient(webClientProperties, configurationId, objClass);
+    }
 
-        SpringLoader.registerBean(objClass, httpServiceProxyFactory.createClient(objClass));
+    /**
+     * Register the bean, using lazy loading, so that spring's dependency injection recognizes the bean that only has the interface.
+     */
+    protected void registerHttpExchangeClient(WebClientProperties webClientProperties, String configurationId, Class<Object> beanClass) {
+        SpringLoader.registerBeanWithSupplier(beanClass, () -> {
+            var httpServiceProxyFactory = customize(webClientProperties,
+                createHttpServiceProxyFactory(beanClass, configurationId,
+                    webClientFactory.createWebClient(configurationId, webClientProperties)
+                ));
+
+            return httpServiceProxyFactory.createClient(beanClass);
+        });
     }
 
     /**
@@ -96,7 +105,7 @@ public class HttpExchangeClientRegister {
      */
     public HttpServiceProxyFactory createHttpServiceProxyFactory(Class<?> clientService, String configurationId, WebClient webClient) {
         return HttpServiceProxyFactory
-            .builder(new InterceptorHttpClientAdapter(clientService, configurationId, webClient))
+            .builderFor(new InterceptorHttpClientAdapter(clientService, configurationId, webClient))
             .customArgumentResolver(objToMultiValueMapHttpServiceArgumentResolver())
             .build();
     }

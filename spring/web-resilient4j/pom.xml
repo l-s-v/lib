@@ -17,7 +17,7 @@
     <description>Library to work with resilient4j in spring projects</description>
 
     <properties>
-        <resilience4j.version>2.1.0</resilience4j.version>
+        <resilience4j.version>2.2.0</resilience4j.version>
         <caffeine.version>3.1.8</caffeine.version>
     </properties>
 
@@ -54,6 +54,13 @@
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
             <version>${caffeine.version}</version>
+        </dependency>
+
+        <!-- force update micrometer -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-core</artifactId>
+            <version>${micrometer.version}</version>
         </dependency>
 
 <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->

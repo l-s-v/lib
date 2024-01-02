@@ -30,6 +30,13 @@
             <version>${springboot.version}</version>
         </dependency>
 
+        <!-- force upgrade version -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
 <!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
     </dependencies>
 </project>

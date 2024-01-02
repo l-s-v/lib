@@ -8,8 +8,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.support.WebClientAdapter;
-import org.springframework.web.service.invoker.HttpClientAdapter;
+import org.springframework.web.service.invoker.AbstractReactorHttpExchangeAdapter;
 import org.springframework.web.service.invoker.HttpRequestValues;
+import org.springframework.web.service.invoker.ReactorHttpExchangeAdapter;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -19,10 +20,10 @@ import reactor.core.publisher.Mono;
  * @author Leandro da Silva Vieira
  */
 @Slf4j
-public class InterceptorHttpClientAdapter implements HttpClientAdapter {
+public class InterceptorHttpClientAdapter extends AbstractReactorHttpExchangeAdapter {
 
     private final WebClientRequestInterceptEvent eventWebClientRequestIntercept;
-    private final HttpClientAdapter delegate;
+    private final ReactorHttpExchangeAdapter delegate;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -32,57 +33,57 @@ public class InterceptorHttpClientAdapter implements HttpClientAdapter {
             .clientClass(clientService)
             .webClient(webClient)
             .build();
-        this.delegate = WebClientAdapter.forClient(webClient);
+        this.delegate = WebClientAdapter.create(webClient);
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     @Override
-    public Mono<Void> requestToVoid(HttpRequestValues requestValues) {
-        return publish("requestToVoid", requestValues, null,
-            delegate.requestToVoid(requestValues)
+    public Mono<Void> exchangeForMono(HttpRequestValues requestValues) {
+        return publish("exchangeForMono", requestValues, null,
+            delegate.exchangeForMono(requestValues)
         );
     }
 
     @Override
-    public Mono<HttpHeaders> requestToHeaders(HttpRequestValues requestValues) {
-        return publish("requestToHeaders", requestValues, null,
-            delegate.requestToHeaders(requestValues)
+    public Mono<HttpHeaders> exchangeForHeadersMono(HttpRequestValues requestValues) {
+        return publish("exchangeForHeadersMono", requestValues, null,
+            delegate.exchangeForHeadersMono(requestValues)
         );
     }
 
     @Override
-    public <T> Mono<T> requestToBody(HttpRequestValues requestValues, ParameterizedTypeReference<T> bodyType) {
-        return publish("requestToBody", requestValues, bodyType,
-            delegate.requestToBody(requestValues, bodyType)
+    public <T> Mono<T> exchangeForBodyMono(HttpRequestValues requestValues, ParameterizedTypeReference<T> bodyType) {
+        return publish("exchangeForBodyMono", requestValues, bodyType,
+            delegate.exchangeForBodyMono(requestValues, bodyType)
         );
     }
 
     @Override
-    public <T> Flux<T> requestToBodyFlux(HttpRequestValues requestValues, ParameterizedTypeReference<T> bodyType) {
-        return publish("requestToBodyFlux", requestValues, bodyType,
-            delegate.requestToBodyFlux(requestValues, bodyType)
+    public <T> Flux<T> exchangeForBodyFlux(HttpRequestValues requestValues, ParameterizedTypeReference<T> bodyType) {
+        return publish("exchangeForBodyFlux", requestValues, bodyType,
+            delegate.exchangeForBodyFlux(requestValues, bodyType)
         );
     }
 
     @Override
-    public Mono<ResponseEntity<Void>> requestToBodilessEntity(HttpRequestValues requestValues) {
-        return publish("requestToBodilessEntity", requestValues, null,
-            delegate.requestToBodilessEntity(requestValues)
+    public Mono<ResponseEntity<Void>> exchangeForBodilessEntityMono(HttpRequestValues requestValues) {
+        return publish("exchangeForBodilessEntityMono", requestValues, null,
+            delegate.exchangeForBodilessEntityMono(requestValues)
         );
     }
 
     @Override
-    public <T> Mono<ResponseEntity<T>> requestToEntity(HttpRequestValues requestValues, ParameterizedTypeReference<T> bodyType) {
-        return publish("requestToEntity", requestValues, bodyType,
-            delegate.requestToEntity(requestValues, bodyType)
+    public <T> Mono<ResponseEntity<T>> exchangeForEntityMono(HttpRequestValues requestValues, ParameterizedTypeReference<T> bodyType) {
+        return publish("exchangeForEntityMono", requestValues, bodyType,
+            delegate.exchangeForEntityMono(requestValues, bodyType)
         );
     }
 
     @Override
-    public <T> Mono<ResponseEntity<Flux<T>>> requestToEntityFlux(HttpRequestValues requestValues, ParameterizedTypeReference<T> bodyType) {
-        return publish("requestToEntityFlux", requestValues, bodyType,
-            delegate.requestToEntityFlux(requestValues, bodyType)
+    public <T> Mono<ResponseEntity<Flux<T>>> exchangeForEntityFlux(HttpRequestValues requestValues, ParameterizedTypeReference<T> bodyType) {
+        return publish("exchangeForEntityFlux", requestValues, bodyType,
+            delegate.exchangeForEntityFlux(requestValues, bodyType)
         );
     }
 
@@ -102,5 +103,12 @@ public class InterceptorHttpClientAdapter implements HttpClientAdapter {
 
         // Returns the object that may have been modified
         return (T) event.resultMonoFlux();
+    }
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    @Override
+    public boolean supportsRequestAttributes() {
+        return true;
     }
 }

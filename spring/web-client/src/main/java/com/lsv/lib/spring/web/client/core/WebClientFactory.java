@@ -31,8 +31,8 @@ public class WebClientFactory {
 
     private static WebClientFactory instance;
 
-    private final WebClient.Builder webClientBuilder;
     private final WebClientModuleProperties webClientModuleProperties;
+    private WebClient.Builder webClientBuilder;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -90,9 +90,9 @@ public class WebClientFactory {
             customize(webClientProperties,
                     handleShortcuts(webClientProperties)
                    .authenticationConfigure(id, webClientProperties)
-                   .addFilters(webClientProperties, webClientBuilder)
-                   .addHeaders(webClientProperties, webClientBuilder)
-                   .webClientBuilder.baseUrl(webClientProperties.getUrl())
+                   .addFilters(webClientProperties, getWebClientBuilder())
+                   .addHeaders(webClientProperties, getWebClientBuilder())
+                   .getWebClientBuilder().baseUrl(webClientProperties.getUrl())
             ).build();
         // @formatter:on
     }
@@ -163,5 +163,15 @@ public class WebClientFactory {
             instance = SpringLoader.bean(WebClientFactory.class);
         }
         return instance;
+    }
+
+    /**
+     * Delay loading as much as possible, as injecting it during the creation of Beans caused tracing to not work correctly.
+     */
+    public WebClient.Builder getWebClientBuilder() {
+        if (webClientBuilder == null) {
+            webClientBuilder = SpringLoader.bean(WebClient.Builder.class);
+        }
+        return webClientBuilder;
     }
 }
