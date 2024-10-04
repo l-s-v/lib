@@ -7,10 +7,8 @@ import com.lsv.lib.core.loader.Loadable;
 import lombok.*;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -33,7 +31,6 @@ import java.util.function.Supplier;
 public class SpringLoader implements ApplicationContextAware, BeanPostProcessor, Loadable {
 
     private static ApplicationContext applicationContext;
-    private static ConfigurableListableBeanFactory beanFactory;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -42,7 +39,6 @@ public class SpringLoader implements ApplicationContextAware, BeanPostProcessor,
         synchronized (this) {
             if (SpringLoader.applicationContext == null) {
                 SpringLoader.applicationContext = applicationContext;
-                beanFactory = ((ConfigurableApplicationContext) SpringLoader.applicationContext).getBeanFactory();
             }
         }
     }
@@ -70,7 +66,7 @@ public class SpringLoader implements ApplicationContextAware, BeanPostProcessor,
     }
 
     public static <T> void registerBeanWithSupplier(Class<T> classe, @NonNull Supplier<T> supplier) {
-        ((GenericApplicationContext) applicationContext).registerBean(classe, supplier);
+        ((GenericApplicationContext) applicationContext()).registerBean(classe, supplier);
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

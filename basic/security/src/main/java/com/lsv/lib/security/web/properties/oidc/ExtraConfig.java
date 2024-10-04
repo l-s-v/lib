@@ -25,4 +25,8 @@ public class ExtraConfig {
      */
     @NotNull
     private long jwksMaxTimeCached = 86_400;
+    /**
+     * Home page url.
+     */
+    private String homepage;
 }

@@ -6,12 +6,14 @@ import com.lsv.lib.security.web.properties.oidc.Issuer;
 import com.lsv.lib.spring.security.web.annotation.ConditionalWebSecurityEnable;
 import com.lsv.lib.spring.security.web.client.resolver.ConverterOAuth2UserOidcResolver;
 import com.lsv.lib.spring.security.web.client.resolver.IssuersClientsRegistrationResolver;
+import com.lsv.lib.spring.security.web.client.user.UserOidcAcessToken;
 import com.lsv.lib.spring.security.web.config.SpringSecurityWebAutoConfig;
 import com.lsv.lib.spring.security.web.extraprocess.ClientLoginExtraProcess;
 import com.nimbusds.jwt.JWTParser;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -27,18 +29,19 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.lsv.lib.security.web.helper.oidc.ConstantsWebOidc.PARAM_ID_TOKEN_HINT;
-import static com.lsv.lib.spring.core.helper.ConstantsSpring.SPRING_APPLICATION_NAME;
+import static com.lsv.lib.security.web.helper.oidc.ConstantsWebOidc.POST_LOGOUT_REDIRECT_URI;
+import static com.lsv.lib.spring.core.helper.ConstantsSpring.SUPPRESS_WARNINGS_INJECTION;
 
 /**
  * Autoconfiguration for spring-secutiry-web-client module.
@@ -59,8 +62,8 @@ public class Oauth2ClientAutoConfig {
      */
     @Bean
     @ConditionalOnMissingBean
-    public ClientLoginExtraProcess defaultClientLoginConfigOauth2(@SuppressWarnings(SPRING_APPLICATION_NAME)
-                                                                      IssuerHelper issuerHelper,
+    @SuppressWarnings(SUPPRESS_WARNINGS_INJECTION)
+    public ClientLoginExtraProcess defaultClientLoginConfigOauth2(IssuerHelper issuerHelper,
                                                                   OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService,
                                                                   Converter<OAuth2LoginAuthenticationToken, OAuth2AuthenticationToken> converterOAuth2AuthResolver,
                                                                   LogoutHandler logoutHandler) {
@@ -102,8 +105,8 @@ public class Oauth2ClientAutoConfig {
      */
     @Bean
     @ConditionalOnMissingBean
-    public ClientRegistrationRepository defaultClientRegistrationRepository(@SuppressWarnings(SPRING_APPLICATION_NAME)
-                                                                                IssuerHelper issuerHelper,
+    @SuppressWarnings(SUPPRESS_WARNINGS_INJECTION)
+    public ClientRegistrationRepository defaultClientRegistrationRepository(IssuerHelper issuerHelper,
                                                                             Resolver<Collection<Issuer>, Map<String, ClientRegistration>> issuersClientsRegistrationResolver) {
         return issuerHelper.hasIssuerClients()
             ? new InMemoryClientRegistrationRepository(issuersClientsRegistrationResolver.resolve(issuerHelper.filterIssuerClients()))
@@ -126,8 +129,8 @@ public class Oauth2ClientAutoConfig {
      */
     @Bean
     @ConditionalOnMissingBean
-    public OAuth2UserService<OidcUserRequest, OidcUser> defaultOidcUserService(@SuppressWarnings(SPRING_APPLICATION_NAME)
-                                                                                   IssuerHelper issuerHelper
+    @SuppressWarnings(SUPPRESS_WARNINGS_INJECTION)
+    public OAuth2UserService<OidcUserRequest, OidcUser> defaultOidcUserService(IssuerHelper issuerHelper
     ) {
         final var delegate = new OidcUserService();
 
@@ -143,11 +146,12 @@ public class Oauth2ClientAutoConfig {
 
                 var issuer = issuerHelper.findIssuerByClaims(claims);
 
-                return new DefaultOidcUser(
+                return new UserOidcAcessToken(
                     issuerHelper.extractRoles(issuer, claims, SimpleGrantedAuthority::new),
                     oidcUser.getIdToken(),
                     oidcUser.getUserInfo(),
-                    issuer.getUserNameAttribute()
+                    issuer.getUserNameAttribute(),
+                    claims
                 );
             } catch (ParseException e) {
                 throw new RuntimeException(e);
@@ -167,24 +171,30 @@ public class Oauth2ClientAutoConfig {
      */
     @Bean
     @ConditionalOnMissingBean
-    public LogoutHandler defaultLogoutHandler(@SuppressWarnings(SPRING_APPLICATION_NAME)
-                                                  IssuerHelper issuerHelper) {
-        var restTemplate = new RestTemplate();
-
+    @SuppressWarnings(SUPPRESS_WARNINGS_INJECTION)
+    public LogoutHandler defaultLogoutHandler(IssuerHelper issuerHelper) {
         return (request, response, authentication) -> {
             var user = (OidcUser) authentication.getPrincipal();
             var issuer = issuerHelper.findIssuer(user.getIssuer().toString());
 
+            String homepage = null;
+            if (ObjectUtils.isNotEmpty(issuer.getExtraConfig().getHomepage())) {
+                homepage = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString())
+                    .replacePath(issuer.getExtraConfig().getHomepage())
+                    .toUriString();
+            }
+
             var uri = UriComponentsBuilder
                 .fromUriString(issuer.getEndPoints().getEndSessionEndpoint())
                 .queryParam(PARAM_ID_TOKEN_HINT, user.getIdToken().getTokenValue())
+                .queryParamIfPresent(POST_LOGOUT_REDIRECT_URI, Optional.ofNullable(homepage))
                 .toUriString();
 
-            var logoutResponse = restTemplate.getForEntity(uri, String.class);
-            if (logoutResponse.getStatusCode().is2xxSuccessful()) {
+            try {
+                response.sendRedirect(uri);
                 log.trace("Logout com sucesso");
-            } else {
-                log.error("Erro ao tentar realizar o logout em {}", uri);
+            } catch (IOException e) {
+                log.error("Erro ao tentar realizar o logout em {}", uri, e);
             }
         };
     }

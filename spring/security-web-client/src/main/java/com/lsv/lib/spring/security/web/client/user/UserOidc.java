@@ -23,6 +23,8 @@ public class UserOidc extends OAuth2AuthenticationToken implements UserSpring {
 
     @Override
     public Map<String, Object> getAttributes() {
-        return super.getPrincipal().getAttributes();
+        return getPrincipal() instanceof UserOidcAcessToken userOidcAcessToken
+            ? userOidcAcessToken.getAttributesAccessToken()
+            : super.getPrincipal().getAttributes();
     }
 }

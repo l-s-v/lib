@@ -16,6 +16,7 @@ public final class ConstantsWebOidc {
     public static final String CLAIM_TOKEN_SUB = "sub"; // id into issuer
 
     public static final String PARAM_ID_TOKEN_HINT = "id_token_hint";
+    public static final String POST_LOGOUT_REDIRECT_URI = "post_logout_redirect_uri";
 
     public static final String ATTR_CLIENT_ID = "client_id";
     public static final String ATTR_CLIENT_SECRET = "client_secret";
