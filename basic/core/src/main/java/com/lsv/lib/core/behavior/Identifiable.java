@@ -19,7 +19,6 @@ public interface Identifiable<ID extends Serializable> extends Serializable {
 
     <I> I setId(ID id);
 
-    @SuppressWarnings("unchecked")
     static <
             I extends Identifiable<ID>,
             ID extends Serializable>

@@ -1,5 +1,7 @@
 package com.lsv.lib.core.helper;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.ClassUtils;
@@ -16,6 +18,7 @@ import java.util.stream.Stream;
  *
  * @author Leandro da Silva Vieira
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class HelperClass {
 
     private static final NoSuchElementException NO_SUCH_ELEMENT_EXCEPTION =
@@ -32,12 +35,12 @@ public final class HelperClass {
     }
 
     public static <R> Class<R> identifyGenericsClass(@NonNull Object objSource, int position) {
-        AtomicInteger count = new AtomicInteger();
+        var count = new AtomicInteger();
         return identifyGenericsClassByType(objSource, t -> t instanceof Class<?> && count.incrementAndGet() > position);
     }
 
     public static Class<?> findDirectSuperclassOrInterface(@NonNull Object objSource, @NonNull Class<?> superclassOrInterface) {
-        List<Class<?>> classes = new ArrayList<>();
+        var classes = new ArrayList<Class<?>>();
 
         classes.add(objSource.getClass());
         classes.addAll(ClassUtils.getAllInterfaces(objSource.getClass()));

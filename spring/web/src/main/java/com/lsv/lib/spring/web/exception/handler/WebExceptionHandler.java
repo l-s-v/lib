@@ -35,7 +35,7 @@ public interface WebExceptionHandler<IN, OUT> {
             .title(problemDetail.getTitle());
 
         if (problemDetail.getProperties() != null) {
-            problemDetail.getProperties().forEach((key, value) -> errorResponseBuilder.property(key, value));
+            problemDetail.getProperties().forEach(errorResponseBuilder::property);
         }
 
         var body = errorResponseBuilder.build().updateAndGetBody(messageSource, LocaleContextHolder.getLocale());

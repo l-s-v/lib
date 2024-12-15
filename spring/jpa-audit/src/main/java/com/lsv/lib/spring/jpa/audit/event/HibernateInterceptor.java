@@ -2,8 +2,6 @@ package com.lsv.lib.spring.jpa.audit.event;
 
 import com.lsv.lib.core.event.EventPublisher;
 import com.lsv.lib.spring.jpa.audit.event.JpaAuditEvent.JpaAuditTransactionEvent;
-import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;

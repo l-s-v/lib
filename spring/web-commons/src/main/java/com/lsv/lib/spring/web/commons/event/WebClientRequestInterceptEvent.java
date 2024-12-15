@@ -10,8 +10,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.service.invoker.HttpRequestValues;
 
-import java.util.function.Supplier;
-
 /**
  * Event created to allow integration between spring-web-client and spring-web-resilient4j modules without any direct dependencies.
  *

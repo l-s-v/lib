@@ -96,10 +96,10 @@ public interface TestControllerReadableWebClient<
             Page<OUT> page = ConverterSpringJpa.to(listDto, ConverterSpringJpa.to(filter));
 
             MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-            params.add("page", String.valueOf(filter.page().numPage()));
-            params.add("size", String.valueOf(filter.page().size()));
-            params.add("sort", filter.orderBies().get(0).property() + "," +
-                    String.valueOf(filter.orderBies().get(0).asc() ? Sort.Direction.ASC : Sort.Direction.DESC).toLowerCase());
+            params.add("page", String.valueOf(filter.getPage().getNumPage()));
+            params.add("size", String.valueOf(filter.getPage().getSize()));
+            params.add("sort", filter.getSorts().get(0).getProperty() + "," +
+                    String.valueOf(filter.getSorts().get(0).isDesc() ? Sort.Direction.ASC : Sort.Direction.DESC).toLowerCase());
 
             webTestClient()
                     .get()

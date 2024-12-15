@@ -36,7 +36,7 @@ public class AuditRepository {
                 return;
             }
 
-            metadata = HelperObj.toString(data);
+            metadata = HelperObj.toJsonString(data);
 
         } catch (Throwable e) {
             // An error when retrieving data for auditing does not interrupt the flow, it just displays in the log

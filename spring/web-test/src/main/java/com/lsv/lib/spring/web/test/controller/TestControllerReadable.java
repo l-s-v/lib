@@ -47,9 +47,9 @@ public interface TestControllerReadable<
                         .numPage(2)
                         .size(20)
                         .get())
-                .orderBy(Filter.OrderBy.of()
+                .sort(Filter.Sort.of()
                         .property("nome")
-                        .asc(false)
+                        .desc(false)
                         .get())
                 .get();
     }

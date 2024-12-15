@@ -92,10 +92,10 @@ public interface TestControllerReadableMockMvc<
             Page<OUT> page = ConverterSpringJpa.to(listDto, ConverterSpringJpa.to(filter));
 
             performInContext(get(urlBase())
-                    .param("page", String.valueOf(filter.page().numPage()))
-                    .param("size", String.valueOf(filter.page().size()))
-                    .param("sort", filter.orderBies().get(0).property() + "," +
-                            String.valueOf(filter.orderBies().get(0).asc() ? Sort.Direction.ASC : Sort.Direction.DESC).toLowerCase()))
+                    .param("page", String.valueOf(filter.getPage().getNumPage()))
+                    .param("size", String.valueOf(filter.getPage().getSize()))
+                    .param("sort", filter.getSorts().get(0).getProperty() + "," +
+                            String.valueOf(filter.getSorts().get(0).isDesc() ? Sort.Direction.DESC : Sort.Direction.ASC).toLowerCase()))
                     .andDo(print())
                     .andExpect(status().isOk())
                     .andExpect(content().json(objectMapper().writeValueAsString(page)));

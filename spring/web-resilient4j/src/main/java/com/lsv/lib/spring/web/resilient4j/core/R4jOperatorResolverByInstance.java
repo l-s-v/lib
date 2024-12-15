@@ -1,7 +1,6 @@
 package com.lsv.lib.spring.web.resilient4j.core;
 
 import com.lsv.lib.core.function.Resolver;
-import com.lsv.lib.core.helper.HelperObj;
 import com.lsv.lib.spring.web.resilient4j.properties.R4jInstance;
 import com.lsv.lib.spring.web.resilient4j.properties.R4jType;
 import io.github.resilience4j.bulkhead.BulkheadRegistry;
@@ -26,6 +25,7 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import static com.lsv.lib.core.helper.HelperLog.trace;
+import static com.lsv.lib.core.helper.HelperObj.toJsonString;
 
 /**
  * Stores all Resilience4J settings in a concentrated way.
@@ -111,7 +111,7 @@ public class R4jOperatorResolverByInstance implements Resolver<R4jInstance, R4jO
                 TimeLimiterOperator.of(timeLimiter))));
         // @formatter:on
 
-        trace(log, () -> "initialize R4JOperators = %s".formatted(HelperObj.toString(operators)));
+        trace(log,"initialize R4JOperators = {}", () -> toJsonString(operators));
     }
 
     private <T, R extends R4jOperator<?>> Map<String, R> createOperators(Set<T> instances,

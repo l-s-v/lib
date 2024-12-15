@@ -50,4 +50,150 @@
         <module>teste</module>
     </modules>
 
+<!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
+
+    <properties>
+        <lib.version>1.0.0-SNAPSHOT</lib.version>
+    </properties>
+    
+<!--  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *   -->
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>core</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>core-test</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>security</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>jwt</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>mapping-mapstruct</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>mapping-modelmapper</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>template-jexl</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>template-pebble</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>template-velocity</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>spring-jpa</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>spring-jpa-audit</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>spring-jpa-test</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>spring-observability</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>spring-security-web</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>spring-security-web-client</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>spring-security-web-resource-server</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>spring-web-client</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>spring-web-commons</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>spring-web-resilient4j</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lsv.lib</groupId>
+                <artifactId>spring-web-test</artifactId>
+                <version>${lib.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
 </project>

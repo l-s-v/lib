@@ -29,8 +29,6 @@ public class WebClientFactory {
 
     public static final String PROP_DEFAULT_CONFIGURATION = "defaultConfig";
 
-    private static WebClientFactory instance;
-
     private final WebClientModuleProperties webClientModuleProperties;
     private WebClient.Builder webClientBuilder;
 
@@ -89,7 +87,7 @@ public class WebClientFactory {
         return
             customize(webClientProperties,
                     handleShortcuts(webClientProperties)
-                   .authenticationConfigure(id, webClientProperties)
+                   .authenticationConfigure(id, webClientProperties, getWebClientBuilder())
                    .addFilters(webClientProperties, getWebClientBuilder())
                    .addHeaders(webClientProperties, getWebClientBuilder())
                    .getWebClientBuilder().baseUrl(webClientProperties.getUrl())
@@ -116,9 +114,9 @@ public class WebClientFactory {
         return this;
     }
 
-    public WebClientFactory authenticationConfigure(String id, WebClientProperties webClientProperties) {
+    public WebClientFactory authenticationConfigure(String id, WebClientProperties webClientProperties, WebClient.Builder webClientBuilder) {
         if (webClientProperties.getSa() != null) {
-            webClientProperties.getFilters().add(() -> OAuth2ClientCredentialsFilter.create(id, webClientProperties.getSa()));
+            webClientProperties.getFilters().add(() -> OAuth2ClientCredentialsFilter.create(id, webClientProperties.getSa(), webClientBuilder.build()));
             webClientProperties.getPropagateHeaders().remove(AUTHORIZATION);
         }
 
@@ -157,13 +155,6 @@ public class WebClientFactory {
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    public static WebClientFactory instance() {
-        if (instance == null) {
-            instance = SpringLoader.bean(WebClientFactory.class);
-        }
-        return instance;
-    }
 
     /**
      * Delay loading as much as possible, as injecting it during the creation of Beans caused tracing to not work correctly.

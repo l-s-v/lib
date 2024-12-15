@@ -15,6 +15,7 @@ public enum MessageDisplayExceptionEnum implements MessageDisplayException {
     FORBIDDEN,
     UNAUTHORIZED,
     NOT_FOUND,
+    REQUEST_NOT_ACCEPTABLE,
     MESSAGE_NOT_FOUND,
     // Business
     ID_NOT_FOUND,

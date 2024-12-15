@@ -29,7 +29,7 @@ public interface StorableSpringJpa<
      */
     @Override
     default <S extends P> S merge(S entity) {
-        return (S) Loader.of(Session.class).findUniqueImplementationByFirstLoader().merge(entity);
+        return Loader.of(Session.class).findUniqueImplementationByFirstLoader().merge(entity);
     }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -2,33 +2,35 @@ package com.lsv.lib.spring.security.web.config;
 
 import com.lsv.lib.core.function.ExtraProcess;
 import com.lsv.lib.security.web.AllowHttpAccess;
+import com.lsv.lib.security.web.helper.oidc.IssuerHelper;
 import com.lsv.lib.security.web.properties.HttpMatcher;
 import com.lsv.lib.spring.core.config.SpringCoreAutoConfig;
 import com.lsv.lib.spring.security.web.annotation.ConditionalWebSecurityEnable;
-import com.lsv.lib.security.web.helper.oidc.IssuerHelper;
 import com.lsv.lib.spring.security.web.helper.SpringSecurityWebHelperConfig;
 import com.lsv.lib.spring.security.web.properties.SpringSecurityWebOauth2Properties;
 import com.lsv.lib.spring.security.web.properties.SpringSecurityWebProperties;
+import javassist.expr.NewExpr;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
+import java.util.Optional;
 
-import static com.lsv.lib.spring.core.helper.ConstantsSpring.SPRING_APPLICATION_NAME;
-import static com.lsv.lib.spring.core.helper.ConstantsSpring.SUPPRESS_WARNINGS_INJECTION;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
@@ -53,7 +55,8 @@ public class SpringSecurityWebAutoConfig {
     public SecurityFilterChain defaultEnabledSecurityFilterChain(HttpSecurity httpSecurity,
                                                                  List<AllowHttpAccess> allowHttpsAccess,
                                                                  List<ExtraProcess<HttpSecurity>> httpSecurityExtraProcesses,
-                                                                 SpringSecurityWebHelperConfig springSecurityWebHelperConfig
+                                                                 SpringSecurityWebHelperConfig springSecurityWebHelperConfig,
+                                                                 @Autowired(required = false) UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource
     ) throws Exception {
 
         log.trace("Iniciando configuração de segurança");
@@ -67,7 +70,7 @@ public class SpringSecurityWebAutoConfig {
             .flatMap(allowHttpAccess -> allowHttpAccess.get().stream())
             .toList());
 
-        defaultSecurity(httpSecurity);
+        defaultSecurity(httpSecurity, urlBasedCorsConfigurationSource);
 
         return httpSecurity.build();
     }
@@ -77,7 +80,7 @@ public class SpringSecurityWebAutoConfig {
      */
     @Bean
     public AllowHttpAccess permiteAllAllowHttpAccess(SpringSecurityWebProperties springSecurityWebProperties) {
-        return () -> springSecurityWebProperties.getHttpRequestsPermitAll();
+        return springSecurityWebProperties::getHttpRequestsPermitAll;
     }
 
     /**
@@ -87,7 +90,7 @@ public class SpringSecurityWebAutoConfig {
      */
     @Bean
     @ConditionalOnMissingBean
-    public CorsConfigurationSource defaultCorsConfigurationSource(SpringSecurityWebProperties springSecurityWebProperties) {
+    public UrlBasedCorsConfigurationSource defaultCorsConfigurationSource(SpringSecurityWebProperties springSecurityWebProperties) {
         if (ObjectUtils.isEmpty(springSecurityWebProperties.getCors())) {
             return null;
         }
@@ -96,7 +99,7 @@ public class SpringSecurityWebAutoConfig {
 
         for (var cors : springSecurityWebProperties.getCors()) {
             var corsConfiguration = new CorsConfiguration();
-            corsConfiguration.setAllowedOrigins(cors.getAllowedOrigins());
+            corsConfiguration.setAllowedOriginPatterns(cors.getAllowedOrigins());
             corsConfiguration.setAllowedMethods(cors.getAllowedMethods());
             corsConfiguration.setAllowedHeaders(cors.getAllowedHeaders());
             corsConfiguration.setExposedHeaders(cors.getExposedHeaders());
@@ -139,18 +142,24 @@ public class SpringSecurityWebAutoConfig {
         }
     }
 
-    private void defaultSecurity(HttpSecurity httpSecurity) throws Exception {
+    private void defaultSecurity(HttpSecurity httpSecurity, UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource) throws Exception {
         httpSecurity
-            .cors(withDefaults())
+            // If don't have a URL-based cors, will use the default
+            .cors(Optional
+                .ofNullable(urlBasedCorsConfigurationSource)
+                .map(corsConfigurationSource -> (Customizer<CorsConfigurer<HttpSecurity>>) corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource))
+                .orElse(withDefaults())
+            )
             // For everything else it will require the user to be authenticated
             .authorizeHttpRequests(authorization -> authorization
                 .requestMatchers("/**").authenticated()
-                .anyRequest().authenticated())
+                .anyRequest().authenticated()
+            )
             // Removes the "continue" parameter that Spring Security 6 adds to the url to
             // tell it to search the cache for SavedRequest. But this will disable this feature.
             // https://docs.spring.io/spring-security/reference/migration/servlet/session-management.html#requestcache-query-optimization
             .requestCache(cache -> {
-                HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
+                var requestCache = new HttpSessionRequestCache();
                 requestCache.setMatchingRequestParameterName(null);
                 cache.requestCache(requestCache);
             })

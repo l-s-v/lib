@@ -1,8 +1,10 @@
 package com.lsv.lib.security.web.properties.oidc;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -13,6 +15,8 @@ import java.util.List;
  *
  * @author Leandro da Silva Vieira
  */
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Builder
 public class ServiceAccount {

@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 @Accessors(fluent = true)
 public class ProblemDetailException extends RuntimeException {
 
-    private ProblemDetail problemDetail;
+    private final ProblemDetail problemDetail;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

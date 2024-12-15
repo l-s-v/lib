@@ -26,5 +26,5 @@ public class SpringI18nProperties implements LibProperties {
      * Default values: messages, libMessages.
      */
     @NotNull
-    private String[] fileNames = {"messages", "libMessages"};
+    private String[] fileNames = {"/messages/messages", "/messages/libMessages"};
 }

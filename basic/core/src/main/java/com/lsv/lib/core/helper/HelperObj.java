@@ -1,12 +1,16 @@
 package com.lsv.lib.core.helper;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lsv.lib.core.loader.Loader;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.util.NoSuchElementException;
@@ -18,6 +22,7 @@ import java.util.zip.InflaterOutputStream;
 /**
  * @author Leandro da Silva Vieira
  */
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class HelperObj {
 
@@ -54,8 +59,8 @@ public final class HelperObj {
     public static byte[] compress(byte[] byteArray) {
         var compresser = new Deflater(Deflater.BEST_COMPRESSION, true);
 
-        try(var stream = new ByteArrayOutputStream();
-            var deflaterOutputStream = new DeflaterOutputStream(stream, compresser);
+        try (var stream = new ByteArrayOutputStream();
+             var deflaterOutputStream = new DeflaterOutputStream(stream, compresser);
         ) {
             deflaterOutputStream.write(byteArray);
             deflaterOutputStream.finish();
@@ -67,8 +72,8 @@ public final class HelperObj {
     public static byte[] decompress(byte[] byteArray) {
         var decompresser = new Inflater(true);
 
-        try(var stream = new ByteArrayOutputStream();
-            var inflaterOutputStream = new InflaterOutputStream(stream, decompresser);
+        try (var stream = new ByteArrayOutputStream();
+             var inflaterOutputStream = new InflaterOutputStream(stream, decompresser);
         ) {
             inflaterOutputStream.write(byteArray);
             inflaterOutputStream.finish();
@@ -77,8 +82,15 @@ public final class HelperObj {
     }
 
     @SneakyThrows
-    public static String toString(Object value) {
-        return objectMapper().writeValueAsString(value);
+    public static String toJsonString(Object value) {
+        try {
+            return ObjectUtils.isNotEmpty(value)
+                ? objectMapper().writeValueAsString(value)
+                : StringUtils.EMPTY;
+        } catch (JsonProcessingException e) {
+            log.error("Erro ao converter objeto para json", e);
+            return null;
+        }
     }
 
     public static <T> T convertValue(Object value, Class<T> type) {
@@ -93,7 +105,7 @@ public final class HelperObj {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     private static ObjectMapper objectMapper() {
-        if(objectMapper == null){
+        if (objectMapper == null) {
             try {
                 objectMapper = Loader.of(ObjectMapper.class).findUniqueImplementationByFirstLoader();
             } catch (NoSuchElementException e) {

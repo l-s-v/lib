@@ -8,6 +8,7 @@
         <groupId>com.lsv.lib</groupId>
         <artifactId>parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <artifactId>spring-web-resilient4j</artifactId>
@@ -28,7 +29,6 @@
         <dependency>
             <groupId>com.lsv.lib</groupId>
             <artifactId>spring-web-commons</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <!-- spring -->

@@ -1,5 +1,8 @@
 package com.lsv.lib.core.helper;
 
+import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
+
 /**
  * Some utilities for working with functions.
  *
@@ -11,5 +14,12 @@ public class HelperFunction {
         if (condition) {
             runnable.run();
         }
+    }
+
+    public static <T> UnaryOperator<T> peek(Consumer<T> c) {
+        return x -> {
+            c.accept(x);
+            return x;
+        };
     }
 }

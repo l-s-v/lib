@@ -3,7 +3,6 @@ package com.lsv.lib.core.loader;
 import com.lsv.lib.core.behavior.Deletable;
 import com.lsv.lib.core.concept.dto.Dto;
 import com.lsv.lib.core.concept.dto.ListDto;
-import com.lsv.lib.core.loader.mock.Implementation;
 import com.lsv.lib.core.loader.mock.InterfaceTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

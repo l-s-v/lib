@@ -43,7 +43,7 @@ public final class HelperExceptionHandler {
             exceptionHandleable = Loader.of(ExceptionHandleable.class)
                     .findImplementationsByAllLoaders()
                     .stream()
-                    .filter(errorResponse -> validType(throwable, errorResponse))
+                    .filter(exceptionHandleableTemp -> validType(throwable, exceptionHandleableTemp))
                     .findFirst()
                     .orElse(defaultExceptionHandler);
 
@@ -92,8 +92,8 @@ public final class HelperExceptionHandler {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    private static <T extends Throwable> boolean validType(T throwable, ExceptionHandleable<?> errorResponse) {
-        return throwable.getClass().equals(HelperClass.identifyGenericsClass(errorResponse));
+    private static <T extends Throwable> boolean validType(T throwable, ExceptionHandleable<?> exceptionHandleable) {
+        return throwable.getClass().equals(HelperClass.identifyGenericsClass(exceptionHandleable));
     }
 
     private static I18nSource i18nSource() {

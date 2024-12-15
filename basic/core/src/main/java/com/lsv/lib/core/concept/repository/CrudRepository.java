@@ -1,11 +1,11 @@
 package com.lsv.lib.core.concept.repository;
 
 import com.lsv.lib.core.behavior.Identifiable;
-import com.lsv.lib.core.mapper.Mappable;
 import com.lsv.lib.core.behavior.Persistable;
 import com.lsv.lib.core.behavior.Storable;
 import com.lsv.lib.core.exception.DisplayException;
 import com.lsv.lib.core.exception.helper.ProblemDetail;
+import com.lsv.lib.core.mapper.Mappable;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;

@@ -1,7 +1,6 @@
 package com.lsv.lib.spring.web.resilient4j.core;
 
 import com.lsv.lib.core.function.Resolver;
-import com.lsv.lib.core.helper.HelperObj;
 import com.lsv.lib.spring.web.commons.event.WebClientRequestInterceptEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +12,7 @@ import reactor.core.publisher.Mono;
 import java.util.Collection;
 
 import static com.lsv.lib.core.helper.HelperLog.trace;
+import static com.lsv.lib.core.helper.HelperObj.toJsonString;
 
 /**
  * Listener for the EventWebClientRequestIntercept event.<p>
@@ -33,7 +33,7 @@ public class R4jWebClientRequestInterceptEventListener implements ApplicationLis
         log(event);
 
         var r4jOperators = operatorResolverByEvent.resolve(event);
-        trace(log, () -> "Configurações utilizadas: \n\n%s\n".formatted(HelperObj.toString(r4jOperators.stream().map(R4jOperator::r4jInstance))));
+        trace(log,"Configurações utilizadas: \n\n{}\n", () -> toJsonString(r4jOperators.stream().map(R4jOperator::r4jInstance)));
 
         r4jOperators.stream()
             .filter(ObjectUtils::isNotEmpty)
@@ -47,16 +47,16 @@ public class R4jWebClientRequestInterceptEventListener implements ApplicationLis
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     private void log(WebClientRequestInterceptEvent event) {
-        trace(log, () -> """
+        log.trace("""
             Resilient4j event listener. Event:
                             
-            Service: %s
-            HttpMethod: %s,
-            URI: %s
-            """.formatted(
+            Service: {}
+            HttpMethod: {},
+            URI: {}
+            """,
             event.clientClass().getName(),
             event.requestValues().getHttpMethod(),
-            event.requestValues().getUriTemplate())
+            event.requestValues().getUriTemplate()
         );
     }
 

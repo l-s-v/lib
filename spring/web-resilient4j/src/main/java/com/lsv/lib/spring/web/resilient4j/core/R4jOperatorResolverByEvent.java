@@ -3,7 +3,6 @@ package com.lsv.lib.spring.web.resilient4j.core;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.lsv.lib.core.function.Resolver;
-import com.lsv.lib.core.helper.HelperObj;
 import com.lsv.lib.spring.web.commons.event.WebClientRequestInterceptEvent;
 import com.lsv.lib.spring.web.resilient4j.properties.R4jInstance;
 import com.lsv.lib.spring.web.resilient4j.properties.R4jModuleProperties;
@@ -22,6 +21,7 @@ import java.util.function.Predicate;
 
 import static com.lsv.lib.core.helper.HelperLog.trace;
 import static com.lsv.lib.core.helper.HelperLog.warn;
+import static com.lsv.lib.core.helper.HelperObj.toJsonString;
 
 /**
  * Binds the WebClient request data to the Resiliente4J settings.
@@ -75,7 +75,7 @@ public class R4jOperatorResolverByEvent implements Resolver<WebClientRequestInte
         }
 
         var r4jInstances = resolveByR4jPropertiesList(r4jPropertiesList, event);
-        trace(log, () -> "\"Configurações aplicáveis: \n\n%s\n".formatted(HelperObj.toString(r4jInstances)));
+        trace(log,"\"Configurações aplicáveis: \n\n{}\n", () -> toJsonString(r4jInstances));
 
         return r4jInstances;
     }
@@ -93,8 +93,8 @@ public class R4jOperatorResolverByEvent implements Resolver<WebClientRequestInte
 
         return r4jInstance -> {
             if (!unrepeated.add(r4jInstance)) {
-                warn(log, () -> "Já existe uma configuração de %s para os mesmos requisitos. Será ignorada e pertence à configuração:\n\n%s\n"
-                    .formatted(r4jInstance.getType(), HelperObj.toString(r4jInstance.r4jProperties())));
+                warn(log,"Já existe uma configuração de {} para os mesmos requisitos. Será ignorada e pertence à configuração:\n\n{}\n",
+                    r4jInstance::getType, () -> toJsonString(r4jInstance.r4jProperties()));
                 return false;
             }
             return true;

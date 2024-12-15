@@ -35,8 +35,8 @@ public final class Email implements Dto {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @Getter
     public enum EmailType {
-        TXT(AttachmentType.TXT.content()),
-        HTML(AttachmentType.HTML.content()),
+        TXT(AttachmentType.TXT.getContent()),
+        HTML(AttachmentType.HTML.getContent()),
         ;
 
         private String content;
