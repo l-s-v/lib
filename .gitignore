@@ -80,3 +80,4 @@
 /spring/security-web/*.iml
 /basic/core/*.iml
 /spring/security-web-client/*.iml
+/spring/web-client/spring-web-client.iml
